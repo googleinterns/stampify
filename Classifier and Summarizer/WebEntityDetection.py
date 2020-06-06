@@ -2,6 +2,7 @@ import requests
 import base64
 import json
 
+
 class ImageDescriptionRetriever:
     '''
     A class to retreive the entities present in an image
@@ -11,7 +12,7 @@ class ImageDescriptionRetriever:
 
     def __init__(self, max_entities=3):
         self.api_url = base64.b64decode("aHR0cHM6Ly92aXNpb24uZ29vZ2xlYXBpcy5jb20vdjEvaW1hZ2VzOmFubm90YXRlP2tleT1BSXphU3lDV0ZEOWd4UDRSN0o4c1dTMGxkb1ZkcGJjaGNCNi1oeDA=").decode(
-            "utf-8")  # to do: must hide this securely 
+            "utf-8")  # to do: must hide this securely
         self.max_entities = max_entities
 
     def find_base64_encoding_for_images(self, images: list) -> list:
@@ -74,8 +75,6 @@ class ImageDescriptionRetriever:
             image_requests.append(self.format_single_request(image))
 
         return image_requests
-    
-    ###   json_response["responses"][image_index]
 
     def get_best_guess_label(self, json_response_for_image):
         ''' return the best guess label '''
@@ -85,11 +84,12 @@ class ImageDescriptionRetriever:
         ''' return the top entity description'''
         top_entites = []
         number_of_entities = min(number_of_entities, len(
-           json_response_for_image["webDetection"]["webEntities"]))
-        
+            json_response_for_image["webDetection"]["webEntities"]))
+
         for i in range(number_of_entities):
             if "description" in json_response_for_image["webDetection"]["webEntities"][i]:
-                top_entites .append(json_response_for_image["webDetection"]["webEntities"][i]["description"])
+                top_entites .append(
+                    json_response_for_image["webDetection"]["webEntities"][i]["description"])
         return top_entites
 
     def get_description_for_images(self, images: list) -> list:
@@ -110,7 +110,7 @@ class ImageDescriptionRetriever:
             "requests": image_requests
         })
         response = requests.post(self.api_url, data=json_data_for_post_request)
-        
+
         if response.status_code != 200:
             return "BadRequestError"
 
@@ -119,8 +119,9 @@ class ImageDescriptionRetriever:
         for i in range(len(images)):
             image_descriptions.append(
                 {
-                    "label": self.get_best_guess_label(response["responses"][i])  ,
-                    "entities": self.get_top_entities(response["responses"][i], self.max_entities ) # pass on only response for the image
+                    "label": self.get_best_guess_label(response["responses"][i]),
+                    # pass on only response for the image
+                    "entities": self.get_top_entities(response["responses"][i], self.max_entities)
                     # add more fields / attributes as required
                 }
             )
