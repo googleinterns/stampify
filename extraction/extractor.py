@@ -72,21 +72,21 @@ class Extractor:
     def __extract_data_from_html_body(self, node):
         """This function iterates over dom using dfs"""
 
-        is_content, _content = self.__is_content(node)
+        _content = self.__validate_and_extract_content(node)
 
         # Add to the final list if a valid content is extracted
-        if is_content:
+        if _content:
             self.contents_list.add_content(_content)
 
-        if node and node.name and not is_content:
+        if node and node.name and not _content:
             for child in node.contents:
                 self.__extract_data_from_html_body(child)
 
-    def __is_content(self, node):
+    def __validate_and_extract_content(self, node):
         """This function will extract valid content and return it"""
 
         # This function will be updated in next iteration
         _ = node
         _ = self.soup
 
-        return False, {}
+        return None
