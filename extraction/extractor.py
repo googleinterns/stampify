@@ -5,6 +5,7 @@ import re
 
 import requests
 from bs4 import BeautifulSoup, Comment
+
 from extraction.data_models import contents, text
 
 REQUEST_SESSION = requests.Session()
