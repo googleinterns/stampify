@@ -6,13 +6,13 @@ import re
 import requests
 from bs4 import BeautifulSoup, Comment
 
-from extraction import text_extractor
+from extraction import text_extractor, video_extractor
 from extraction.data_models import contents, text
 
 REQUEST_SESSION = requests.Session()
-CONTENT_EXTRACTORS = (text_extractor.TextExtractor(),)
+CONTENT_EXTRACTORS = (video_extractor.VideoExtractor(),
+                      text_extractor.TextExtractor(),)
 
-pattern_for_video_ext = re.compile(r'^.*\.(mp4|ogg|mov|webm)')
 pattern_for_ads = re.compile('(^ad-|^ads-)')
 extra_tags = ['script', 'noscript', 'style', 'header',
               'footer', 'meta', 'link']

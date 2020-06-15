@@ -6,8 +6,8 @@ from extraction.data_models.contents import ContentType, _Content
 class Video(_Content):
     """This class creates Video object"""
 
-    def __init__(self):
+    def __init__(self, urls, height, width):
         super(Video, self).__init__(ContentType.VIDEO)
-        self.video_urls = list()
-        self.height = 0
-        self.width = 0
+        self.video_urls = urls
+        self.height = height
+        self.width = width
