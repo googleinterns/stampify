@@ -6,9 +6,12 @@ import re
 import requests
 from bs4 import BeautifulSoup, Comment
 
+from extraction import text_extractor
 from extraction.data_models import contents, text
 
 REQUEST_SESSION = requests.Session()
+CONTENT_EXTRACTORS = (text_extractor.TextExtractor(),)
+
 pattern_for_video_ext = re.compile(r'^.*\.(mp4|ogg|mov|webm)')
 pattern_for_ads = re.compile('(^ad-|^ads-)')
 extra_tags = ['script', 'noscript', 'style', 'header',
@@ -77,16 +80,20 @@ class Extractor:
         # Add to the final list if a valid content is extracted
         if _content:
             self.contents_list.add_content(_content)
+            return
 
-        if node and node.name and not _content:
+        if node and node.name:
             for child in node.contents:
                 self.__extract_data_from_html_body(child)
 
     def __validate_and_extract_content(self, node):
         """This function will extract valid content and return it"""
 
-        # This function will be updated in next iteration
-        _ = node
         _ = self.soup
+
+        for content_extractor in CONTENT_EXTRACTORS:
+            content = content_extractor.validate_and_extract(node)
+            if content:
+                return content
 
         return None
