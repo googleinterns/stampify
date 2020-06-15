@@ -38,7 +38,7 @@ class ImageDescriptionRetriever:
                 os.environ['CLOUD_VISION_API_KEY']).decode("utf-8")
         self.max_entities = max_entities
 
-    def get_description_for_images(self, images: list) -> list:
+    def get_description_for_images(self, image_urls: list) -> list:
         '''
         given a list of images returns the best guess
         labels for the web entities or description of
@@ -48,11 +48,10 @@ class ImageDescriptionRetriever:
         Return type:
         list<str> : list containing best guess descriptions of the image
         '''
-        base64_encoded_images = self._find_base64_encoding_for_images(images)
-
+        self.image_urls = image_urls
         image_requests \
-            = [self._format_single_request(encoded_image) for
-                encoded_image in base64_encoded_images]
+            = [self._format_single_request(url) for
+                url in self.image_urls]
 
         json_data_for_post_request = json.dumps({
             "requests": image_requests
@@ -64,7 +63,7 @@ class ImageDescriptionRetriever:
 
         response = json.loads(response.content)
         image_descriptions = []
-        for i in range(len(images)):
+        for i in range(len(self.image_urls)):
             image_descriptions.append(
                 {
                     "label": self._get_best_guess_label(
@@ -79,25 +78,7 @@ class ImageDescriptionRetriever:
 
         return image_descriptions
 
-    def _find_base64_encoding_for_images(self, images: list) -> list:
-        '''
-        finds the base-64 encoding and converts it to a utf-8
-        string
-        Params :
-            images : list of image paths
-        Return type:
-            list : of images encoded in the above format
-        '''
-        base64_encodings = []
-
-        for image_path in images:
-            with open(image_path, 'rb') as image_file:
-                encoded_image = base64.encodebytes(image_file.read()).decode()
-                base64_encodings.append(encoded_image)
-
-        return base64_encodings
-
-    def _format_single_request(self, data: str) -> dict:
+    def _format_single_request(self, url: str) -> dict:
         '''
         formats the request as a dict
         with the required data and returns it
@@ -108,7 +89,9 @@ class ImageDescriptionRetriever:
         '''
         return {
             "image": {
-                "content": data
+                "source": {
+                    "imageUri": url
+                }
             },
             "features": [
                 {

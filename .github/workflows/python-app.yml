@@ -35,5 +35,7 @@ jobs:
       run: |
         flake8
     - name: Test with pytest
+      env:
+        CLOUD_VISION_API_KEY: ${{secrets.CLOUD_VISION_API_KEY}}
       run: |
         python -m pytest
