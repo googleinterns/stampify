@@ -7,18 +7,18 @@
 import bs4
 import pytest
 
-from extraction import text_extractor
+from extraction.content_extractors import text_extractor
 from extraction.data_models.text import Text
 from extraction.utils import string_utils as utils
 
 __EXTRACTOR = text_extractor.TextExtractor()
 
 
-# TODO: Move this to test_utils
 @pytest.fixture(scope='module')
 def soup():
     """Returns soup from html file"""
-    __test_file = open('./tests/test_extraction/test_input.html')
+    __test_file \
+        = open('./tests/test_extraction/extraction_test_inputs/text.html')
     __test_file_data = __test_file.read()
     __test_file.close()
     return bs4.BeautifulSoup(__test_file_data, 'lxml')

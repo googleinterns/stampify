@@ -3,25 +3,15 @@
     Use pytest to run this script
     Command to run: /stampify$ python -m pytest
 """
-import bs4
 import pytest
 
-from extraction import quote_extractor
+from extraction.content_extractors import quote_extractor
 from extraction.data_models.quote import Quote
+from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = quote_extractor.QuoteExtractor()
 
-
-# TODO: Move to test_utils in next iterations.
-def soup():
-    """Returns soup from html file"""
-    __test_file = open('./tests/test_extraction/quote.html')
-    __test_file_data = __test_file.read()
-    __test_file.close()
-    return bs4.BeautifulSoup(__test_file_data, 'lxml')
-
-
-__soup = soup()
+__soup = test_utils.soup('quote.html')
 
 expected_output_1 = Quote('This is a quote tag!', 'citation1')
 

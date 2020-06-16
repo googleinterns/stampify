@@ -10,8 +10,7 @@ from extraction.interface_content_extractor import IContentExtractor
 class ETweetExtractor(IContentExtractor):
     """This class inherits IContentExtractor for extracting embedded tweets"""
 
-    def validate_and_extract(self, node):
-        print(node)
+    def validate_and_extract(self, node: bs4.element):
         if isinstance(node, bs4.element.Tag) \
                 and node.has_attr('class') \
                 and ('twitter-tweet' in node['class']

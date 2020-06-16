@@ -5,25 +5,15 @@
     Use pytest to run this script
     Command to run: /stampify$ python -m pytest
 """
-import bs4
 import pytest
 
-from extraction import embedded_pinterest_pin_extractor
+from extraction.content_extractors import embedded_pinterest_pin_extractor
 from extraction.data_models.embedded_pinterest_pin import EPinterestPin
+from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = embedded_pinterest_pin_extractor.EPinterestPinExtractor()
 
-
-# TODO: Move to test_utils in next iterations.
-def soup():
-    """Returns soup from html file"""
-    __test_file = open('./tests/test_extraction/pinterest_pin.html')
-    __test_file_data = __test_file.read()
-    __test_file.close()
-    return bs4.BeautifulSoup(__test_file_data, 'lxml')
-
-
-__soup = soup()
+__soup = test_utils.soup('pinterest_pin.html')
 
 expected_output_1 \
     = EPinterestPin('https://www.pinterest.com/pin/99360735500167749/')

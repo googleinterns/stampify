@@ -3,28 +3,19 @@
     Use pytest to run this script
     Command to run: /stampify$ python -m pytest
 """
-import bs4
 import pytest
 
-from extraction import embedded_youtube_video_extractor
+from extraction.content_extractors import embedded_youtube_video_extractor
 from extraction.data_models.embedded_youtube_video import EYouTubeVideo
+from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = embedded_youtube_video_extractor.EYouTubeVideoExtractor()
 
-
-def soup():
-    """Returns soup from html file"""
-    __test_file = open('./tests/test_extraction/youtube_video.html')
-    __test_file_data = __test_file.read()
-    __test_file.close()
-    return bs4.BeautifulSoup(__test_file_data, 'lxml')
-
-
-__soup = soup()
+__soup = test_utils.soup('youtube_video.html')
 
 expected_output_1 = EYouTubeVideo("tgbNymZ7vqY", 0, 0)
 
-acceptable_test_data = [(soup().find('iframe', class_='iframe1'),
+acceptable_test_data = [(__soup.find('iframe', class_='iframe1'),
                          expected_output_1), ]
 
 non_acceptable_test_data = [(__soup.find('iframe', class_='iframe2'), None),

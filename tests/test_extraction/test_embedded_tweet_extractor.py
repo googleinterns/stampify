@@ -3,24 +3,15 @@
     Use pytest to run this script
     Command to run: /stampify$ python -m pytest
 """
-import bs4
 import pytest
 
-from extraction import embedded_tweet_extractor
+from extraction.content_extractors import embedded_tweet_extractor
 from extraction.data_models.embedded_tweet import ETweet
+from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = embedded_tweet_extractor.ETweetExtractor()
 
-
-def soup():
-    """Returns soup from html file"""
-    __test_file = open('./tests/test_extraction/embedded_tweet.html')
-    __test_file_data = __test_file.read()
-    __test_file.close()
-    return bs4.BeautifulSoup(__test_file_data, 'lxml')
-
-
-__soup = soup()
+__soup = test_utils.soup('embedded_tweet.html')
 
 expected_output_1 = ETweet('123456789123456789')
 

@@ -6,11 +6,12 @@ import re
 import requests
 from bs4 import BeautifulSoup, Comment
 
-from extraction import (embedded_instagram_post_extractor,
-                        embedded_pinterest_pin_extractor,
-                        embedded_tweet_extractor,
-                        embedded_youtube_video_extractor, image_extractor,
-                        quote_extractor, text_extractor, video_extractor)
+from extraction.content_extractors import (embedded_instagram_post_extractor,
+                                           embedded_pinterest_pin_extractor,
+                                           embedded_tweet_extractor,
+                                           embedded_youtube_video_extractor,
+                                           image_extractor, quote_extractor,
+                                           text_extractor, video_extractor)
 from extraction.data_models import contents, text
 
 REQUEST_SESSION = requests.Session()

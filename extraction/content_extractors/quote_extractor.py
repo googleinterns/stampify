@@ -1,6 +1,8 @@
 """This script checks whether DOM has quote tag or not and
 creates and returns the Quote object"""
 
+import bs4
+
 from extraction.data_models.quote import Quote
 from extraction.interface_content_extractor import IContentExtractor
 from extraction.utils import string_utils as utils
@@ -9,7 +11,7 @@ from extraction.utils import string_utils as utils
 class QuoteExtractor(IContentExtractor):
     """This class inherits IContentExtractor for extracting quote"""
 
-    def validate_and_extract(self, node):
+    def validate_and_extract(self, node: bs4.element):
         if node.name == 'q' \
                 and not utils.empty_text(node.text):
             cite = None

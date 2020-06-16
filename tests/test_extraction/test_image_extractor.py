@@ -3,22 +3,15 @@
     Use pytest to run this script
     Command to run: /stampify$ python -m pytest
 """
-import bs4
 import pytest
 
-from extraction import image_extractor
+from extraction.content_extractors import image_extractor
 from extraction.data_models.image import Image
+from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = image_extractor.ImageExtractor()
 
-
-def soup():
-    """Returns soup from html file"""
-    __test_file = open('./tests/test_extraction/image.html')
-    __test_file_data = __test_file.read()
-    __test_file.close()
-    return bs4.BeautifulSoup(__test_file_data, 'lxml')
-
+__soup = test_utils.soup('image.html')
 
 expected_output_1 = Image('image_with_src_and_title.jpg',
                           100, 100, False, None,
@@ -36,19 +29,19 @@ expected_output_4 = Image('image_with_src_but_without_title_inside_figure.jpg',
                           100, 100, False, 'This is figcaption.',
                           None, '')
 
-acceptable_test_data = [(soup().find('img', class_='img1'),
+acceptable_test_data = [(__soup.find('img', class_='img1'),
                          expected_output_1),
-                        (soup().find('img', class_='img2'),
+                        (__soup.find('img', class_='img2'),
                          expected_output_2),
-                        (soup().find('figure', class_='fig1'),
+                        (__soup.find('figure', class_='fig1'),
                          expected_output_3),
-                        (soup().find('figure', class_='fig2'),
+                        (__soup.find('figure', class_='fig2'),
                          expected_output_4), ]
 
-non_acceptable_test_data = [(soup().find('img', class_='img3'), None),
-                            (soup().find('figure', class_='fig3'), None),
-                            (soup().find('figure', class_='fig4'), None),
-                            (soup().find('h1'), None)]
+non_acceptable_test_data = [(__soup.find('img', class_='img3'), None),
+                            (__soup.find('figure', class_='fig3'), None),
+                            (__soup.find('figure', class_='fig4'), None),
+                            (__soup.find('h1'), None)]
 
 
 @pytest.mark.parametrize("input_node, expected", acceptable_test_data)

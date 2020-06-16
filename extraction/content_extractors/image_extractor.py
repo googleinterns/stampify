@@ -1,6 +1,8 @@
 """This script checks whether DOM has image tag or not and
 creates and returns the Image object"""
 
+import bs4
+
 from extraction.data_models.image import Image
 from extraction.interface_content_extractor import IContentExtractor
 from extraction.utils import media_extraction_utils as utils
@@ -9,7 +11,7 @@ from extraction.utils import media_extraction_utils as utils
 class ImageExtractor(IContentExtractor):
     """This class inherits IContentExtractor to extract Images"""
 
-    def validate_and_extract(self, node):
+    def validate_and_extract(self, node: bs4.element):
         if node.name == 'img' and node.has_attr('src'):
             return self.__create_image(node)
         if node.name == 'figure':

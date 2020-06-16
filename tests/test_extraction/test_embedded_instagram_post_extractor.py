@@ -3,24 +3,15 @@
     Use pytest to run this script
     Command to run: /stampify$ python -m pytest
 """
-import bs4
 import pytest
 
-from extraction import embedded_instagram_post_extractor
+from extraction.content_extractors import embedded_instagram_post_extractor
 from extraction.data_models.embedded_instagram_post import EInstagramPost
+from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = embedded_instagram_post_extractor.EInstagramPostExtractor()
 
-
-def soup():
-    """Returns soup from html file"""
-    __test_file = open('./tests/test_extraction/instagram.html')
-    __test_file_data = __test_file.read()
-    __test_file.close()
-    return bs4.BeautifulSoup(__test_file_data, 'lxml')
-
-
-__soup = soup()
+__soup = test_utils.soup('instagram.html')
 
 expected_output_1 = EInstagramPost("post_shortcode1", '')
 
@@ -35,10 +26,10 @@ acceptable_test_data = [(__soup.find('blockquote', class_='node1'),
                         (__soup.find('iframe', class_='iframe1'),
                          expected_output_3), ]
 
-non_acceptable_test_data = [(soup().find('div').get_text(), None),
-                            (soup().find('p'), None),
-                            (soup().find('iframe', class_='iframe2'), None),
-                            (soup().find('iframe', class_='iframe3'), None)]
+non_acceptable_test_data = [(__soup.find('div').get_text(), None),
+                            (__soup.find('p'), None),
+                            (__soup.find('iframe', class_='iframe2'), None),
+                            (__soup.find('iframe', class_='iframe3'), None)]
 
 
 @pytest.mark.parametrize("input_node, expected", acceptable_test_data)
