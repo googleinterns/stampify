@@ -8,12 +8,13 @@ from extraction.utils import media_extraction_utils as utils
 
 
 def test_has_domain_should_return_true():
-    url = 'https://www.youtube.com/xyz'
-    regex = r'^https://www.youtube\.com/'
+    url = 'https://instagram.com/xyz'
+    regex = r'^https://instagram\.com/'
+
     assert utils.has_domain(url, regex) is not None
 
 
 def test_has_domain_should_return_false():
     url = 'https://random_website.com/xyz'
-    regex = r'^https://www.youtube\.com/'
+    regex = r'^https://instagram\.com/'
     assert utils.has_domain(url, regex) is None

@@ -6,7 +6,8 @@ import re
 import requests
 from bs4 import BeautifulSoup, Comment
 
-from extraction import (embedded_pinterest_pin_extractor,
+from extraction import (embedded_instagram_post_extractor,
+                        embedded_pinterest_pin_extractor,
                         embedded_tweet_extractor,
                         embedded_youtube_video_extractor, image_extractor,
                         quote_extractor, text_extractor, video_extractor)
@@ -20,7 +21,8 @@ CONTENT_EXTRACTORS \
        embedded_pinterest_pin_extractor.EPinterestPinExtractor(),
        quote_extractor.QuoteExtractor(),
        embedded_tweet_extractor.ETweetExtractor(),
-       embedded_youtube_video_extractor.EYouTubeVideoExtractor(),)
+       embedded_youtube_video_extractor.EYouTubeVideoExtractor(),
+       embedded_instagram_post_extractor.EInstagramPostExtractor(),)
 
 pattern_for_ads = re.compile('(^ad-|^ads-)')
 extra_tags = ['script', 'noscript', 'style', 'header',
