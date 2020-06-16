@@ -10,14 +10,14 @@ def get_user_input():
     parser = argparse.ArgumentParser(description='Stampify the webpage')
     parser.add_argument('url', type=str, nargs=1,
                         help='An URL of the webpage to stampify.')
-    parser.add_argument('page_count', type=int, nargs='?', default=['8'],
+    parser.add_argument('page_count', type=int, nargs='?', default=8,
                         help='Maximum number of stamp pages to generate.')
     parser.add_argument('-g', action='store_true',
                         help='Generate Stamp')
 
     args = parser.parse_args()
     url = args.url[0]
-    max_pages = args.page_count[0]
+    max_pages = args.page_count
 
     return url, max_pages
 
