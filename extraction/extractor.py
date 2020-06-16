@@ -6,13 +6,17 @@ import re
 import requests
 from bs4 import BeautifulSoup, Comment
 
-from extraction import image_extractor, text_extractor, video_extractor
+from extraction import (embedded_pinterest_pin_extractor, image_extractor,
+                        quote_extractor, text_extractor, video_extractor)
 from extraction.data_models import contents, text
 
 REQUEST_SESSION = requests.Session()
-CONTENT_EXTRACTORS = (video_extractor.VideoExtractor(),
-                      text_extractor.TextExtractor(),
-                      image_extractor.ImageExtractor(),)
+CONTENT_EXTRACTORS \
+    = (video_extractor.VideoExtractor(),
+       text_extractor.TextExtractor(),
+       image_extractor.ImageExtractor(),
+       embedded_pinterest_pin_extractor.EPinterestPinExtractor(),
+       quote_extractor.QuoteExtractor(),)
 
 pattern_for_ads = re.compile('(^ad-|^ads-)')
 extra_tags = ['script', 'noscript', 'style', 'header',
@@ -31,7 +35,7 @@ class Extractor:
     def extract_html(self):
         """This function parses data from HTML using Beautiful Soup"""
 
-        file = REQUEST_SESSION.get(self.url).text    # To request Html from URL
+        file = REQUEST_SESSION.get(self.url).text  # To request Html from URL
 
         # Remove the comment to read local files for testing purpose
         # file = open('./test_html.html','r').read()
@@ -45,7 +49,7 @@ class Extractor:
         """This function decomposes the unnecessary data"""
 
         decomposable_tags = self.soup.find_all(extra_tags)
-        comments = self.soup.\
+        comments = self.soup. \
             find_all(text=lambda text: isinstance(text, Comment))
         ads = self.soup.find_all(re.compile('.*'), {'class': pattern_for_ads})
 
