@@ -5,8 +5,8 @@
 """
 import pytest
 
+from data_models.quote import Quote
 from extraction.content_extractors import quote_extractor
-from extraction.data_models.quote import Quote
 from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = quote_extractor.QuoteExtractor()

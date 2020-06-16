@@ -3,7 +3,7 @@ creates and returns the EPinterestPin object"""
 
 import bs4
 
-from extraction.data_models.embedded_pinterest_pin import EPinterestPin
+from data_models.embedded_pinterest_pin import EPinterestPin
 from extraction.interface_content_extractor import IContentExtractor
 
 

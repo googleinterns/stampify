@@ -1,6 +1,6 @@
 """This class creates the object structure for Embedded Tweet content"""
 
-from extraction.data_models.contents import ContentType, _Content
+from data_models.contents import ContentType, _Content
 
 
 class ETweet(_Content):

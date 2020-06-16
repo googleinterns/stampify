@@ -5,7 +5,7 @@ import re
 
 import bs4
 
-from extraction.data_models.video import Video
+from data_models.video import Video
 from extraction.interface_content_extractor import IContentExtractor
 from extraction.utils import media_extraction_utils as e_utils
 

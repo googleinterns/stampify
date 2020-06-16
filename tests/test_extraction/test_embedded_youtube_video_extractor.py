@@ -5,8 +5,8 @@
 """
 import pytest
 
+from data_models.embedded_youtube_video import EYouTubeVideo
 from extraction.content_extractors import embedded_youtube_video_extractor
-from extraction.data_models.embedded_youtube_video import EYouTubeVideo
 from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = embedded_youtube_video_extractor.EYouTubeVideoExtractor()

@@ -5,8 +5,8 @@
 """
 import pytest
 
+from data_models.embedded_instagram_post import EInstagramPost
 from extraction.content_extractors import embedded_instagram_post_extractor
-from extraction.data_models.embedded_instagram_post import EInstagramPost
 from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = embedded_instagram_post_extractor.EInstagramPostExtractor()

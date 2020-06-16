@@ -7,8 +7,8 @@
 import bs4
 import pytest
 
+from data_models.text import Text
 from extraction.content_extractors import text_extractor
-from extraction.data_models.text import Text
 from extraction.utils import string_utils as utils
 
 __EXTRACTOR = text_extractor.TextExtractor()

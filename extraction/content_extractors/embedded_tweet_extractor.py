@@ -3,7 +3,7 @@ creates and returns the ETweet object"""
 
 import bs4
 
-from extraction.data_models.embedded_tweet import ETweet
+from data_models.embedded_tweet import ETweet
 from extraction.interface_content_extractor import IContentExtractor
 
 

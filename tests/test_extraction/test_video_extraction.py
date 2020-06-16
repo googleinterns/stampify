@@ -5,8 +5,8 @@
 """
 import pytest
 
+from data_models.video import Video
 from extraction.content_extractors import video_extractor
-from extraction.data_models.video import Video
 from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = video_extractor.VideoExtractor()

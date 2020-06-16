@@ -1,7 +1,7 @@
 """This class creates the object structure for
 Embedded Pinterest Pin content"""
 
-from extraction.data_models.contents import ContentType, _Content
+from data_models.contents import ContentType, _Content
 
 
 class EPinterestPin(_Content):

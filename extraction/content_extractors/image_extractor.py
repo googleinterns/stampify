@@ -3,7 +3,7 @@ creates and returns the Image object"""
 
 import bs4
 
-from extraction.data_models.image import Image
+from data_models.image import Image
 from extraction.interface_content_extractor import IContentExtractor
 from extraction.utils import media_extraction_utils as utils
 

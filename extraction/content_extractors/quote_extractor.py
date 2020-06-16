@@ -3,7 +3,7 @@ creates and returns the Quote object"""
 
 import bs4
 
-from extraction.data_models.quote import Quote
+from data_models.quote import Quote
 from extraction.interface_content_extractor import IContentExtractor
 from extraction.utils import string_utils as utils
 

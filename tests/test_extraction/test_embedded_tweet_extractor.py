@@ -5,8 +5,8 @@
 """
 import pytest
 
+from data_models.embedded_tweet import ETweet
 from extraction.content_extractors import embedded_tweet_extractor
-from extraction.data_models.embedded_tweet import ETweet
 from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = embedded_tweet_extractor.ETweetExtractor()

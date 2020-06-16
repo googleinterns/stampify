@@ -7,8 +7,8 @@
 """
 import pytest
 
+from data_models.embedded_pinterest_pin import EPinterestPin
 from extraction.content_extractors import embedded_pinterest_pin_extractor
-from extraction.data_models.embedded_pinterest_pin import EPinterestPin
 from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = embedded_pinterest_pin_extractor.EPinterestPinExtractor()

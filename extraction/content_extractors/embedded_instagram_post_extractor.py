@@ -3,7 +3,7 @@ post tag or not and creates and returns the EInstagramPost object"""
 
 import bs4
 
-from extraction.data_models.embedded_instagram_post import EInstagramPost
+from data_models.embedded_instagram_post import EInstagramPost
 from extraction.interface_content_extractor import IContentExtractor
 from extraction.utils import media_extraction_utils as utils
 

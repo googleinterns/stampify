@@ -5,8 +5,8 @@
 """
 import pytest
 
+from data_models.image import Image
 from extraction.content_extractors import image_extractor
-from extraction.data_models.image import Image
 from tests.test_extraction import unit_test_utils as test_utils
 
 __EXTRACTOR = image_extractor.ImageExtractor()
