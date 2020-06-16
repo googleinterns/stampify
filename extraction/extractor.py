@@ -6,12 +6,13 @@ import re
 import requests
 from bs4 import BeautifulSoup, Comment
 
-from extraction import text_extractor, video_extractor
+from extraction import image_extractor, text_extractor, video_extractor
 from extraction.data_models import contents, text
 
 REQUEST_SESSION = requests.Session()
 CONTENT_EXTRACTORS = (video_extractor.VideoExtractor(),
-                      text_extractor.TextExtractor(),)
+                      text_extractor.TextExtractor(),
+                      image_extractor.ImageExtractor(),)
 
 pattern_for_ads = re.compile('(^ad-|^ads-)')
 extra_tags = ['script', 'noscript', 'style', 'header',
