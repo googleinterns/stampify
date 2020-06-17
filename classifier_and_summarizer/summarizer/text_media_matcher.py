@@ -12,15 +12,9 @@ This script contains the following classes:
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from classifier_and_summarizer.summarizer.incorrect_input import \
+    IncorrectInputError
 from classifier_and_summarizer.summarizer.stable_matcher import StableMatcher
-
-
-class IncorrectInputError(Exception):
-    ''' Exception raised when the input format is wrong'''
-
-    def __init__(self):
-        self.message \
-            = "Sizes of Summary Sentences and Media description do not match"
 
 
 class ElementWithIndex:
@@ -45,7 +39,7 @@ class TextMediaMatcher:
         if len(summary_sentences) != len(media_attributes) or \
             len(summary_sentences) != len(media_descriptions) or \
                 len(media_descriptions) != len(media_attributes):
-            raise IncorrectInputError()
+            raise IncorrectInputError("Input sizes do not match")
 
         self.summary_sentences = summary_sentences
         self.media_descriptions = media_descriptions
