@@ -6,7 +6,8 @@ import re
 import bs4
 
 from data_models.video import Video
-from extraction.interface_content_extractor import IContentExtractor
+from extraction.content_extractors.interface_content_extractor import \
+    IContentExtractor
 from extraction.utils import media_extraction_utils as e_utils
 
 VIDEO_EXTENSIONS_PATTERN = re.compile(r'^.*\.(mp4|ogg|mov|webm)')

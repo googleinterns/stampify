@@ -4,7 +4,8 @@ creates and returns the Text object"""
 import bs4
 
 from data_models.text import Text
-from extraction.interface_content_extractor import IContentExtractor
+from extraction.content_extractors.interface_content_extractor import \
+    IContentExtractor
 from extraction.utils import string_utils as utils
 
 

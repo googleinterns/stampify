@@ -4,7 +4,8 @@ creates and returns the ETweet object"""
 import bs4
 
 from data_models.embedded_tweet import ETweet
-from extraction.interface_content_extractor import IContentExtractor
+from extraction.content_extractors.interface_content_extractor import \
+    IContentExtractor
 
 
 class ETweetExtractor(IContentExtractor):
