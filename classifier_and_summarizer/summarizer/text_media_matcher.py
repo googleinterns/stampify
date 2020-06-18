@@ -9,22 +9,12 @@ This script contains the following classes:
                         returns the stable matching
     *StableMatcher : implements the Gale-Shapley algorithm for matching
 '''
-from sentence_transformers import SentenceTransformer
+from numpy import maximum as matrix_maximum
 from sklearn.metrics.pairwise import cosine_similarity
 
 from classifier_and_summarizer.summarizer.incorrect_input import \
     IncorrectInputError
 from classifier_and_summarizer.summarizer.stable_matcher import StableMatcher
-
-
-class ElementWithIndex:
-    ''' Pairs the element(summary sentence/image description)
-    with the index of its occurence in the webpage
-    '''
-
-    def __init__(self, element_index, element_text):
-        self.element_index = element_index
-        self.element_text = element_text
 
 
 class TextMediaMatcher:
@@ -33,95 +23,111 @@ class TextMediaMatcher:
     It accepts a list of objects of type ElementWithIndex
     '''
 
-    def __init__(self, summary_sentences,
-                 media_descriptions, media_attributes):
+    def __init__(self, text_contents, media_contents):
+        '''
+        Params:
+            * text_contents : list of objects of type
+            SentenceWithAttributes
+            * media_contents : list of objects of type
+            Image
+        '''
 
-        if len(summary_sentences) != len(media_attributes) or \
-            len(summary_sentences) != len(media_descriptions) or \
-                len(media_descriptions) != len(media_attributes):
-            raise IncorrectInputError("Input sizes do not match")
+        # both sets must be of same size for this to work
+        if len(text_contents) != len(media_contents):
+            raise IncorrectInputError(
+                "Input sizes do not match for text media matching")
 
-        self.summary_sentences = summary_sentences
-        self.media_descriptions = media_descriptions
-        self.media_attributes = media_attributes
-        self.set_size = len(media_descriptions)  # size of each set
+        self.text_contents = text_contents
+        self.media_contents = media_contents
+        self.set_size = len(media_contents)  # size of each set
 
-        self.sentence_embedding_model = SentenceTransformer(
-            'bert-base-nli-stsb-mean-tokens')
-
-        # similarity matrix : will be used for sorting preferences
-        # similarity score between ith summary_sentence and jth media
         # description
-        self.similarity_matrix = [
-            [-1 for i in range(self.set_size)] for j in range(self.set_size)]
-
         self.sentence_preference_for_media = [
             list(range(self.set_size)) for i in range(self.set_size)]
         self.media_preference_for_sentence = [
             list(range(self.set_size)) for i in range(self.set_size)]
 
     def get_text_media_matching(self):
+        ''' returns the matching as a list of
+        tuples (x,y) where x is the sentence
+        object and y is the media(image)
+        '''
         self._form_preference_matrix()
+
         stable_matcher = StableMatcher(
             self.media_preference_for_sentence,
             self.sentence_preference_for_media,
             self.set_size)
-        return stable_matcher.get_matching()
 
-    def __embed_text(self):
-        '''finds the vector embeddings for necessary text'''
+        matchings = stable_matcher.get_matching()
+
+        self.text_media_matchings = []
+        for sentence_index, media_index in matchings:
+            self.text_media_matchings.append(
+                (self.text_contents[sentence_index],
+                 self.media_contents[media_index])
+            )
+        return self.text_media_matchings
+
+    def _get_embedded_text(self):
+        '''fetches the vector embeddings for any necessary text
+        from the object itself.
+        '''
         self.summary_sentence_embeddings \
-            = self.sentence_embedding_model.encode(
-                [element.element_text for element in self.summary_sentences])
+            = [text.embedding for text in self.text_contents]
 
-        self.media_description_embeddings \
-            = self.sentence_embedding_model.encode(
-                [element.element_text for element in self.media_descriptions])
+        self.media_description_embeddings = [
+            media.img_description_embedding for media in self.media_contents]
 
         self.media_attribute_embeddings \
-            = self.sentence_embedding_model.encode(
-                [element.element_text for element in self.media_attributes])
+            = [media.img_attribute_embedding for media in self.media_contents]
 
-    def __cosine_similarity_preprocessing(self):
+    def _cosine_similarity_preprocessing(self):
         '''Calculates the required cosine similarity between matrices
 
         Finds the cosine similarity between summary sentences and
         media description and media attributes. This is done
         as preprocessing before calculating the similarity score
         '''
-        self.similarity_matrix_for_media_descriptions = cosine_similarity(
-            self.summary_sentence_embeddings,
-            self.media_description_embeddings)
+        # pick maximum similarity between
+        # similarity between sentence and media description
+        # similarity between sentence and media attributes
+        self.similarity_matrix = matrix_maximum(
+            cosine_similarity(
+                self.summary_sentence_embeddings,
+                self.media_description_embeddings
+            ),
+            cosine_similarity(
+                self.summary_sentence_embeddings,
+                self.media_attribute_embeddings
+            )
+        )
 
-        self.similarity_matrix_for_media_attributes = cosine_similarity(
-            self.summary_sentence_embeddings,
-            self.media_attribute_embeddings)
+    def _similarity_score(self, sentence_index, media_index):
+        ''' returns the similarity score'''
 
-    def __similarity_score(self, sentence_index, media_index):
+        # 1.0 is add in case of total dissimimlarity
         sentence_similarity_score = (
-            1.0 + max(
-                self.similarity_matrix_for_media_descriptions
-                [sentence_index][media_index],
-                self.similarity_matrix_for_media_attributes
-                [sentence_index][media_index]))
+            1.0 + self.similarity_matrix[sentence_index][media_index])
 
+        # 1.0 is added to prevent ZeroDivisionError if indices are same
         distance_score \
             = 1.0 + abs(
-                self.media_attributes[media_index].element_index
-                - self.summary_sentences[sentence_index].element_index
+                self.media_contents[media_index].content_index
+                - self.text_contents[sentence_index].index
             )
 
         return sentence_similarity_score / distance_score
 
     def _form_preference_matrix(self):
         ''' Builds and initializes the preference matrix for media+sentences'''
-        self.__embed_text()  # find the vector embeddings for both lists
+        self._get_embedded_text()  # get the vector embeddings for both lists
 
-        self.__cosine_similarity_preprocessing()
+        self._cosine_similarity_preprocessing()
 
         for i in range(self.set_size):
             for j in range(self.set_size):
-                self.similarity_matrix[i][j] = self.__similarity_score(
+                self.similarity_matrix[i][j] = self._similarity_score(
                     sentence_index=i, media_index=j)
 
         for i in range(self.set_size):
