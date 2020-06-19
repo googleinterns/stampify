@@ -1,4 +1,5 @@
-from classifier_and_summarizer.summarizer.stable_matcher import StableMatcher
+from classifier_and_summarizer.summarizer.text_media_matching import \
+    stable_matcher
 
 
 def test_stable_matching():
@@ -9,7 +10,11 @@ def test_stable_matching():
         2, 3, 0, 1], [3, 1, 2, 0], [2, 1, 0, 3]]
     preference_matrix_2 = [[1, 0, 2, 3], [
         3, 0, 1, 2], [0, 2, 1, 3], [1, 2, 0, 3]]
-    stable_matcher = StableMatcher(preference_matrix_1, preference_matrix_2, 4)
+    stable_matcher_util \
+        = stable_matcher.StableMatcher(
+            preference_matrix_1,
+            preference_matrix_2,
+            4)
     expected_matching = [(0, 0), (3, 1), (2, 2), (1, 3)]
-    actual_matching = stable_matcher.get_matching()
+    actual_matching = stable_matcher_util.get_matching()
     assert expected_matching == actual_matching
