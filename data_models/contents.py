@@ -7,24 +7,24 @@ import enum
 class Contents:
     """This class creates content_list which is list of extracted contents"""
 
+    CONTENTS_DICT_LIST = []
+
     def __init__(self):
         self.content_list = list()
 
     def add_content(self, _content):
         """This method appends extracted content to content_list"""
+
         self.content_list.append(_content)
+        self.__dict__['content_list'].remove(_content)
+        self.__dict__.update({'content_list': self.updated_dict(_content)})
 
-    def get_formatted_list(self):
-        """This method converts the python class object list
-         into dictionary list"""
+    def updated_dict(self, _content):
+        """This method updates the list with
+        dictionary of _content object"""
 
-        return_list = []
-
-        for obj in self.content_list:
-            if hasattr(obj, '__dict__'):
-                return_list.append(obj.get_formatted_dict())
-
-        return return_list
+        self.CONTENTS_DICT_LIST.append(_content.__dict__)
+        return self.CONTENTS_DICT_LIST
 
 
 class _Content:
@@ -36,13 +36,6 @@ class _Content:
     def get_content_type(self):
         """Returns the content type of the content"""
         return self.content_type
-
-    def get_formatted_dict(self):
-        """This method converts the _Content object into dictionary"""
-        if hasattr(self, '__dict__'):
-            return self.__dict__
-
-        return {}
 
 
 class ContentType(enum.Enum):

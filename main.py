@@ -1,9 +1,14 @@
 """This script starts the program"""
 
 import argparse
-from pprint import pprint
+import logging
 
+from data_models.website import Website
 from extraction import extractor
+
+LOGGER = logging.getLogger()
+LOG_FILENAME = 'website.log'
+logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 
 def get_user_input():
@@ -22,6 +27,17 @@ def get_user_input():
     return url, max_pages
 
 
+def convert_website_to_stamp(_website, maximum_pages):
+    """This method can be used the pipeline between all the modules"""
+
+    _ = maximum_pages
+
+    _extractor = extractor.Extractor(_website.url)
+    _website.set_contents(_extractor.extract_html())
+
+    LOGGER.debug(_website.__dict__)
+
+
 if __name__ == '__main__':
     """
       Command to run this script:
@@ -33,7 +49,12 @@ if __name__ == '__main__':
 
       For more help: python3 main.py -h
     """
-    URL, maximum_pages = get_user_input()
-    extractor = extractor.Extractor(URL)
-    extractor.extract_html()
-    pprint(extractor.contents_list.get_formatted_list())
+
+    url, maximum_pages = get_user_input()
+
+    _website = Website(url)
+
+    if not _website.is_valid:
+        LOGGER.error("Invalid URL!")
+    else:
+        convert_website_to_stamp(_website, maximum_pages)

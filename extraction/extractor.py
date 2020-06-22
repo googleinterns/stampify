@@ -1,6 +1,7 @@
 """This script is used to scrape data from URL, extract data from the DOM
     and store the extracted data."""
 
+import logging
 import re
 
 import requests
@@ -14,6 +15,7 @@ from extraction.content_extractors import (embedded_instagram_post_extractor,
                                            image_extractor, quote_extractor,
                                            text_extractor, video_extractor)
 
+LOGGER = logging.getLogger()
 REQUEST_SESSION = requests.Session()
 CONTENT_EXTRACTORS \
     = (video_extractor.VideoExtractor(),
@@ -36,21 +38,31 @@ class Extractor:
 
     def __init__(self, url):
         self.url = url
-        self.soup = None
         self.contents_list = contents.Contents()
+        self.soup = None
 
     def extract_html(self):
         """This function parses data from HTML using Beautiful Soup"""
+        file = None
 
-        file = REQUEST_SESSION.get(self.url).text  # To request Html from URL
+        try:
+            # To request Html from URL
+            file = REQUEST_SESSION.get(self.url).text
+        except requests.exceptions.ConnectionError as err:
+            LOGGER.error(err)
 
         # Remove the comment to read local files for testing purpose
         # file = open('./test_html.html','r').read()
 
-        self.soup = BeautifulSoup(file, 'lxml')
-        self.clean_soup()
+        if file:
+            self.soup = BeautifulSoup(file, 'lxml')
+            self.clean_soup()
 
-        self.__extract_data_from_html()
+            self.__extract_data_from_html()
+        else:
+            LOGGER.error('Expected markup string -> Found NoneType!')
+
+        return self.contents_list
 
     def clean_soup(self):
         """This function decomposes the unnecessary data"""
@@ -81,8 +93,7 @@ class Extractor:
 
         title = soup_head.title
         text_string = title.get_text()
-        _content = text.Text(text_string, 'title')
-        self.contents_list.add_content(_content)
+        self.contents_list.add_content(text.Text(text_string, 'title'))
 
     def __extract_data_from_html_body(self, node):
         """This function iterates over dom using dfs"""
