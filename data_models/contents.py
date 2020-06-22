@@ -32,6 +32,10 @@ class _Content:
 
     def __init__(self, content_type):
         self.content_type = content_type
+        # default value = -1 since field
+        # has not been initialized and is
+        # invalid currently
+        self.content_index = -1
 
     def get_content_type(self):
         """Returns the content type of the content"""

@@ -21,4 +21,6 @@ class Image(_Content):
         self.img_type = img_type
         self.img_height = img_height
         self.img_width = img_width
+        self.img_description_embedding = None
+        self.img_attribute_embedding = None
         self.is_gif = is_gif
