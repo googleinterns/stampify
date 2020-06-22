@@ -5,6 +5,7 @@ methods to access the data as required'''
 
 class StampPages:
     '''Object structure to store the Stamp Pages'''
+
     def __init__(self):
         self.stamp_pages = list()
 
@@ -29,9 +30,12 @@ class StampPage:
     This Stamp Page object will be passed on to the
     generator which will assemble the final stamp page.
 
-    Attriutes:
+    Attributes:
     * media_index : index of the media(image/video/insta) as
     defined in the Contents List passed to classifier
+
+    * sentence_index : index of the sentence as defined
+    in the Contents List passed to classifier
 
     * is_embedded_content : True if the media is embedded
     ( instagram post / tweets / pinterest etc)
@@ -45,10 +49,16 @@ class StampPage:
 
     * stamp_position: The order or index of the stamp in the final
     collected of stamp pages
+
+    * stanp_descriptor_embedding : the embedding of the text
+    that will be used to describe the stamp page. This depends
+    on the type of stamp page it is.
     '''
+
     def __init__(
             self,
             media_index,
+            sentence_index,
             is_embedded_content,
             overlay_title,
             overlay_text,
@@ -56,12 +66,14 @@ class StampPage:
             overlay_font_size,
             stamp_position):
         self.media_index = media_index
+        self.sentence_index = sentence_index
         self.is_embedded_content = is_embedded_content
         self.overlay_title = overlay_title
         self.overlay_text = overlay_text
         self.overlay_font_style = overlay_font_style
         self.overlay_font_size = overlay_font_size
         self.stamp_position = stamp_position
+        self.stamp_descriptor_embedding = []
 
     def get_formatted_dict(self):
         ''' Returns the object as a formatted dict'''
