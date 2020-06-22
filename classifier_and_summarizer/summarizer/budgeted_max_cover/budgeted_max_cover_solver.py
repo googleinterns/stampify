@@ -13,21 +13,6 @@ The solver accepts a list of elements of type Cover
 from itertools import combinations
 
 
-class Cover:
-    '''
-    Boiled down representation of a stamp page consists
-    of only the cover of elements along with the cost and id.
-
-    All elements are considered to have equal weight.
-    '''
-
-    def __init__(self, cover, cost, id, number_of_elements):
-        self.cover = cover
-        self.cost = cost
-        self.number_of_elements = number_of_elements
-        self.id = id  # ordinal (index)
-
-
 class BudgetedMaxCoverSolver:
     '''
     Consists of related utilities for performing the approximate algorithm for
@@ -188,7 +173,7 @@ class BudgetedMaxCoverSolver:
                 self._pick_cover(
                     max(candidate_cover_indices,
                         key=self._unpicked_weights_to_cost_ratio)
-                    )
+                )
             else:
                 some_cover_can_be_picked = False
 
