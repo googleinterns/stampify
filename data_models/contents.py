@@ -7,8 +7,6 @@ import enum
 class Contents:
     """This class creates content_list which is list of extracted contents"""
 
-    CONTENTS_DICT_LIST = []
-
     def __init__(self):
         self.content_list = list()
 
@@ -17,14 +15,7 @@ class Contents:
 
         self.content_list.append(_content)
         self.__dict__['content_list'].remove(_content)
-        self.__dict__.update({'content_list': self.updated_dict(_content)})
-
-    def updated_dict(self, _content):
-        """This method updates the list with
-        dictionary of _content object"""
-
-        self.CONTENTS_DICT_LIST.append(_content.__dict__)
-        return self.CONTENTS_DICT_LIST
+        self.__dict__['content_list'].append(_content.__dict__)
 
 
 class _Content:

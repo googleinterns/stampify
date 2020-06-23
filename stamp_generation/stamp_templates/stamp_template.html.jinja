@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html amp lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+    <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
+    <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>
+    <script custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js" async></script>
+    <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
+    <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
+    <script async custom-element="amp-pinterest" src="https://cdn.ampproject.org/v0/amp-pinterest-0.1.js"></script>
+    <title>{{contents[0]['text_string']}}</title>
+    <link rel="canonical" href="{{ canonical_url }}" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+    <style amp-custom>
+        amp-story-page:before {
+            content:url({{ logo_url }});
+            width:20px;height:20px;
+            display:block;z-index:10;position:absolute;top:30px;left:15px;
+        }
+        .page-title {
+            position: absolute;
+            width: 100%;
+            top: 17%;
+            font-size: 20px;
+            text-align: center;
+        }
+        .page-overlay-text {
+            position: absolute;
+            width: 100%;
+            top: 80%;
+            left: 5%;
+            right: 5%;
+            font-size: 18px;
+        }
+        .media {
+            margin: 1px;
+        }
+        .embedded-media {
+            margin: 1px;
+            top: 12%;
+            bottom: 15%;
+        }
+        .quote {
+            margin-top: 45%;
+            font-size: 22px;
+        }
+        .citation {
+            width: 100%;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <amp-story
+        standalone title={{contents[0]['text_string']}}
+        publisher="{{publisher_domain}}"
+        publisher-logo-src="{{logo_url}}"
+        poster-portrait-src="abc.jpg">
+        {% for page in pages %}
+            <amp-story-page id="page-{{ loop.index }}">
+                {% if page['media_index'] and contents[page['media_index']]['content_type'].name == 'IMAGE'-%}
+                <amp-story-grid-layer template="fill" class="media">
+                    <amp-img object-fit="contain"
+                         alt={{contents[page['media_index']]['img_title']}}
+                         src="{{contents[page['media_index']]['img_url']}}"
+                         width={{contents[page['media_index']]['img_width']}}
+                         height={{contents[page['media_index']]['img_height']}}>
+                    </amp-img>
+                </amp-story-grid-layer>
+                {%- endif %}
+                {% if page['media_index'] and contents[page['media_index']]['content_type'].name == 'VIDEO'-%}
+                <amp-story-grid-layer template="fill" class="media">
+                    <amp-video controls object-fit="contain"
+                          width={{contents[page['media_index']]['width']}}
+                          height={{contents[page['media_index']]['height']}}
+                          layout="responsive">
+                          {% for url in contents[page['media_index']]['video_urls'] -%}
+                          <source src= "{{ url }}"/>
+                          <div fallback>
+                            <p>This browser does not support the video element.</p>
+                          </div>
+                          {%- endfor %}
+                    </amp-video>
+                </amp-story-grid-layer>
+                {%- endif %}
+                {% if page['media_index'] and contents[page['media_index']]['content_type'].name == 'QUOTE'-%}
+                <amp-story-grid-layer>
+                    <div class="quote">
+                        <q cite="{{ contents[page['media_index']]['cite'] }}">
+                          {{ contents[page['media_index']]['q_content'] }}
+                        </q>
+                        <p class="citation">- {{ contents[page['media_index']]['cite'] }}</p>
+                    <div>
+                </amp-story-grid-layer>
+                {%- endif -%}
+                {% if page['media_index'] and contents[page['media_index']]['content_type'].name == 'EMBEDDED_TWEET'-%}
+                <amp-story-grid-layer>
+                    <amp-twitter class="embedded-media"
+                      layout = "fill"
+                      data-tweetid="{{ contents[page['media_index']]['tweet_id'] }}"
+                      interactive
+                    >
+                    </amp-twitter>
+                </amp-story-grid-layer>
+                {%- endif -%}
+                {% if page['media_index'] and contents[page['media_index']]['content_type'].name == 'EMBEDDED_YOUTUBE_VIDEO'-%}
+                <amp-story-grid-layer>
+                    <amp-youtube class="embedded-media"
+                      layout = "fill"
+                      data-videoid="{{ contents[page['media_index']]['yt_video_id'] }}"
+                      interactive
+                    >
+                    </amp-youtube>
+                </amp-story-grid-layer>
+                {%- endif -%}
+                {% if page['media_index'] and contents[page['media_index']]['content_type'].name == 'EMBEDDED_INSTAGRAM_POST'-%}
+                <amp-story-grid-layer layout="fill">
+                        <amp-instagram
+                          layout="responsive"
+                          data-shortcode="{{ contents[page['media_index']]['insta_shortcode'] }}"
+                          data-captioned>
+                        </amp-instagram>
+                </amp-story-grid-layer>
+                {%- endif -%}
+                {% if page['media_index'] and contents[page['media_index']]['content_type'].name == 'EMBEDDED_PINTEREST_PIN'-%}
+                <amp-story-grid-layer>
+                        <amp-pinterest class="embedded-media"
+                           layout="fill"
+                           data-do="embedPin"
+                           data-url="{{ contents[page['media_index']]['pin_url'] }}"
+                           interactive
+                        >
+                        </amp-pinterest>
+                </amp-story-grid-layer>
+                {%- endif -%}
+                {% if not page['is_embedded_content'] -%}
+                <amp-story-grid-layer template="vertical">
+                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                        {{ page['overlay_title']}}
+                    </amp-fit-text>
+                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
+                        {{ page['overlay_text']}}
+                    </amp-fit-text>
+                </amp-story-grid-layer>
+                {%- endif %}
+            </amp-story-page>
+        {%- endfor %}
+    </amp-story>
+</body>
+</html>

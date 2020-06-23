@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html amp lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+    <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
+    <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>
+    <script custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js" async></script>
+    <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
+    <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
+    <script async custom-element="amp-pinterest" src="https://cdn.ampproject.org/v0/amp-pinterest-0.1.js"></script>
+    <title>This is title of website</title>
+    <link rel="canonical" href="https://im.whatshot.in/" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+    <style amp-custom>
+        amp-story-page:before {
+            content:url(https://www.google.com/s2/favicons?domain=im.whatshot.in);
+            width:20px;height:20px;
+            display:block;z-index:10;position:absolute;top:30px;left:15px;
+        }
+        .page-title {
+            position: absolute;
+            width: 100%;
+            top: 17%;
+            font-size: 20px;
+            text-align: center;
+        }
+        .page-overlay-text {
+            position: absolute;
+            width: 100%;
+            top: 80%;
+            left: 5%;
+            right: 5%;
+            font-size: 18px;
+        }
+        .media {
+            margin: 1px;
+        }
+        .embedded-media {
+            margin: 1px;
+            top: 12%;
+            bottom: 15%;
+        }
+        .quote {
+            margin-top: 45%;
+            font-size: 22px;
+        }
+        .citation {
+            width: 100%;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <amp-story
+        standalone title=This is title of website
+        publisher="im.whatshot.in"
+        publisher-logo-src="https://www.google.com/s2/favicons?domain=im.whatshot.in"
+        poster-portrait-src="abc.jpg">
+        
+            <amp-story-page id="page-1">
+                <amp-story-grid-layer template="fill" class="media">
+                    <amp-img object-fit="contain"
+                         alt=Image Title
+                         src="https://im.whatshot.in/img/2020/Mar/h-1584953735.jpg"
+                         width=100
+                         height=100>
+                    </amp-img>
+                </amp-story-grid-layer>
+                
+                <amp-story-grid-layer template="vertical">
+                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                        This is page1 of the generated stamp page!
+                    </amp-fit-text>
+                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
+                        This section is for overlay text
+                    </amp-fit-text>
+                </amp-story-grid-layer>
+            </amp-story-page>
+            <amp-story-page id="page-2">
+                <amp-story-grid-layer template="fill" class="media">
+                    <amp-img object-fit="contain"
+                         alt=None
+                         src="https://im.whatshot.in/img/2020/Mar/untitled-collage-3-1584953406.jpg"
+                         width=300
+                         height=260>
+                    </amp-img>
+                </amp-story-grid-layer>
+                
+                <amp-story-grid-layer template="vertical">
+                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                        This is page2 title
+                    </amp-fit-text>
+                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
+                        This section is for overlay text and this is page2
+                    </amp-fit-text>
+                </amp-story-grid-layer>
+            </amp-story-page>
+            <amp-story-page id="page-3">
+                <amp-story-grid-layer template="fill" class="media">
+                    <amp-img object-fit="contain"
+                         alt=None
+                         src="https://s3.scoopwhoop.com/anj/fnnygifs/294761309.gif"
+                         width=0
+                         height=0>
+                    </amp-img>
+                </amp-story-grid-layer>
+                
+                <amp-story-grid-layer template="vertical">
+                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                        This is page3 title
+                    </amp-fit-text>
+                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
+                        Checking how it works for gifs
+                    </amp-fit-text>
+                </amp-story-grid-layer>
+            </amp-story-page>
+            <amp-story-page id="page-4">
+                
+                <amp-story-grid-layer template="fill" class="media">
+                    <amp-video controls object-fit="contain"
+                          width=0
+                          height=0
+                          layout="responsive">
+                          <source src= "https://dafftube.org/wp-content/uploads/2014/01/Sample_1280x720_mp4.mp4"/>
+                          <div fallback>
+                            <p>This browser does not support the video element.</p>
+                          </div>
+                    </amp-video>
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical">
+                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                        This is page4 title
+                    </amp-fit-text>
+                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
+                        It contains a video
+                    </amp-fit-text>
+                </amp-story-grid-layer>
+            </amp-story-page>
+            <amp-story-page id="page-5">
+                
+                
+                <amp-story-grid-layer>
+                    <amp-twitter class="embedded-media"
+                      layout = "fill"
+                      data-tweetid="638793490521001985"
+                      interactive
+                    >
+                    </amp-twitter>
+                </amp-story-grid-layer>
+            </amp-story-page>
+            <amp-story-page id="page-6">
+                
+                
+                <amp-story-grid-layer>
+                    <amp-youtube class="embedded-media"
+                      layout = "fill"
+                      data-videoid="Fs1fabWUmDM"
+                      interactive
+                    >
+                    </amp-youtube>
+                </amp-story-grid-layer>
+            </amp-story-page>
+            <amp-story-page id="page-7">
+                
+                
+                <amp-story-grid-layer layout="fill">
+                        <amp-instagram
+                          layout="responsive"
+                          data-shortcode="1totVhIFXl"
+                          data-captioned>
+                        </amp-instagram>
+                </amp-story-grid-layer>
+            </amp-story-page>
+            <amp-story-page id="page-8">
+                
+                
+                <amp-story-grid-layer>
+                        <amp-pinterest class="embedded-media"
+                           layout="fill"
+                           data-do="embedPin"
+                           data-url="https://www.pinterest.com/pin/228065168607834583/"
+                           interactive
+                        >
+                        </amp-pinterest>
+                </amp-story-grid-layer>
+            </amp-story-page>
+            <amp-story-page id="page-9">
+                
+                
+                <amp-story-grid-layer>
+                    <div class="quote">
+                        <q cite="Arvind Kejriwal">
+                          No one gets punished for corruption in our country.
+                        </q>
+                        <p class="citation">- Arvind Kejriwal</p>
+                    <div>
+                </amp-story-grid-layer><amp-story-grid-layer template="vertical">
+                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                        Today's Quotations
+                    </amp-fit-text>
+                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
+                        This page contains quotation as main content.
+                    </amp-fit-text>
+                </amp-story-grid-layer>
+            </amp-story-page>
+    </amp-story>
+</body>
+</html>
