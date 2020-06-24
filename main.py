@@ -35,7 +35,7 @@ def convert_website_to_stamp(_website, maximum_pages):
     _extractor = extractor.Extractor(_website.url)
     _website.set_contents(_extractor.extract_html())
 
-    LOGGER.debug(_website.__dict__)
+    LOGGER.debug(_website.convert_to_dict())
 
 
 if __name__ == '__main__':

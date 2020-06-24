@@ -16,8 +16,29 @@ class Contents:
         _content.content_index = self.content_counter
         self.content_counter += 1
         self.content_list.append(_content)
-        self.__dict__['content_list'].remove(_content)
-        self.__dict__['content_list'].append(_content.__dict__)
+
+    def convert_to_dict(self):
+        """This is custom method to convert the Contents
+        object to dictionary"""
+
+        # It will store list of dictionary representation of _Content object
+        formatted_contents_list = list()
+
+        for _content in self.content_list:
+            formatted_contents_list.append(_content.__dict__)
+
+        # It will store dictionary representation of Contents object
+        formatted_contents = dict()
+
+        for key, value in self.__dict__.items():
+            if key == 'content_list':
+                """Updating list of _Content object with
+                 list of dictionary representation of _Content object"""
+                formatted_contents[key] = formatted_contents_list
+            else:
+                formatted_contents[key] = value
+
+        return formatted_contents
 
 
 class _Content:

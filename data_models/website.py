@@ -18,4 +18,20 @@ class Website:
 
     def set_contents(self, contents):
         self.contents = contents
-        self.__dict__.update({'contents': self.contents.__dict__})
+
+    def convert_to_dict(self):
+        """This is custom method to convert the Website
+         object to dictionary"""
+
+        # It will store dictionary representation of Website object
+        formatted_website = dict()
+
+        for key, value in self.__dict__.items():
+            if key == 'contents':
+                """Using custom object to dict conversion method to convert
+                the Contents object to dictionary"""
+                formatted_website[key] = value.convert_to_dict()
+            else:
+                formatted_website[key] = value
+
+        return formatted_website

@@ -63,7 +63,7 @@ def get_sample_website():
 
     _website.set_contents(contents_list)
 
-    return _website.__dict__
+    return _website
 
 
 def get_sample_stamp_pages():
@@ -158,4 +158,4 @@ def get_sample_stamp_pages():
     stamp_pages_list.add_stamp_page(page8)
     stamp_pages_list.add_stamp_page(page9)
 
-    return stamp_pages_list.get_formatted_list()
+    return stamp_pages_list
