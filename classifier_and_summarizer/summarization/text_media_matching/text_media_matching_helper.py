@@ -12,13 +12,14 @@ This script contains the following classes:
 from numpy import maximum as matrix_maximum
 from sklearn.metrics.pairwise import cosine_similarity
 
-from classifier_and_summarizer.summarizer.incorrect_input import \
+from classifier_and_summarizer.summarization.incorrect_input import \
     IncorrectInputError
-from classifier_and_summarizer.summarizer.stable_matcher import StableMatcher
+from classifier_and_summarizer.summarization.text_media_matching.stable_matcher import \
+    StableMatcher  # noqa
 
 
-class TextMediaMatcher:
-    ''' Class containing utilties to find the Text-Media Matching
+class TextMediaMatchingHelper:
+    ''' Class containing utilties to help the Text-Media Matching
     Finds the stable matching by applying the Gale Shalpley algorithm
     It accepts a list of objects of type ElementWithIndex
     '''

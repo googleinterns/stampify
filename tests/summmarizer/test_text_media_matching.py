@@ -1,4 +1,4 @@
-from classifier_and_summarizer.summarizer.text_media_matching import \
+from classifier_and_summarizer.summarization.text_media_matching import \
     stable_matcher
 
 

@@ -5,7 +5,8 @@ cover solver
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
-from classifier_and_summarizer.summarizer.budgeted_max_cover.cover import Cover
+from classifier_and_summarizer.summarization.stamp_page_picking.cover import \
+    Cover
 
 
 class BudgetedMaxCoverPreprocessor:
@@ -18,7 +19,7 @@ class BudgetedMaxCoverPreprocessor:
         self.stamp_pages_count = len(self.stamp_pages)
         self.summary_sentence_count = len(summary_sentence_embeddings)
 
-    def _get_cover_objects_for_stamp_pages(self):
+    def get_cover_objects_for_stamp_pages(self):
 
         cover_objects_list = list()
 

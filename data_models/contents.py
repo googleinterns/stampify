@@ -9,10 +9,12 @@ class Contents:
 
     def __init__(self):
         self.content_list = list()
+        self.content_counter = 0
 
     def add_content(self, _content):
         """This method appends extracted content to content_list"""
-
+        _content.content_index = self.content_counter
+        self.content_counter += 1
         self.content_list.append(_content)
         self.__dict__['content_list'].remove(_content)
         self.__dict__['content_list'].append(_content.__dict__)

@@ -6,8 +6,9 @@ for the later stages of the summarizer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from sentence_transformers import SentenceTransformer
 
-from classifier_and_summarizer.summarizer.text_summarizer import TextSummarizer
-from classifier_and_summarizer.summarizer.web_entity_detection import \
+from classifier_and_summarizer.summarization.text_summarizer import \
+    TextSummarizer
+from classifier_and_summarizer.summarization.web_entity_detection import \
     ImageDescriptionRetriever
 from data_models.contents import ContentType
 

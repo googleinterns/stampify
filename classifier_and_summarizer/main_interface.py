@@ -1,9 +1,10 @@
 ''' This module contains the main interface definition
 for the classifier and summarizer module
 '''
-from classifier_and_summarizer.classifier.classifier import Classifier
-from classifier_and_summarizer.summarizer.extractor_output_preprocessor import \
-    ExtractorOutputPreprocessor
+from classifier_and_summarizer.classification.classifier_main import Classifier
+from classifier_and_summarizer.summarization.extractor_output_preprocessor import \
+    ExtractorOutputPreprocessor  # noqa
+from classifier_and_summarizer.summarization.summarizer_main import Summarizer
 
 
 class ClassifierAndSummarizer:
@@ -26,11 +27,15 @@ class ClassifierAndSummarizer:
         to split the contents into different types
         '''
         output_preprocessor = ExtractorOutputPreprocessor(self.contents)
-        self.preprocessed_contents_dict = output_preprocessor.get_preprocessed_content_lists()
-        self.title_text_contents = self.preprocessed_contents_dict["titles"]
-        self.normal_text_contents = self.preprocessed_contents_dict["sentences"]
+        self.preprocessed_contents_dict \
+            = output_preprocessor.get_preprocessed_content_lists()
+        self.title_text_contents \
+            = self.preprocessed_contents_dict["titles"]
+        self.normal_text_contents \
+            = self.preprocessed_contents_dict["sentences"]
         self.media_contents = self.preprocessed_contents_dict["media"]
-        self.embedded_contents = self.preprocessed_contents_dict["embedded_content"]
+        self.embedded_contents \
+            = self.preprocessed_contents_dict["embedded_content"]
 
     def get_stampified_content(self):
         ''' returns the list of stamp pages'''
@@ -61,4 +66,12 @@ class ClassifierAndSummarizer:
     def summarize(self):
         # block will be modified to add summarizer logic
         # once summarizer interface is designed
-        pass
+        summarizer = Summarizer(
+            self.title_text_contents,
+            self.normal_text_contents,
+            self.media_contents,
+            self.embedded_contents,
+            self.max_pages
+        )
+
+        self.stampified_pages = summarizer.get_summarized_content()

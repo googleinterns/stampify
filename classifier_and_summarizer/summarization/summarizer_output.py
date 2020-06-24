@@ -64,7 +64,8 @@ class StampPage:
             overlay_text,
             overlay_font_style,
             overlay_font_size,
-            stamp_position):
+            stamp_position,
+            stamp_descriptor_embedding):
         self.media_index = media_index
         self.sentence_index = sentence_index
         self.is_embedded_content = is_embedded_content
@@ -73,7 +74,7 @@ class StampPage:
         self.overlay_font_style = overlay_font_style
         self.overlay_font_size = overlay_font_size
         self.stamp_position = stamp_position
-        self.stamp_descriptor_embedding = []
+        self.stamp_descriptor_embedding = stamp_descriptor_embedding
 
     def get_formatted_dict(self):
         ''' Returns the object as a formatted dict'''
