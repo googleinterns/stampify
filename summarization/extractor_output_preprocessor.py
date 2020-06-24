@@ -6,11 +6,9 @@ for the later stages of the summarizer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from sentence_transformers import SentenceTransformer
 
-from classifier_and_summarizer.summarization.text_summarizer import \
-    TextSummarizer
-from classifier_and_summarizer.summarization.web_entity_detection import \
-    ImageDescriptionRetriever
 from data_models.contents import ContentType
+from summarization.text_summarizer import TextSummarizer
+from summarization.web_entity_detection import ImageDescriptionRetriever
 
 
 class SentenceWithAttributes:

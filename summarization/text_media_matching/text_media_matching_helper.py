@@ -12,10 +12,8 @@ This script contains the following classes:
 from numpy import maximum as matrix_maximum
 from sklearn.metrics.pairwise import cosine_similarity
 
-from classifier_and_summarizer.summarization.incorrect_input import \
-    IncorrectInputError
-from classifier_and_summarizer.summarization.text_media_matching.stable_matcher import \
-    StableMatcher  # noqa
+from summarization.incorrect_input import IncorrectInputError
+from summarization.text_media_matching.stable_matcher import StableMatcher
 
 
 class TextMediaMatchingHelper:

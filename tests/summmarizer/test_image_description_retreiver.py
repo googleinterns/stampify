@@ -3,8 +3,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from classifier_and_summarizer.summarization.web_entity_detection import (
-    BadRequestError, ImageDescriptionRetriever)
+from summarization.web_entity_detection import (BadRequestError,
+                                                ImageDescriptionRetriever)
 
 
 def mocked_requests_post(*args, **kwargs):
@@ -50,7 +50,7 @@ def mocked_requests_post(*args, **kwargs):
 
 
 @patch(
-    'classifier_and_summarizer.summarization.web_entity_detection.requests.post', # noqa
+    'summarization.web_entity_detection.requests.post',
     side_effect=mocked_requests_post)
 def test_request_format(mocked_post):
     image_describer = ImageDescriptionRetriever(1)
@@ -86,7 +86,7 @@ def test_request_format(mocked_post):
 
 
 @ patch(
-    'classifier_and_summarizer.summarization.web_entity_detection.requests.post',  # noqa
+    'summarization.web_entity_detection.requests.post',
     side_effect=mocked_requests_post)
 def test_web_entity_detection(mocked_post):
     image_describer = ImageDescriptionRetriever(1)
@@ -108,7 +108,7 @@ def test_web_entity_detection(mocked_post):
 
 
 @ patch(
-    'classifier_and_summarizer.summarization.web_entity_detection.requests.post',  # noqa
+    'summarization.web_entity_detection.requests.post',
     side_effect=mocked_requests_post)
 def test_bad_request(mocked_post):
     image_describer = ImageDescriptionRetriever(1)

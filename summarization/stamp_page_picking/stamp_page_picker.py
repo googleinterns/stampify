@@ -1,9 +1,9 @@
 ''' Interface for budgeted max cover'''
 
-from classifier_and_summarizer.summarization.stamp_page_picking.budgeted_max_cover_solver import \
-    BudgetedMaxCoverSolver  # noqa
-from classifier_and_summarizer.summarization.stamp_page_picking.max_cover_preprocessor import \
-    BudgetedMaxCoverPreprocessor  # noqa
+from summarization.stamp_page_picking.budgeted_max_cover_solver import \
+    BudgetedMaxCoverSolver
+from summarization.stamp_page_picking.max_cover_preprocessor import \
+    BudgetedMaxCoverPreprocessor
 
 
 class StampPagePicker:

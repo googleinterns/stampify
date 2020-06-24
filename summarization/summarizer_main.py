@@ -1,15 +1,12 @@
 ''' This Module provides the main interface
 for the Summarizer module
 '''
-from classifier_and_summarizer.summarization.extractor_output_preprocessor import \
-    SentenceWithAttributes  # noqa
-from classifier_and_summarizer.summarization.stamp_page_picking.stamp_page_picker import \
-    StampPagePicker  # noqa
-from classifier_and_summarizer.summarization.summarizer_output import (
-    StampPage, StampPages)
-from classifier_and_summarizer.summarization.text_media_matching.text_media_matcher import \
-    TextMediaMatcher  # noqa
 from data_models.contents import ContentType
+from summarization.extractor_output_preprocessor import SentenceWithAttributes
+from summarization.stamp_page_picking.stamp_page_picker import StampPagePicker
+from summarization.summarizer_output import StampPage, StampPages
+from summarization.text_media_matching.text_media_matcher import \
+    TextMediaMatcher
 
 
 class Summarizer:

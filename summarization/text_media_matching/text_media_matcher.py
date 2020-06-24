@@ -1,7 +1,7 @@
 ''' Text Media  Matching interface '''
-from classifier_and_summarizer.summarization.text_media_matching.text_media_matching_helper import \
-    TextMediaMatchingHelper  # noqa
-from classifier_and_summarizer.summarization.text_media_matching.text_media_matching_preprocessor import \
+from summarization.text_media_matching.text_media_matching_helper import \
+    TextMediaMatchingHelper
+from summarization.text_media_matching.text_media_matching_preprocessor import \
     TextMediaMatchingPreprocessor  # noqa
 
 

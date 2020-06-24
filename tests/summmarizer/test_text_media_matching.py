@@ -1,5 +1,4 @@
-from classifier_and_summarizer.summarization.text_media_matching import \
-    stable_matcher
+from summarization.text_media_matching import stable_matcher
 
 
 def test_stable_matching():
