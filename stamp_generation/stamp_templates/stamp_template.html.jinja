@@ -50,6 +50,88 @@
             width: 100%;
             text-align: right;
         }
+        .bg-image {
+           filter: blur(8px);
+          -webkit-filter: blur(8px);
+
+          height: 100%;
+
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        .fixed-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+        .bg-solid {
+          background-color: #000;
+          opacity: 0.1;
+        }
+        .bg-gradient {
+          background-image: linear-gradient(45deg, #fdfcfb, #e2d1c3, #fdfcfb);
+          width: 100%;
+          height: 100%;
+
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+
+        .adds-margin {
+          margin-top: 16%;
+          margin-bottom: 3%;
+          position: absolute;
+          margin-left: 2px;
+          margin-right: 2px;
+        }
+
+        .tweet-font {
+            color: #38A1F3;
+            font-size: 18px;
+            margin: 10px;
+        }
+
+        .twitter-attachment {
+            position: relative;
+            padding: 5px;
+            align: center;
+        }
+
+        .bg-white-blue {
+          background-image: linear-gradient(45deg, #fff 10%, #38A1F3 20%, #fff 10%);
+          width: 100%;
+          height: 100%;
+        }
+
+        .bg-off-white {
+          background-color: #f1f1f1;
+          width: 100%;
+          height: 100%;
+        }
+
+        .scroll {
+            overflow-y: scroll;
+        }
+        .scroll::-webkit-scrollbar {
+            -webkit-appearance: none;
+        }
+
+        .scroll::-webkit-scrollbar:vertical {
+            width: 6px;
+        }
+
+        .scroll::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            border: 1px solid white;
+            background-color: rgba(0, 0, 0, .5);
+        }
+
+        .drop-shadow {
+            box-shadow: 2px 2px 5px 2px #aaaaaa;
+        }
+
     </style>
 </head>
 <body>
@@ -61,17 +143,30 @@
         {% for page in pages %}
             <amp-story-page id="page-{{ loop.index }}">
                 {% if page.media_index and contents[page.media_index].content_type.name == 'IMAGE'-%}
-                <amp-story-grid-layer template="fill" class="media">
-                    <amp-img object-fit="contain"
+                <amp-story-grid-layer template="fill" >
+                    <amp-img class="bg-image"
+                         src="{{contents[page.media_index].img_url}}">
+                    </amp-img>
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="fill" class="bg-solid" >
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="fill" class="drop-shadow media">
+                    <div class="fixed-container">
+                    <amp-img object-fit="contain" layout="fill"
                          alt="{{contents[page.media_index].img_title}}"
                          src="{{contents[page.media_index].img_url}}"
                          width="{{contents[page.media_index].img_width}}"
                          height="{{contents[page.media_index].img_height}}">
                     </amp-img>
+                    </div>
                 </amp-story-grid-layer>
                 {%- endif %}
                 {% if page.media_index and contents[page.media_index].content_type.name == 'VIDEO'-%}
-                <amp-story-grid-layer template="fill" class="media">
+                <amp-story-grid-layer template="fill" >
+                    <div class="bg-gradient">
+                    </div>
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="fill" class="drop-shadow media">
                     <amp-video controls object-fit="contain"
                           width={{contents[page.media_index].width}}
                           height={{contents[page.media_index].height}}
@@ -86,6 +181,10 @@
                 </amp-story-grid-layer>
                 {%- endif %}
                 {% if page.media_index and contents[page.media_index].content_type.name == 'QUOTE'-%}
+                <amp-story-grid-layer template="fill" >
+                    <div class="bg-gradient">
+                    </div>
+                </amp-story-grid-layer>
                 <amp-story-grid-layer>
                     <div class="quote">
                         <q cite="{{ contents[page.media_index].cite }}">
@@ -96,18 +195,40 @@
                 </amp-story-grid-layer>
                 {%- endif -%}
                 {% if page.media_index and contents[page.media_index].content_type.name == 'EMBEDDED_TWEET'-%}
-                <amp-story-grid-layer>
-                    <amp-twitter class="embedded-media"
-                      layout = "fill"
-                      data-tweetid="{{ contents[page.media_index].tweet_id }}"
-                      interactive
+                 <amp-story-grid-layer template="fill" >
+                    <div class="bg-white-blue">
+                    </div>
+                </amp-story-grid-layer>
+
+                <amp-story-grid-layer template="fill">
+                    <div class="drop-shadow adds-margin scroll">
+                    <amp-twitter
+                     layout="fill"
+                     data-tweetid="{{ contents[page.media_index].tweet_id }}"
+                     data-cards="hidden"
+                     data-conversation="none"
                     >
                     </amp-twitter>
-                </amp-story-grid-layer>
+                    </div>
+                    </amp-story-grid-layer>
+                    <amp-story-page-attachment layout="nodisplay" data-cta-text="View more">
+                        <p class="tweet-font">See the tweet below: </p>
+                        <amp-twitter
+                            layout="responsive"
+                            class="drop-shadow twitter-attachment"
+                            data-tweetid="{{ contents[page.media_index].tweet_id }}"
+                            height="1"
+                            width="1">
+                        </amp-twitter>
+                    </amp-story-page-attachment>
                 {%- endif -%}
                 {% if page.media_index and contents[page.media_index].content_type.name == 'EMBEDDED_YOUTUBE_VIDEO'-%}
+                <amp-story-grid-layer template="fill" >
+                    <div class="bg-off-white">
+                    </div>
+                </amp-story-grid-layer>
                 <amp-story-grid-layer>
-                    <amp-youtube class="embedded-media"
+                    <amp-youtube class="drop-shadow adds-margin"
                       layout = "fill"
                       data-videoid="{{ contents[page.media_index].yt_video_id }}"
                       interactive
@@ -116,22 +237,34 @@
                 </amp-story-grid-layer>
                 {%- endif -%}
                 {% if page.media_index and contents[page.media_index].content_type.name == 'EMBEDDED_INSTAGRAM_POST'-%}
-                <amp-story-grid-layer layout="fill">
+                <amp-story-grid-layer template="fill" >
+                    <div class="bg-off-white">
+                    </div>
+                </amp-story-grid-layer>
+
+                <amp-story-grid-layer template="fill">
+                    <div class="drop-shadow adds-margin scroll">
                         <amp-instagram
-                          layout="responsive"
+                          layout="fill"
                           data-shortcode="{{ contents[page.media_index].insta_shortcode }}"
                           data-captioned>
                         </amp-instagram>
+                    </div>
                 </amp-story-grid-layer>
                 {%- endif -%}
                 {% if page.media_index and contents[page.media_index].content_type.name == 'EMBEDDED_PINTEREST_PIN'-%}
-                <amp-story-grid-layer>
-                        <amp-pinterest class="embedded-media"
-                           layout="fill"
+                <amp-story-grid-layer template="fill" >
+                    <div class="bg-off-white">
+                    </div>
+                </amp-story-grid-layer>
+
+                <amp-story-grid-layer template="fill">
+                        <amp-pinterest
+                           layput="fill"
+                           class="drop-shadow adds-margin scroll"
                            data-do="embedPin"
                            data-url="{{ contents[page.media_index].pin_url }}"
-                           interactive
-                        >
+                           interactive>
                         </amp-pinterest>
                 </amp-story-grid-layer>
                 {%- endif -%}
