@@ -21,7 +21,7 @@ class ClassifierAndSummarizer:
         # object of type StampPages
         self.stampified_pages = None
 
-    def preprocess_contents(self):
+    def _preprocess_contents(self):
         '''
         This method will use ExtractorOutputPreprocessor
         to split the contents into different types
@@ -40,20 +40,30 @@ class ClassifierAndSummarizer:
     def get_stampified_content(self):
         ''' returns the list of stamp pages'''
         # pre-process the contents first
-        self.preprocess_contents()
+        self._preprocess_contents()
 
         # classify the page as stampifiable or not
-        self.classify()
+        self._classify()
 
-        if self.is_stampifiable:
-            self.summarize()
+        # early return when the pages are not
+        # stampifiable
+        if not self.is_stampifiable:
+            return {
+                "is_stampifiable": self.is_stampifiable,
+                "stamp_pages": None
+            }
+
+        # summarize
+        self._summarize()
+        # order the stamp pages
+        self._order_stamp_pages()
 
         return {
             "is_stampifiable": self.is_stampifiable,
             "stamp_pages": self.stampified_pages
         }
 
-    def classify(self):
+    def _classify(self):
         classifier = Classifier(
             normal_text_contents=self.normal_text_contents,
             title_text_contents=self.title_text_contents,
@@ -63,9 +73,7 @@ class ClassifierAndSummarizer:
         )
         self.is_stampifiable = classifier.is_page_stampifiable()
 
-    def summarize(self):
-        # block will be modified to add summarizer logic
-        # once summarizer interface is designed
+    def _summarize(self):
         summarizer = Summarizer(
             self.title_text_contents,
             self.normal_text_contents,
@@ -75,3 +83,20 @@ class ClassifierAndSummarizer:
         )
 
         self.stampified_pages = summarizer.get_summarized_content()
+
+    def _get_min_index_for_stamp_page(self, stamp_page):
+        indices = list()
+        if stamp_page.sentence_index != -1:
+            indices.append(stamp_page.sentence_index)
+
+        if stamp_page.media_index != -1:
+            indices.append(stamp_page.media_index)
+
+        return min(indices)
+
+    def _order_stamp_pages(self):
+        # separate this as function so
+        # logic can be amended to include
+        # more information if necessary
+        self.stampified_pages.stamp_pages.sort(
+            key=self._get_min_index_for_stamp_page)
