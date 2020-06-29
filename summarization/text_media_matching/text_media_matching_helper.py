@@ -59,6 +59,7 @@ class TextMediaMatchingHelper:
             self.set_size)
 
         matchings = stable_matcher.get_matching()
+        matchings.sort()
 
         self.text_media_matchings = []
         for sentence_index, media_index in matchings:
