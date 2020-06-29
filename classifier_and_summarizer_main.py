@@ -1,10 +1,10 @@
 ''' This module contains the main interface definition
 for the classifier and summarizer module
 '''
-from classifier_and_summarizer.classification.classifier_main import Classifier
-from classifier_and_summarizer.summarization.extractor_output_preprocessor import \
-    ExtractorOutputPreprocessor  # noqa
-from classifier_and_summarizer.summarization.summarizer_main import Summarizer
+from classification.classifier_main import Classifier
+from summarization.extractor_output_preprocessor import \
+    ExtractorOutputPreprocessor
+from summarization.summarizer_main import Summarizer
 
 
 class ClassifierAndSummarizer:

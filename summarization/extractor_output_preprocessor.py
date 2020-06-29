@@ -7,7 +7,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from sentence_transformers import SentenceTransformer
 
 from data_models.contents import ContentType
-from summarization.text_summarizer import TextSummarizer
+from summarization.text_summarization import TextSummarizer
 from summarization.web_entity_detection import ImageDescriptionRetriever
 
 
@@ -40,7 +40,7 @@ class ExtractorOutputPreprocessor:
         self.title_text_content_list = list()  # title text
         self.media_content_list = list()  # images/gifs
         self.embedded_content_list = list()  # insta/tweets/quotes
-        self.text_summarizer = TextSummarizer(priority="speed")
+        self.text_summarizer = TextSummarizer(priority="accuracy")
         self.sentence_embedding_model \
             = SentenceTransformer('bert-base-nli-stsb-mean-tokens')
 
@@ -248,6 +248,8 @@ class ExtractorOutputPreprocessor:
     def get_condensed_image_attributes(self, image):
         # will be amended to add more information once OCR label
         # field is added to Image object
+        if not image.img_caption:
+            return ""
         return image.img_caption
 
     def _fetch_media_embeddings(self):

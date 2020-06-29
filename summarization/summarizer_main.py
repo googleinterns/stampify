@@ -156,16 +156,16 @@ class Summarizer:
         overlay_font_size = None
         stamp_position = -1
 
-        if not text:
+        if text:
             sentence_index = text.index
             overlay_text = text.text
             overlay_font_style = text.font_style
 
-        if not embedded:
+        if embedded:
             is_embedded_content = True
             media_index = embedded.content_index
 
-        if not media:
+        if media:
             media_index = media.content_index
 
         return StampPage(
