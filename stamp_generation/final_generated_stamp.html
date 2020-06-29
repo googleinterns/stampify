@@ -22,17 +22,17 @@
         .page-title {
             position: absolute;
             width: 100%;
-            top: 17%;
-            font-size: 20px;
-            text-align: center;
+            text-align: justify;
+            padding: 5%;
+            overflow:hidden;
         }
         .page-overlay-text {
+            text-align: justify;
             position: absolute;
             width: 100%;
-            top: 80%;
-            left: 5%;
-            right: 5%;
-            font-size: 18px;
+            top: 50%;
+            padding: 5%;
+            overflow:hidden;
         }
         .media {
             margin: 1px;
@@ -132,6 +132,15 @@
             box-shadow: 2px 2px 5px 2px #aaaaaa;
         }
 
+        .fixed-block {
+             margin: 2%;
+             width: 96%;
+        }
+        .attachment-text {
+            margin: 2%;
+            font-size: 16px;
+        }
+
     </style>
 </head>
 <body>
@@ -161,13 +170,18 @@
                 </amp-story-grid-layer>
                 
                 <amp-story-grid-layer template="vertical">
-                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
-                        This is page1 of the generated stamp page!
+                    <div class="page-title">
+                    <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
+                        India has approved the combination of two antiviral drugs used to treat HIV, lopinavir and ritonavir
                     </amp-fit-text>
-                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
-                        This section is for overlay text
-                    </amp-fit-text>
+                    </div>
+                    <div class="page-overlay-text">
+                        <amp-fit-text class="fade" width="200" height="150" layout="responsive" min-font-size="16" max-font-size="20">
+                            This section is for overlay text
+                        </amp-fit-text>
+                    </div>
                 </amp-story-grid-layer>
+                
             </amp-story-page>
             <amp-story-page id="page-2">
                 <amp-story-grid-layer template="fill" >
@@ -189,13 +203,28 @@
                 </amp-story-grid-layer>
                 
                 <amp-story-grid-layer template="vertical">
-                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                    <div class="page-title">
+                    <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
                         This is page2 title
                     </amp-fit-text>
-                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
-                        This section is for overlay text and this is page2
-                    </amp-fit-text>
+                    </div>
+                    <div class="page-overlay-text">
+                        <amp-fit-text class="fade" width="200" height="150" layout="responsive" min-font-size="16" max-font-size="20">
+                            India has approved the combination of two antiviral drugs used to treat HIV, lopinavir and ritonavir (400 mg and 100 mg, respectively), to treat Covid-19, but the first major study of Covid-19 treatment published in the New England Journal of Medicine (NEJM) found it did not work on severely ill patients in China.
+ India has approved the combination of two antiviral drugs used to treat HIV, lopinavir and ritonavir (400 mg and 100 mg, respectively), to treat Covid-19, but the first major study of Covid-19 treatment published in the New England Journal of Medicine (NEJM) found it did not work on severely ill patients in China.
+                        </amp-fit-text>
+                    </div>
                 </amp-story-grid-layer>
+                
+                
+                <amp-story-page-attachment layout="nodisplay" data-title="Read Full Text Here!" data-cta-text="Read more">
+                        <div class="fixed-block bg-off-white ">
+                            <p  class="attachment-text">
+                                India has approved the combination of two antiviral drugs used to treat HIV, lopinavir and ritonavir (400 mg and 100 mg, respectively), to treat Covid-19, but the first major study of Covid-19 treatment published in the New England Journal of Medicine (NEJM) found it did not work on severely ill patients in China.
+ India has approved the combination of two antiviral drugs used to treat HIV, lopinavir and ritonavir (400 mg and 100 mg, respectively), to treat Covid-19, but the first major study of Covid-19 treatment published in the New England Journal of Medicine (NEJM) found it did not work on severely ill patients in China.
+                            </p>
+                        </div>
+                </amp-story-page-attachment>
             </amp-story-page>
             <amp-story-page id="page-3">
                 <amp-story-grid-layer template="fill" >
@@ -217,13 +246,18 @@
                 </amp-story-grid-layer>
                 
                 <amp-story-grid-layer template="vertical">
-                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                    <div class="page-title">
+                    <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
                         This is page3 title
                     </amp-fit-text>
-                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
-                        Checking how it works for gifs
-                    </amp-fit-text>
+                    </div>
+                    <div class="page-overlay-text">
+                        <amp-fit-text class="fade" width="200" height="150" layout="responsive" min-font-size="16" max-font-size="20">
+                            Checking how it works for gifs
+                        </amp-fit-text>
+                    </div>
                 </amp-story-grid-layer>
+                
             </amp-story-page>
             <amp-story-page id="page-4">
                 
@@ -243,13 +277,18 @@
                     </amp-video>
                 </amp-story-grid-layer>
                 <amp-story-grid-layer template="vertical">
-                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                    <div class="page-title">
+                    <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
                         This is page4 title
                     </amp-fit-text>
-                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
-                        It contains a video
-                    </amp-fit-text>
+                    </div>
+                    <div class="page-overlay-text">
+                        <amp-fit-text class="fade" width="200" height="150" layout="responsive" min-font-size="16" max-font-size="20">
+                            It contains a video
+                        </amp-fit-text>
+                    </div>
                 </amp-story-grid-layer>
+                
             </amp-story-page>
             <amp-story-page id="page-5">
                 
@@ -348,13 +387,18 @@
                         <p class="citation">- Arvind Kejriwal</p>
                     <div>
                 </amp-story-grid-layer><amp-story-grid-layer template="vertical">
-                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                    <div class="page-title">
+                    <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
                         Today's Quotations
                     </amp-fit-text>
-                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
-                        This page contains quotation as main content.
-                    </amp-fit-text>
+                    </div>
+                    <div class="page-overlay-text">
+                        <amp-fit-text class="fade" width="200" height="150" layout="responsive" min-font-size="16" max-font-size="20">
+                            This page contains quotation as main content.
+                        </amp-fit-text>
+                    </div>
                 </amp-story-grid-layer>
+                
             </amp-story-page>
     </amp-story>
 </body>

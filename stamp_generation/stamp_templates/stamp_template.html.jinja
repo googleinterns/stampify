@@ -22,17 +22,17 @@
         .page-title {
             position: absolute;
             width: 100%;
-            top: 17%;
-            font-size: 20px;
-            text-align: center;
+            text-align: justify;
+            padding: 5%;
+            overflow:hidden;
         }
         .page-overlay-text {
+            text-align: justify;
             position: absolute;
             width: 100%;
-            top: 80%;
-            left: 5%;
-            right: 5%;
-            font-size: 18px;
+            top: 50%;
+            padding: 5%;
+            overflow:hidden;
         }
         .media {
             margin: 1px;
@@ -130,6 +130,15 @@
 
         .drop-shadow {
             box-shadow: 2px 2px 5px 2px #aaaaaa;
+        }
+
+        .fixed-block {
+             margin: 2%;
+             width: 96%;
+        }
+        .attachment-text {
+            margin: 2%;
+            font-size: 16px;
         }
 
     </style>
@@ -270,13 +279,27 @@
                 {%- endif -%}
                 {% if not page.is_embedded_content -%}
                 <amp-story-grid-layer template="vertical">
-                    <amp-fit-text min-font-size="16" max-font-size="22" layout="responsive" class="page-title" >
+                    <div class="page-title">
+                    <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
                         {{ page.overlay_title}}
                     </amp-fit-text>
-                    <amp-fit-text min-font-size="14" max-font-size="20" layout="responsive" class="page-overlay-text">
-                        {{ page.overlay_text}}
-                    </amp-fit-text>
+                    </div>
+                    <div class="page-overlay-text">
+                        <amp-fit-text class="fade" width="200" height="150" layout="responsive" min-font-size="16" max-font-size="20">
+                            {{ page.overlay_text}}
+                        </amp-fit-text>
+                    </div>
                 </amp-story-grid-layer>
+                {% if (page.overlay_text|length)>471 %}
+                {# Note: 471 is the maximum character limit that does not lead to overflow with used container size and font-size range. #}
+                <amp-story-page-attachment layout="nodisplay" data-title="Read Full Text Here!" data-cta-text="Read more">
+                        <div class="fixed-block bg-off-white ">
+                            <p  class="attachment-text">
+                                {{ page.overlay_text}}
+                            </p>
+                        </div>
+                </amp-story-page-attachment>
+                {%- endif %}
                 {%- endif %}
             </amp-story-page>
         {%- endfor %}

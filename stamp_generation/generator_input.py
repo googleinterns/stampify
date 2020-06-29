@@ -3,8 +3,6 @@ This script contains factory methods to get the input for generator
 This script can be removed later when the summarizer is ready.
 """
 
-from classifier_and_summarizer.summarization.summarizer_output import (
-    StampPage, StampPages)
 from data_models.contents import Contents
 from data_models.embedded_instagram_post import EInstagramPost
 from data_models.embedded_pinterest_pin import EPinterestPin
@@ -15,6 +13,7 @@ from data_models.quote import Quote
 from data_models.text import Text
 from data_models.video import Video
 from data_models.website import Website
+from summarization.summarizer_output import StampPage, StampPages
 
 
 def get_sample_website():
@@ -77,8 +76,9 @@ def get_sample_stamp_pages():
     page1 = StampPage(media_index=1,
                       sentence_index=0,
                       is_embedded_content=False,
-                      overlay_title='This is page1 of the generated '
-                                    'stamp page!',
+                      overlay_title='India has approved the combination '
+                      'of two antiviral drugs used to treat HIV,'
+                      ' lopinavir and ritonavir',
                       overlay_text='This section is for overlay text',
                       overlay_font_style='',
                       overlay_font_size=16, stamp_position=0,
@@ -88,8 +88,19 @@ def get_sample_stamp_pages():
                       sentence_index=0,
                       is_embedded_content=False,
                       overlay_title='This is page2 title',
-                      overlay_text='This section is for overlay '
-                                   'text and this is page2',
+                      overlay_text='India has approved the combination of two '
+                      'antiviral drugs used to treat HIV, lopinavir and '
+                      'ritonavir (400 mg and 100 mg, respectively), to '
+                      'treat Covid-19, but the first major study of Covid-19 '
+                      'treatment published in the New England Journal of '
+                      'Medicine (NEJM) found it did not work on severely '
+                      'ill patients in China.\n India has approved the '
+                      'combination of two antiviral drugs used to treat HIV, '
+                      'lopinavir and ritonavir (400 mg and 100 mg, '
+                      'respectively), to treat Covid-19, but the first major '
+                      'study of Covid-19 treatment published in the New '
+                      'England Journal of Medicine (NEJM) found '
+                      'it did not work on severely ill patients in China.',
                       overlay_font_style='',
                       overlay_font_size=16, stamp_position=1,
                       stamp_descriptor_embedding=None)
