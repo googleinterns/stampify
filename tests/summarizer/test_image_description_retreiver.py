@@ -3,8 +3,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from summarization.web_entity_detection import (BadRequestError,
-                                                ImageDescriptionRetriever)
+from summarization.bad_request_error import BadRequestError
+from summarization.web_entity_detection import ImageDescriptionRetriever
 
 
 def mocked_requests_post(*args, **kwargs):

@@ -36,6 +36,6 @@ jobs:
         flake8
     - name: Test with pytest
       env:
-        CLOUD_VISION_API_KEY: ${{secrets.CLOUD_VISION_API_KEY}}
+        GOOGLE_CLOUD_API_KEY: ${{secrets.GOOGLE_CLOUD_API_KEY}}
       run: |
         python -m pytest
