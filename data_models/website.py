@@ -35,3 +35,13 @@ class Website:
                 formatted_website[key] = value
 
         return formatted_website
+
+    def get_title(self):
+
+        content_list = self.contents.content_list
+        if not (content_list
+                and content_list[0].content_type.name == 'TEXT'
+                and content_list[0].type == 'title'):
+            return ''
+
+        return content_list[0].text_string

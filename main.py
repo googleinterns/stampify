@@ -51,19 +51,12 @@ def convert_website_to_stamp(_website, maximum_pages):
         LOGGER.debug("Website is not stampifiable")
         return
 
-    _generator = StampGenerator(
-            _website,
-            _classifier_and_summarizer_response["stamp_pages"]
-        )
-    generated_stamp = _generator.generate_stamp()
+    _stamp_file_path \
+        = StampGenerator(_website,
+                         _classifier_and_summarizer_response["stamp_pages"]
+                         ).stamp_file_path
 
-    try:
-        website_title = _website.contents.content_list[0].text_string
-        f = open('stamp_generation/' + website_title + '_stamp.html', 'w')
-        f.write(generated_stamp)
-        f.close()
-    except (IOError, OSError) as err:
-        LOGGER.error(err)
+    LOGGER.debug(_stamp_file_path)
 
 
 if __name__ == '__main__':
