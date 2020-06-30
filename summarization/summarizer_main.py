@@ -43,6 +43,10 @@ class Summarizer:
             self.matched_contents + self.unmatched_contents
         )
 
+        # now that the stamp pages have been assembled we
+        # can add titles to them
+        self._perform_title_media_matching()
+
         # now we cap the stamp pages themselves
         self._cap_stamp_pages()
 
@@ -84,6 +88,33 @@ class Summarizer:
         # we can still use them for stamp pages
         self.unmatched_contents \
             = matched_and_unmatched_content_dict["unused_contents"]
+
+    def _perform_title_media_matching(self):
+        ''' find appropriate matchings between
+        title text and media
+        '''
+        title_media_matcher = TextMediaMatcher(
+            self.title_text_contents,
+            self.media_contents
+        )
+        matched_and_unmatched_contents_dict \
+            = title_media_matcher._get_matched_and_unmatched_contents()
+
+        # for titles we use only the matched contents
+        # discard the unmatched contents
+        matched_contents \
+            = matched_and_unmatched_contents_dict["matched_contents"]
+
+        # from the already formed stamp pages find the
+        # ones with media_index in matched_contents
+        # and set the overlay_title accordingly
+        for sentence_media_pair in matched_contents:
+            sentence, media = sentence_media_pair
+            for stamp_page_index in range(len(self.stamp_pages_list)):
+                if self.stamp_pages_list[stamp_page_index].media_index \
+                        == media.content_index:
+                    self.stamp_pages_list[stamp_page_index].overlay_title \
+                        = sentence.text
 
     def _assemble_and_add_stamp_pages_to_list(self, content_list):
         '''

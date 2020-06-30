@@ -58,8 +58,11 @@ class ExtractorOutputPreprocessor:
         # add image description embeddings
         self._add_media_description_and_attribute_embeddings()
 
+        # set title text objects
+        self._set_sentence_objects_list_for_title_sentences()
+
         return {
-            "titles": self.title_text_content_list,
+            "titles": self.title_text_objects_list,
             "sentences": self.sentence_objects_list,
             "media": self.media_content_list,
             "embedded_content": self.embedded_content_list
@@ -86,6 +89,28 @@ class ExtractorOutputPreprocessor:
 
             elif content.content_type != ContentType.UNKNOWN:
                 self.embedded_content_list.append(content)
+
+    def _set_sentence_objects_list_for_title_sentences(self):
+        ''' sets the list of title sentences objects'''
+        # initialize an empty list
+        self.title_text_objects_list = list()
+
+        # collect and retrieve all embeddings at once
+        embeddings = self.sentence_embedding_model.encode([
+            text.text_string for text in self.title_text_content_list
+        ])
+
+        # instantiate and append the sentence object
+        for title_text, embedding in zip(
+                self.title_text_content_list, embeddings):
+            self.title_text_objects_list.append(
+                SentenceWithAttributes(
+                    title_text.text_string,
+                    title_text.content_index,
+                    None,
+                    embedding
+                )
+            )
 
     def _summarize_text_content(self):
         '''
@@ -146,7 +171,8 @@ class ExtractorOutputPreprocessor:
         # retain and set alphanumeric characters
         return self._get_alphanumeric_tokens(word_tokenized_text)
 
-    def _get_sentence_object(self, summarized_text_index, normal_text_index):
+    def _get_sentence_object_for_summarized_sentence(
+            self, summarized_text_index, normal_text_index):
         ''' instantiates/initializes and returns a sentence object'''
         return SentenceWithAttributes(
             self.summarized_text[summarized_text_index],
@@ -220,7 +246,7 @@ class ExtractorOutputPreprocessor:
                     tokenized_and_cleaned_summary_sentence):
 
                 self.sentence_objects_list.append(
-                    self._get_sentence_object(
+                    self._get_sentence_object_for_summarized_sentence(
                         self.running_index_in_summarized_text,
                         self.running_index_in_normal_text_content
                     )
