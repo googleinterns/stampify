@@ -141,6 +141,22 @@
             font-size: 16px;
         }
 
+        .just-text {
+              margin: 5%;
+              margin-top: 15%;
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              overflow: auto;
+        }
+        .just-text>p {
+            width: 96%;
+            font-size: 20px;
+            text-align: justify;
+            text-align-last: center;
+        }
+
     </style>
 </head>
 <body>
@@ -277,7 +293,7 @@
                         </amp-pinterest>
                 </amp-story-grid-layer>
                 {%- endif -%}
-                {% if not page.is_embedded_content -%}
+                {% if not page.is_embedded_content and page.media_index != -1 %}
                 <amp-story-grid-layer template="vertical">
                     <div class="page-title">
                     <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
@@ -301,6 +317,23 @@
                 </amp-story-page-attachment>
                 {%- endif %}
                 {%- endif %}
+                {%- if page.media_index == -1 %}
+                <amp-story-grid-layer template="fill">
+
+                <div class="just-text">
+                {% if not page.overlay_title and page.overlay_text %}
+                <p>
+                     {{ page.overlay_text}}
+                </p>
+                {% endif %}
+                {% if not page.overlay_text and page.overlay_title %}
+                <p>
+                     {{ page.overlay_title}}
+                </p>
+                {% endif %}
+                </div>
+                </amp-story-grid-layer>
+                {% endif %}
             </amp-story-page>
         {%- endfor %}
     </amp-story>
