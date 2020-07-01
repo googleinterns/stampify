@@ -1,12 +1,10 @@
-"""This script starts the program"""
+"""This script creates CLI to start the program"""
 
 import argparse
 import logging
 
-from classifier_and_summarizer_main import ClassifierAndSummarizer
-from data_models.website import Website
-from extraction import extractor
-from stamp_generation.stamp_generator import StampGenerator
+from error import Error
+from stampifier import Stampifier
 
 LOGGER = logging.getLogger()
 LOG_FILENAME = 'website.log'
@@ -29,36 +27,6 @@ def get_user_input():
     return url, max_pages
 
 
-def convert_website_to_stamp(_website, maximum_pages):
-    """This method can be used the pipeline between all the modules"""
-
-    _ = maximum_pages
-
-    _extractor = extractor.Extractor(_website.url)
-    _website.set_contents(_extractor.extract_html())
-
-    LOGGER.debug(_website.convert_to_dict())
-
-    _classifier_and_summarizer = ClassifierAndSummarizer(
-        _website.contents,
-        maximum_pages
-    )
-
-    _classifier_and_summarizer_response \
-        = _classifier_and_summarizer.get_stampified_content()
-
-    if not _classifier_and_summarizer_response["is_stampifiable"]:
-        LOGGER.debug("Website is not stampifiable")
-        return
-
-    _stamp_file_path \
-        = StampGenerator(_website,
-                         _classifier_and_summarizer_response["stamp_pages"]
-                         ).stamp_file_path
-
-    LOGGER.debug(_stamp_file_path)
-
-
 if __name__ == '__main__':
     """
       Command to run this script:
@@ -73,9 +41,10 @@ if __name__ == '__main__':
 
     url, maximum_pages = get_user_input()
 
-    _website = Website(url)
+    _stampifier = Stampifier(url, maximum_pages)
 
-    if not _website.is_valid:
-        LOGGER.error("Invalid URL!")
-    else:
-        convert_website_to_stamp(_website, maximum_pages)
+    try:
+        generated_stamp = _stampifier.stampify()
+        print(generated_stamp)
+    except Error as err:
+        LOGGER.debug(err.message)

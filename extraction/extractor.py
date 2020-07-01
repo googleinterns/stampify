@@ -8,6 +8,8 @@ import requests
 from bs4 import BeautifulSoup, Comment
 
 from data_models import contents, text
+from error import (NoneTypeMarkupError, WebsiteConnectionError,
+                   WebsiteNotStampifiableError)
 from extraction.content_extractors import (embedded_instagram_post_extractor,
                                            embedded_pinterest_pin_extractor,
                                            embedded_tweet_extractor,
@@ -48,19 +50,24 @@ class Extractor:
         try:
             # To request Html from URL
             file = REQUEST_SESSION.get(self.url).text
-        except requests.exceptions.ConnectionError as err:
-            LOGGER.error(err)
+        except requests.exceptions.ConnectionError:
+            raise WebsiteConnectionError(self.url)
 
         # Remove the comment to read local files for testing purpose
         # file = open('./test_html.html','r').read()
 
-        if file:
-            self.soup = BeautifulSoup(file, 'lxml')
-            self.clean_soup()
+        if not file:
+            raise NoneTypeMarkupError()
 
-            self.__extract_data_from_html()
-        else:
-            LOGGER.error('Expected markup string -> Found NoneType!')
+        self.soup = BeautifulSoup(file, 'lxml')
+        self.clean_soup()
+
+        self.__extract_data_from_html()
+
+        if not self.contents_list:
+            raise WebsiteNotStampifiableError(
+                message="No content extracted!",
+                failure_source="Extractor")
 
         return self.contents_list
 
@@ -91,8 +98,11 @@ class Extractor:
     def __extract_data_from_html_head(self, soup_head):
         """This function extracts title of HTML"""
 
-        title = soup_head.title
-        text_string = title.get_text()
+        text_string = ''
+        if soup_head.find('title'):
+            title = soup_head.title
+            text_string = title.get_text()
+
         self.contents_list.add_content(text.Text(text_string, 'title'))
 
     def __extract_data_from_html_body(self, node):

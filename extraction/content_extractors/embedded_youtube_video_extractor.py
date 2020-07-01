@@ -16,11 +16,11 @@ class EYouTubeVideoExtractor(IContentExtractor):
     def validate_and_extract(self, node: bs4.element):
         if node.name == 'iframe' and node.has_attr('src')\
                 and utils.has_domain(node['src'],
-                                     r'^https://www\.youtube\.com/'):
+                                     r'^https://www\.youtube\.com/embed'):
             return EYouTubeVideo(self.__get_youtube_video_id(node['src']))
 
         return None
 
     @staticmethod
     def __get_youtube_video_id(url):
-        return url.split('/')[4]
+        return url.split('/')[4].split('?')[0]
