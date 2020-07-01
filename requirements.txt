@@ -12,3 +12,5 @@ bert-extractive-summarizer>=0.4.2
 validators~=0.15.0
 nltk>=3.5
 numpy>=1.18.4
+neuralcoref==4.0.0
+spacy==2.1.3
