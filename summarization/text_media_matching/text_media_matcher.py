@@ -12,6 +12,12 @@ class TextMediaMatcher:
         self.media_contents = media_contents
 
     def _get_matched_and_unmatched_contents(self):
+        if len(self.text_contents) == 0 or len(self.media_contents) == 0:
+            return {
+                "matched_contents": [],
+                "unused_contents": self.text_contents
+                if len(self.text_contents) != 0 else self.media_contents
+            }
         preprocessor = TextMediaMatchingPreprocessor(
             self.text_contents,
             self.media_contents
