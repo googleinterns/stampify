@@ -38,7 +38,6 @@ if __name__ == '__main__':
 
       For more help: python3 main.py -h
     """
-
     url, maximum_pages = get_user_input()
 
     _stampifier = Stampifier(url, maximum_pages)

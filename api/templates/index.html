@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stampify</title>
+    <meta name="description" content="Website to STAMP(Stories on AMP) converter">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $( document ).ready(function(){
+            {% if show_options==True -%}
+                $('#input-form').hide();
+                $('#result').show();
+            {%- else -%}
+                $('#result').hide();
+                $('#input-form').show();
+            {%- endif %}
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>STAMPIFY</h1>
+            <p>Webpage to STAMP converter</p>
+            <hr>
+        </div>
+    </header>
+    <div class="container">
+        <div class="details-container">
+            <form action="\submit" method="POST" id="input-form">
+                <label>Enter URL:</label><br>
+                <input type="url" id="website_url" name="website_url" placeholder="URL goes here" required><br>
+                <label>Stamp Page Count:</label><br>
+                <input type="number" id="max_pages" name="max_pages" value="5" min="1"><br>
+                <button type="submit">Convert</button>
+            </form>
+            <div class="result" id="result">
+            <button id="download_btn" class="download_btn" >Download File</button>
+            <button id="preview_btn" class="preview_btn" onclick="location.href='/generated_stamp'">Preview</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
