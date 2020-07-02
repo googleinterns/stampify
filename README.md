@@ -5,24 +5,23 @@ Project to automatically convert news / entertainment websites into STAMP
 
 This is an internship project for Summer 2020.
 
-## Project Requirements:
+## Project Requirements
 
-- To get the project working, you will need to set the below mentioned API keys as environment 
+### Set Environment Variables
+To get the project working, you will need to set the below mentioned API keys as environment 
 variables:
 
     -  `GOOGLE_CLOUD_API_KEY` and the value as the base64 encoded string of the API key obtained from the console.
 
-        Refer to this link for more information on creating and setting API keys:
-        https://cloud.google.com/docs/authentication/api-keys
+        For more information on creating and setting API keys, check [Using API Keys](https://cloud.google.com/docs/authentication/api-keys)
     
         To get the API key used for this project contact the owner of this repo.
     
     -  `FLASK_APP_SECRET_KEY` and the value could be any random generated string.
 
-        Refer to this link for more information on the usage of flask secret key:
-        https://flask.palletsprojects.com/en/1.1.x/quickstart/#sessions
+        For more information on the usage of this secret key, check official [Flask documentation].(https://flask.palletsprojects.com/en/1.1.x/quickstart/#sessions)
 
-
+### Install Dependencies
 - Run the following command to install all the dependencies:
 
     `$ pip install -r requirements.txt`
@@ -43,11 +42,9 @@ variables:
     
         `>>> nltk.download('punkt')`
 
-## How to run the project:
+## How To Run
 
-This project can be run in two ways:
-
-- **Using Command Line Interface**
+### Command Line Interface
   
   **Input**: 
   
@@ -65,19 +62,17 @@ This project can be run in two ways:
   
   Example:
   
-    `$ python3 main.py 'https://www.scoopwhoop.com/entertainment/memes-from-dd-ramayan/' 5`
+    ```
+    $ python3 main.py 'https://www.scoopwhoop.com/entertainment/memes-from-dd-ramayan/' 5
     
-    `$ python3 main.py 'https://www.scoopwhoop.com/entertainment/memes-from-dd-ramayan/'`
+    $ python3 main.py 'https://www.scoopwhoop.com/entertainment/memes-from-dd-ramayan/'
+    ```
   
   **For more help, Use command:** `python3 main.py -h`
-  
-  **Note:** You must be in root directory of project (`stampify/`) to run above commands.
 
-- **Using Flask server**
-
-    Navigate to `stampify/api/` directory and run the following command to start the server:
+### Flask Server
     
-    `$ python server.py`
+    `$ python api/server.py`
     
     The server will be hosted at http://127.0.0.1:5000/
 
