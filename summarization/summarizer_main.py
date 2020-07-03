@@ -1,6 +1,8 @@
 ''' This Module provides the main interface
 for the Summarizer module
 '''
+import json
+
 from data_models.contents import ContentType
 from summarization.extractor_output_preprocessor import SentenceWithAttributes
 from summarization.stamp_page_picking.stamp_page_picker import StampPagePicker
@@ -41,6 +43,16 @@ class Summarizer:
         # and send to make stamp page objects out of them
         self._assemble_and_add_stamp_pages_to_list(
             self.matched_contents + self.unmatched_contents
+        )
+
+        # fetch embeddings for embedded content types
+        self._fetch_and_set_stamp_descriptors_dict_for_embedded_content()
+
+        # now add the embedded content for stamp pages
+        # if embedded contents are empty no stamp pages
+        # will be initialized
+        self._assemble_and_add_stamp_pages_to_list(
+            self.embedded_contents
         )
 
         # now that the stamp pages have been assembled we
@@ -167,6 +179,8 @@ class Summarizer:
                 stamp_descriptor_embedding = media.img_description_embedding
             else:
                 embedded = content
+                stamp_descriptor_embedding \
+                    = self._get_stamp_descriptor_for_embedded_content(content)
 
         return text, media, embedded, stamp_descriptor_embedding
 
@@ -210,3 +224,20 @@ class Summarizer:
             stamp_position,
             stamp_descriptor_embedding
         )
+
+    def _fetch_and_set_stamp_descriptors_dict_for_embedded_content(self):
+        # don't load if there are no embedded contents
+        if len(self.embedded_contents) == 0:
+            return
+
+        self.embedded_descriptors_dict = dict()
+        file_path = 'summarization/stamp_descriptors_for_embedded_content.json'
+        with open(file_path, 'r') as file:
+            # the keys in this dict are of type str() and are
+            # no longer of type int
+            self.embedded_descriptors_dict = json.load(file)
+
+    def _get_stamp_descriptor_for_embedded_content(self, content):
+        # type casting is required since the dict keys
+        # are now of type str
+        return self.embedded_descriptors_dict[str(content.content_type)]
