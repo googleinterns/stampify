@@ -10,7 +10,7 @@
     <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
     <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
     <script async custom-element="amp-pinterest" src="https://cdn.ampproject.org/v0/amp-pinterest-0.1.js"></script>
-    <title>{{contents[0].text_string}}</title>
+    <title>{{title}}</title>
     <link rel="canonical" href="{{ canonical_url }}" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
     <style amp-custom>
@@ -197,7 +197,7 @@
 </head>
 <body>
     <amp-story
-        standalone title="{{contents[0].text_string}}"
+        standalone title="{{title}}"
         publisher="{{publisher_domain}}"
         publisher-logo-src="{{logo_url}}"
         poster-portrait-src="abc.jpg">
@@ -214,7 +214,11 @@
                 <amp-story-grid-layer template="fill" class="drop-shadow media">
                     <div class="fixed-container">
                     <amp-img object-fit="contain" layout="fill"
+                     {% if contents[page.media_index].img_title %}
                          alt="{{contents[page.media_index].img_title}}"
+                     {% elif contents[page.media_index].img_caption %}
+                         alt="{{contents[page.media_index].img_caption}}"
+                     {% endif %}
                          src="{{contents[page.media_index].img_url}}"
                          width="{{contents[page.media_index].img_width}}"
                          height="{{contents[page.media_index].img_height}}">
@@ -234,10 +238,10 @@
                           layout="responsive">
                           {% for url in contents[page.media_index].video_urls -%}
                           <source src= "{{ url }}"/>
+                          {%- endfor %}
                           <div fallback>
                             <p>This browser does not support the video element.</p>
                           </div>
-                          {%- endfor %}
                     </amp-video>
                 </amp-story-grid-layer>
                 {%- endif %}
@@ -348,26 +352,25 @@
                             </span>
                         </amp-fit-text>
                     </div>
-                    {% endif %}
-                </amp-story-grid-layer>
-                {% if (page.overlay_text|length)>340 %}
-                {# Note: 340 is the maximum character limit that does not lead to overflow with used container size and font-size range and font-style. #}
-                <amp-story-page-attachment layout="nodisplay" data-title="Read Full Text Here!" data-cta-text="Read more">
-                        <div class="fixed-block bg-off-white ">
-                            <p  class="attachment-text">
-                                {{ page.overlay_text}}
-                            </p>
-                        </div>
-                </amp-story-page-attachment>
+                    </amp-story-grid-layer>
+                    {% if (page.overlay_text|length)>340 %}
+                    {# Note: 340 is the maximum character limit that does not lead to overflow with used container size and font-size range and font-style. #}
+                    <amp-story-page-attachment layout="nodisplay" data-title="Read Full Text Here!" data-cta-text="Read more">
+                            <div class="fixed-block bg-off-white ">
+                                <p  class="attachment-text">
+                                    {{ page.overlay_text}}
+                                </p>
+                            </div>
+                    </amp-story-page-attachment>
+                    {%- endif %}
+                    {%- endif %}
                 {%- endif %}
-                {%- endif %}
-                {%- if not page.is_embedded_content and page.media_index == -1 %}
+                {%- if not page.is_embedded_content and page.media_index == -1 and (page.overlay_title or page.overlay_text) %}
                 <amp-story-grid-layer template="fill" >
                     <div class="bg-blue-green">
                     </div>
                 </amp-story-grid-layer>
                 <amp-story-grid-layer template="fill">
-
                 <div class="just-text">
                 {% if not page.overlay_title and page.overlay_text %}
                 <p>
