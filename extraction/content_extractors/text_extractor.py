@@ -8,6 +8,8 @@ from extraction.content_extractors.interface_content_extractor import \
     IContentExtractor
 from extraction.utils import string_utils as utils
 
+MAX_CHILD = 3
+
 
 class TextExtractor(IContentExtractor):
     def validate_and_extract(self, node: bs4.element):
@@ -20,7 +22,9 @@ class TextExtractor(IContentExtractor):
                     and not utils.empty_text(text_data) \
                     and utils.is_important_text(node):
                 text_type = node.name
-                text_content = Text(text_data, text_type)
+                is_bold = (node.find('strong') or node.find('bold')) \
+                    and len(node.contents) <= MAX_CHILD
+                text_content = Text(text_data, text_type, is_bold)
                 return text_content
         elif isinstance(node, bs4.element.NavigableString) \
                 and not utils.empty_text(node) \
