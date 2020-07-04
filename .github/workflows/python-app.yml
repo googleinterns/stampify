@@ -39,7 +39,7 @@ jobs:
         isort
     - name: Lint with pylint
       run: |
-        pylint *
+        pylint .
     - name: Lint with flake8
       run: |
         flake8
