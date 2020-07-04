@@ -12,6 +12,8 @@ MAX_CHILD = 3
 
 
 class TextExtractor(IContentExtractor):
+    """This class inherits IContentExtractor for extracting text"""
+
     def validate_and_extract(self, node: bs4.element):
         """Validates if a tag is text tag and
         returns the extracted data from the text tag in Text object"""

@@ -20,7 +20,7 @@ class StampGenerator:
     def __init__(self, _website, stamp_pages):
         self._website = _website
         self.stamp_pages = stamp_pages
-        self.stamp_code = self.generate_stamp()
+        self.stamp_html = self.generate_stamp()
 
     def generate_stamp(self):
         """This method uses jinja2 template(template) and

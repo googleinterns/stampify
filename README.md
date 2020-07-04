@@ -46,7 +46,7 @@ variables:
   
 #### Output:
   
-  Generated stamp amp-html will be printed on the console.
+  Generated stamp amp-html file will saved in `stampify/output/` directory.
   
 #### Command to run:
   

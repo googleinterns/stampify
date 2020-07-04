@@ -26,10 +26,8 @@ class ImageExtractor(IContentExtractor):
         """This method extracts all attributes for the image
         and creates Image object instance"""
 
-        '''
-        Prioritizing data-src if present for extracting URL over src
-        as src is used as lazy loading when data-src is present.
-        '''
+        # Prioritizing data-src if present for extracting URL over src
+        # as src is used as lazy loading when data-src is present.
 
         if node.has_attr('data-src'):
             image_url = node['data-src']

@@ -18,6 +18,8 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 @app.route('/')
 def home():
+    """Renders the home page for Stampify"""
+
     return render_template('index.html', show_options=False)
 
 
@@ -33,7 +35,7 @@ def convert_to_stamp():
     _stampifier = Stampifier(url, int(max_pages))
 
     try:
-        session['stamp'] = _stampifier.stampify()
+        session['stamp'] = _stampifier.stampify().stamp_html
     except Error as err:
         LOGGER.debug(err.message)
 
@@ -42,11 +44,15 @@ def convert_to_stamp():
 
 @app.route('/result')
 def show_options():
+    """Renders webpage to show available output options"""
+
     return render_template('index.html', show_options=True)
 
 
 @app.route('/generated_stamp')
 def show_stamp():
+    """Displays generated stamp"""
+
     return session['stamp']
 
 

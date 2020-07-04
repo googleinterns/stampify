@@ -1,8 +1,9 @@
-"""This script creates Stampify"""
+"""This script creates Stampifier which pipelines all internal modules"""
 
 import logging
 
 from classification.classifier_main import Classifier
+from data_models.stampifier_output import StampifierOutput
 from data_models.website import Website
 from error import InvalidUrlError, WebsiteNotStampifiableError
 from extraction.extractor import Extractor
@@ -17,13 +18,13 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 
 class Stampifier:
+    """Creates class for stampification"""
 
     def __init__(self, url, max_pages):
         self.url = url
         self.max_pages = max_pages
         self._website = Website(self.url)
         self.is_stampifiable = False
-        # object of type StampPages
         self.stampified_pages = None
 
     def stampify(self):
@@ -52,11 +53,12 @@ class Stampifier:
         generated_stamp \
             = StampGenerator(self._website,
                              _classifier_and_summarizer_response["stamp_pages"]
-                             ).stamp_code
+                             ).stamp_html
 
         LOGGER.debug(generated_stamp)
 
-        return generated_stamp
+        return StampifierOutput(generated_stamp,
+                                self._website.get_title())
 
     def _preprocess_contents(self):
         '''
