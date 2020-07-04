@@ -32,7 +32,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install isort pylint flake8 pytest
+        pip install isort==4.3.21 pylint flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Import ordering with isort
       run: |
