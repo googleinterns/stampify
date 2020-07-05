@@ -5,10 +5,17 @@
     <title>Stampify</title>
     <meta name="description" content="Website to STAMP(Stories on AMP) converter">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<script async src="https://cdn.ampproject.org/amp-story-player-v0.js"></script>
+	<link href="https://cdn.ampproject.org/amp-story-player-v0.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         $( document ).ready(function(){
+			$('#loading').hide();
+			$('#generated-stamp').hide();
+
             {% if show_options==True -%}
                 $('#input-form').hide();
                 $('#result').show();
@@ -16,31 +23,42 @@
                 $('#result').hide();
                 $('#input-form').show();
             {%- endif %}
-        });
+
+	});
     </script>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <h1>STAMPIFY</h1>
-            <p>Webpage to STAMP converter</p>
-            <hr>
-        </div>
-    </header>
     <div class="container">
+        <div class="row header-container">
+			<div class="col-sm-12">
+                <h1>STAMPIFY</h1>
+                    <p>Webpage to STAMP converter</p>
+                    <hr>
+			</div>
+        </div>
+		<div class="row">
+		<div class="col-sm-4">
         <div class="details-container">
-            <form action="\submit" method="POST" id="input-form">
+            <form id="input-form" method="get">
                 <label>Enter URL:</label><br>
-                <input type="url" id="website_url" name="website_url" placeholder="URL goes here" required><br>
+                <input type="url" id="website_url" name="website_url" placeholder="URL goes here" required value='{{url}}'><br>
                 <label>Stamp Page Count:</label><br>
-                <input type="number" id="max_pages" name="max_pages" value="5" min="1"><br>
+                <input type="number" id="max_pages" name="max_pages" value="5" min="1" value='{{max_count}}'><br>
                 <button type="submit">Convert</button>
             </form>
             <div class="result" id="result">
             <button id="download_btn" class="download_btn" >Download File</button>
             <button id="preview_btn" class="preview_btn" onclick="location.href='/generated_stamp'">Preview</button>
             </div>
-        </div>
+		 </div>
+		 </div>
+		<div class="col-sm-8">
+            Original Page: <a href='{{url}}'> {{url}} </a> <br/>
+	        <amp-story-player style="width: 360px; height: 600px;">
+			    <a href='{{stampified_url}}'> Generating the stamp page! </a>
+            </amp-story-player>
+		</div>
+         </div>
 
     </div>
 </body>
