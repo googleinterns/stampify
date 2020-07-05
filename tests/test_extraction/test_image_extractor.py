@@ -13,21 +13,30 @@ __EXTRACTOR = image_extractor.ImageExtractor()
 
 __soup = test_utils.soup('image.html')
 
-expected_output_1 = Image('image_with_src_and_title.jpg',
+expected_output_1 = Image('http://www.google.com/'
+                          'image_with_src_and_title.jpg',
                           100, 100, False, None,
                           'This is Image with src and title!', '')
 
-expected_output_2 = Image('image_with_src_but_without_title.gif',
+expected_output_2 = Image('http://www.google.com/'
+                          'image_with_src_but_without_title.gif',
                           0, 0, True, None, None, '')
 
-expected_output_3 = Image('image_with_src_and_title_inside_figure.jpg',
+expected_output_3 = Image('http://www.google.com/'
+                          'image_with_src_and_title_inside_figure.jpg',
                           0, 0, False, None,
                           'This is Image with src and title inside figure!',
                           '')
 
-expected_output_4 = Image('image_with_src_but_without_title_inside_figure.jpg',
+expected_output_4 = Image('http://www.google.com/'
+                          'image_with_src_but_without_title_inside_figure.jpg',
                           100, 100, False, 'This is figcaption.',
                           None, '')
+
+expected_output_5 = Image('http://www.google.com/image7.jpg',
+                          0, 0, False, None,
+                          'This url is valid after fix', '')
+
 
 acceptable_test_data = [(__soup.find('img', class_='img1'),
                          expected_output_1),
@@ -36,12 +45,15 @@ acceptable_test_data = [(__soup.find('img', class_='img1'),
                         (__soup.find('figure', class_='fig1'),
                          expected_output_3),
                         (__soup.find('figure', class_='fig2'),
-                         expected_output_4), ]
+                         expected_output_4),
+                        (__soup.find('img', class_='img7'),
+                         expected_output_5)]
 
 non_acceptable_test_data = [(__soup.find('img', class_='img3'), None),
                             (__soup.find('figure', class_='fig3'), None),
                             (__soup.find('figure', class_='fig4'), None),
-                            (__soup.find('h1'), None)]
+                            (__soup.find('h1'), None),
+                            (__soup.find('img', class_='img8'), None)]
 
 
 @pytest.mark.parametrize("input_node, expected", acceptable_test_data)
