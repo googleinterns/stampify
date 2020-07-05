@@ -165,7 +165,7 @@ class BudgetedMaxCoverSolver:
 
             candidate_cover_indices \
                 = [i for i in range(self.cover_size)
-                    if self._cover_can_be_picked(cover_index=i)]
+                   if self._cover_can_be_picked(cover_index=i)]
 
             some_cover_can_be_picked = True
 
@@ -194,7 +194,7 @@ class BudgetedMaxCoverSolver:
 
         if self.weight_of_elements_covered_so_far < weight_of_cover or \
             (self.weight_of_elements_covered_so_far == weight_of_cover
-                and len(list_of_covers) > len(self.max_cover_so_far)):
+             and len(list_of_covers) > len(self.max_cover_so_far)):
             self.weight_of_elements_covered_so_far = weight_of_cover
             self.max_cover_so_far = list_of_covers
 

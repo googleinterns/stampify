@@ -10,6 +10,7 @@ class StampPages:
         self.stamp_pages = list()
 
     def add_stamp_page(self, stamp_page):
+        ''' adds stamp pages to the list'''
         self.stamp_pages.append(stamp_page)
 
     def get_formatted_list(self):

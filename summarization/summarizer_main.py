@@ -12,6 +12,10 @@ from summarization.text_media_matching.text_media_matcher import \
 
 
 class Summarizer:
+    ''' Summarizer module for performing
+    the various functions for summarizing
+    the contents of the webpage
+    '''
     def __init__(
             self,
             title_text_contents,
@@ -36,6 +40,9 @@ class Summarizer:
         ]
 
     def get_summarized_content(self):
+        ''' Summarizes the contents of the
+        webpage and returns it as a StampPage object
+        '''
         # first do text media matching
         self._perform_text_media_matching()
 

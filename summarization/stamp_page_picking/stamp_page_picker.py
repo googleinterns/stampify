@@ -7,6 +7,11 @@ from summarization.stamp_page_picking.max_cover_preprocessor import \
 
 
 class StampPagePicker:
+    '''
+    Class to define utils for picking stamp pages
+    given a initial list of stamp pages and a
+    constraint on the number of stamp pages
+    '''
     def __init__(self, stamp_pages, summary_sentences, max_pages_allowed):
         self.stamp_pages = stamp_pages
         self.summary_sentences = summary_sentences
@@ -16,6 +21,7 @@ class StampPagePicker:
             sentence.embedding for sentence in self.summary_sentences]
 
     def get_capped_and_unused_stamp_pages(self):
+        '''Returns the capped and uncapped stamp pages lists in a dict'''
         preprocessor = BudgetedMaxCoverPreprocessor(
             self.stamp_pages,
             self.summary_sentence_embeddings,

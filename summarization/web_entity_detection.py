@@ -98,7 +98,7 @@ class ImageDescriptionRetriever:
         # all the requests finally
         image_requests \
             = [self._format_single_request(url) for
-                url in image_urls]
+               url in image_urls]
 
         json_data_for_post_request = json.dumps({
             "requests": image_requests

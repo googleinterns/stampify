@@ -6,6 +6,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 class TextMediaMatchingPreprocessor:
+    ''' Class containing the various
+    utilities for pre-processing
+    the text before passing it onto
+    TextMediaMatchingHelper
+    '''
     def __init__(self, sentence_list, media_list):
         '''
         sentence_list : list with objects of type SentenceWithAttributes
@@ -32,7 +37,7 @@ class TextMediaMatchingPreprocessor:
         self.content_unused_for_matching = list()
 
     def get_formatted_content(self):
-
+        ''' Returns the pre-processed contents'''
         # make sure no content list is empty
         if self.media_count > 0 and self.sentence_count > 0:
             self._form_similarity_matrix()
@@ -93,7 +98,7 @@ class TextMediaMatchingPreprocessor:
         # store contents to be used for matching
         filtered_list \
             = [list_of_content[index] for index in list_of_indices
-                if index not in indices_to_be_eliminated]
+               if index not in indices_to_be_eliminated]
 
         # return the filtered list
         return filtered_list

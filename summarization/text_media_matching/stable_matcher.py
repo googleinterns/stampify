@@ -22,6 +22,7 @@ class StableMatcher:
         self.sentence_preference_for_media = sentence_preference_for_media
 
     def get_matching(self):
+        ''' returns the matching as a list of 2-tuples'''
         return self.__gale_shapley_matching()
 
     def __media_rank_in_sentence_preference(self, sentence_index, media_index):
@@ -33,7 +34,8 @@ class StableMatcher:
         return self.__media_rank_in_sentence_preference(
             sentence_index, unmatched_index) < \
             self.__media_rank_in_sentence_preference(
-            sentence_index, self.media_matched_for_sentence[sentence_index])
+                sentence_index,
+                self.media_matched_for_sentence[sentence_index])
 
     def __gale_shapley_matching(self):
         '''
@@ -69,7 +71,7 @@ class StableMatcher:
                     self.sentence_matched_for_media[unmatched_media_index] = i
                     self.count_of_unmatched_media -= 1
                     break
-                elif self.__sentence_has_better_preference(
+                if self.__sentence_has_better_preference(
                         i,
                         unmatched_media_index):
                     # i prefers the current media better

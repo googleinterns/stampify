@@ -1,3 +1,6 @@
+''' module to define the web-page stampifiable Classifier'''
+
+
 class Classifier:
     '''Class to determine if a webpage is stampable
 
@@ -22,6 +25,9 @@ class Classifier:
         self.min_pages = max_pages // 2
 
     def classify(self):
+        ''' classifies the web page as stampifiable or not
+        and sets the is_stampifiable attribute accordingly
+        '''
         # max is picked since some unused media/sentences
         # might still be used for stamp page contents
         self.is_stampifiable \
@@ -31,5 +37,6 @@ class Classifier:
             + self.embedded_content_count >= self.min_pages
 
     def is_page_stampifiable(self):
+        ''' returns the is_stampifiable flag'''
         self.classify()
         return self.is_stampifiable
