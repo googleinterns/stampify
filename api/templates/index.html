@@ -55,7 +55,7 @@
                 <label>Enter URL:</label><br>
                 <input type="url" id="website_url" name="website_url" placeholder="URL goes here" required value='{{url}}'><br>
                 <label>Stamp Page Count:</label><br>
-                <input type="number" id="max_pages" name="max_pages" value="5" min="1" value='{{max_count}}'><br>
+                <input type="number" id="max_pages" name="max_pages" min="1" value='{{max_pages}}' max='20' ><br>
                 <button type="submit">Convert</button>
             </form>
             <div class="result" id="result">
@@ -76,6 +76,7 @@
 
         <div class="row">
             <div class="col-sm-12"> 
+                <p> Shareable Link: <a href="{{stampified_url}}"> Stampified Page </a> 
                 <p> HTML Source: 
                 <pre id='stamp-code'>
                 </pre>

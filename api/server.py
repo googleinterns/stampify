@@ -25,7 +25,7 @@ def home():
 
     if 'website_url' in request.args:
         url = request.args.get('website_url')
-    if max_pages in request.args:
+    if 'max_pages' in request.args:
         max_pages = request.args.get('max_pages')
 
     stampified_url = '/stampified_url?url=%s&max_pages=%s' % (url, max_pages)
@@ -44,13 +44,3 @@ def stampify_url():
         return _stampifier.stampify().stamp_html
     except Error as err:
         return err.message
-
-@app.route('/stampified_url_debug_details', methods=['GET'])
-def stampify_url_debug_details():
-    pass
-
-@app.route('/generated_stamp')
-def show_stamp():
-    """Displays generated stamp"""
-
-    return session['stamp']
