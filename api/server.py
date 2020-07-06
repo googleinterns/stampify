@@ -20,7 +20,7 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 def home():
     """Renders the home page for Stampify"""
     # Add a default stampified page here. For now using placeholder story.
-    url = 'https://www-usatoday-com.cdn.ampproject.org/c/s/www.usatoday.com/amp-stories/beyonce-rule-the-world/';
+    url = 'https://www.scoopwhoop.com/news/pandemic-importance-of-human-connection-in-socially-distant-world';
     max_pages = 5
 
     if 'website_url' in request.args:
