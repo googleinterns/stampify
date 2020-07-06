@@ -84,13 +84,14 @@ class Summarizer:
         ''' cap some of the stamp pages and use only
         them in the final stamp story
         '''
-        max_cover_solver = StampPagePicker(
+        stamp_page_picker = StampPagePicker(
             self.stamp_pages_list,
             self.normal_text_contents,
-            self.max_pages_allowed
+            self.max_pages_allowed,
+            capping_method="interesting-sequence-picker"
         )
         processed_pages_dict \
-            = max_cover_solver.get_capped_and_unused_stamp_pages()
+            = stamp_page_picker.get_capped_and_unused_stamp_pages()
         # these are the stamp pages we'll use
         self.capped_stamp_pages = processed_pages_dict["capped_stamp_pages"]
         # these won't be used in the full stamp pages
