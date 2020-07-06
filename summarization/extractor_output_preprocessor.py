@@ -17,11 +17,24 @@ class SentenceWithAttributes:
     embedding or font_style
     '''
 
-    def __init__(self, text, index, font_style, embedding):
+    def __init__(
+            self,
+            text,
+            para_index,
+            sentence_index_in_para,
+            sentence_weight,
+            font_style,
+            embedding):
         self.text = text
-        self.index = index
+        self.paragraph_index = para_index
+        self.sentence_index_in_para = sentence_index_in_para
+        self.sentence_weight = sentence_weight
         self.font_style = font_style
         self.embedding = embedding
+
+    def get_weighted_index(self):
+        return self.paragraph_index \
+            + self.sentence_index_in_para * self.sentence_weight
 
 
 class ExtractorOutputPreprocessor:
@@ -33,6 +46,10 @@ class ExtractorOutputPreprocessor:
     * Assign img_description_embeddings to media
     * Summarize the text content
     '''
+    # this limit is based on how many characters
+    # we can display as title so it is readable
+    # and still does not block out other content
+    MAX_TITLE_LENGTH = 100
 
     def __init__(self, contents):
         self.content_list = contents.content_list
@@ -45,7 +62,11 @@ class ExtractorOutputPreprocessor:
             = SentenceTransformer('bert-base-nli-stsb-mean-tokens')
 
     def get_preprocessed_content_lists(self):
-
+        ''' Pre-processes the content
+        by splitting it into different content
+        types and returns it as a dict
+        Return type : dict
+        '''
         #  first split content into different categories
         self._split_content()
 
@@ -79,7 +100,8 @@ class ExtractorOutputPreprocessor:
         '''
         for content in self.content_list:
             if content.content_type == ContentType.TEXT:
-                if content.type == "title":
+                if content.is_important_text() \
+                        and len(content.text_string) < self.MAX_TITLE_LENGTH:
                     self.title_text_content_list.append(content)
                 else:
                     self.normal_text_content_list.append(content)
@@ -107,6 +129,8 @@ class ExtractorOutputPreprocessor:
                 SentenceWithAttributes(
                     title_text.text_string,
                     title_text.content_index,
+                    0,
+                    0,
                     None,
                     embedding
                 )
@@ -144,7 +168,7 @@ class ExtractorOutputPreprocessor:
             self, normal_text_index):
         # if index out of bounds return
         if normal_text_index >= self.count_of_normal_text:
-            return
+            return None
 
         # first sentence tokenize the text
         sentence_tokenized_text = sent_tokenize(
@@ -163,7 +187,7 @@ class ExtractorOutputPreprocessor:
             self, summarized_text_index):
         # if index out of bounds return
         if summarized_text_index >= self.count_of_summary_sentences:
-            return
+            return None
         # only word tokenize since it is a single sentence already
         word_tokenized_text = word_tokenize(
             self.summarized_text[summarized_text_index])
@@ -172,17 +196,19 @@ class ExtractorOutputPreprocessor:
         return self._get_alphanumeric_tokens(word_tokenized_text)
 
     def _get_sentence_object_for_summarized_sentence(
-            self, summarized_text_index, normal_text_index):
+            self,
+            summarized_text_index,
+            normal_text_index,
+            sentence_index_in_para,
+            sentence_weight):
         ''' instantiates/initializes and returns a sentence object'''
         return SentenceWithAttributes(
             self.summarized_text[summarized_text_index],
-
-            self.normal_text_content_list[
-                normal_text_index].content_index,
-
+            self.normal_text_content_list[normal_text_index].content_index,
+            sentence_index_in_para,
+            sentence_weight,
             self.normal_text_content_list[
                 normal_text_index].font_style,
-
             self.summarized_text_embeddings[
                 summarized_text_index]
         )
@@ -236,6 +262,12 @@ class ExtractorOutputPreprocessor:
         self.summarized_text_embeddings = self.sentence_embedding_model.encode(
             self.summarized_text)
 
+        # to assign different indices for sentences in paragraph
+        sentence_index_in_paragraph = 0
+        # step size -based on number of sentences in para
+        step_size_for_sentence_index_in_paragraph \
+            = 1 / len(tokenized_and_cleaned_text_object)
+
         while self.running_index_in_summarized_text \
                 < self.count_of_summary_sentences and \
                 self.running_index_in_normal_text_content\
@@ -248,10 +280,13 @@ class ExtractorOutputPreprocessor:
                 self.sentence_objects_list.append(
                     self._get_sentence_object_for_summarized_sentence(
                         self.running_index_in_summarized_text,
-                        self.running_index_in_normal_text_content
+                        self.running_index_in_normal_text_content,
+                        sentence_index_in_paragraph,
+                        step_size_for_sentence_index_in_paragraph
                     )
                 )
                 self.running_index_in_summarized_text += 1
+                sentence_index_in_paragraph += 1
                 # fetch and set the new tokenized summary sentence
                 tokenized_and_cleaned_summary_sentence =\
                     self._get_tokenized_summary_sentence_from_index(
@@ -266,12 +301,22 @@ class ExtractorOutputPreprocessor:
                     = self._get_tokenized_and_text_object_from_index(
                         self.running_index_in_normal_text_content)
 
+                sentence_index_in_paragraph = 0
+                step_size_for_sentence_index_in_paragraph \
+                    = 1 / len(tokenized_and_cleaned_text_object)
+
     def get_condensed_image_description(self, image_description):
+        ''' Concatenates the various image descriptions into
+        a single string and returns them
+        '''
         # can be amended to display extra fields if required
         return image_description["label"] + \
             ' '.join(image_description["entities"])
 
     def get_condensed_image_attributes(self, image):
+        ''' Combines the image attributes present
+        and returns them accordingly
+        '''
         # will be amended to add more information once OCR label
         # field is added to Image object
         if not image.img_caption:
@@ -306,9 +351,9 @@ class ExtractorOutputPreprocessor:
         for media_content,\
             media_description_embedding,\
             media_attribute_embedding in zip(
-                self.media_content_list,
-                self.media_description_embeddings,
-                self.media_attribute_embeddings):
+                    self.media_content_list,
+                    self.media_description_embeddings,
+                    self.media_attribute_embeddings):
 
             media_content.img_description_embedding \
                 = media_description_embedding

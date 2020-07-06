@@ -9,7 +9,10 @@ from summarization.stamp_page_picking.cover import Cover
 
 
 class BudgetedMaxCoverPreprocessor:
-
+    '''
+    Class to define pre-processing
+    utils for the budgeted max cover solver
+    '''
     COST_FOR_TEXT_ONLY_STAMP = 2.0
     COST_FOR_EMBEDDED_STAMP = 1.5
     COST_FOR_VISUAL_STAMP = 1.0
@@ -23,7 +26,10 @@ class BudgetedMaxCoverPreprocessor:
         self.summary_sentence_count = len(summary_sentence_embeddings)
 
     def get_cover_objects_for_stamp_pages(self):
-
+        '''
+        Constructs the Cover objects and returns
+        them as a list
+        '''
         cover_objects_list = list()
 
         # collect stamp descriptor embeddings
@@ -81,8 +87,9 @@ class BudgetedMaxCoverPreprocessor:
         # define a function to set the cover for a
         # cell as 1 if its above threshold and 0
         # if its below
-        def f(x): return 1 if x >= self.threshold else 0
-        set_cover = np.vectorize(pyfunc=f)
+        def set_val(cell_value):
+            return 1 if cell_value >= self.threshold else 0
+        set_cover = np.vectorize(pyfunc=set_val)
 
         self.list_of_covers = set_cover(
             cosine_similarity(

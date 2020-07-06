@@ -10,6 +10,7 @@
 	<link href="https://cdn.ampproject.org/amp-story-player-v0.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
     <script type="text/javascript">
@@ -18,10 +19,11 @@
 			$('#generated-stamp').hide();
 
             {% if show_options==True -%}
-                $('#input-form').hide();
                 $('#result').show();
+                $('#preview_btn').show();
             {%- else -%}
                 $('#result').hide();
+                $('#preview_btn').hide();
                 $('#input-form').show();
             {%- endif %}
 
@@ -85,6 +87,7 @@
 
     </div>
     </div>
+</div>
 </body>
 </html>
 

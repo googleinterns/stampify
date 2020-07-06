@@ -53,6 +53,8 @@ class TextSummarizer:
         else:
             raise IncorrectInputError(
                 "priority must be either accuracy or speed")
+        self.entity_list = list()
+        self.text = None
 
     def _get_entites_from_text(self):
         entity_retriever = TextEntityRetriever()

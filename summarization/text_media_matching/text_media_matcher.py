@@ -6,7 +6,7 @@ from summarization.text_media_matching.text_media_matching_preprocessor import \
 
 
 class TextMediaMatcher:
-
+    '''Class to integrate the TextMediaMatching utilities'''
     def __init__(self, text_contents, media_contents):
         self.text_contents = text_contents
         self.media_contents = media_contents

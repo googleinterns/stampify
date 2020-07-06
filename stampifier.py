@@ -125,14 +125,11 @@ class Stampifier:
         self.stampified_pages = summarizer.get_summarized_content()
 
     def _get_min_index_for_stamp_page(self, stamp_page):
-        indices = list()
-        if stamp_page.sentence_index != -1:
-            indices.append(stamp_page.sentence_index)
+        if stamp_page.para_index != -1:
+            return stamp_page.get_weighted_text_index()
 
         if stamp_page.media_index != -1:
-            indices.append(stamp_page.media_index)
-
-        return min(indices)
+            return stamp_page.media_index
 
     def _order_stamp_pages(self):
         # separate this as function so
