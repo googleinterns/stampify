@@ -29,9 +29,23 @@ CONTENT_EXTRACTORS \
        embedded_youtube_video_extractor.EYouTubeVideoExtractor(),
        embedded_instagram_post_extractor.EInstagramPostExtractor(),)
 
-pattern_for_ads = re.compile('(^ad-|^ads-)')
+pattern_for_ads = re.compile('(^ad-|^ads-|ads|ad|Ad|Ads'
+                             '|advertisement|Advertisement)')
 extra_tags = ['script', 'noscript', 'style', 'header',
-              'footer', 'meta', 'link']
+              'footer', 'meta', 'link', 'nav', 'aside']
+
+EXTRA_CLASSES = ['header', 'Header', 'nav', 'Nav',
+                 'menu', 'Menu', 'side', 'Side',
+                 'footer', 'Footer', 'subscribe', 'Subscribe',
+                 'breadcrumb', 'bread-crumb', 'Breadcrumb',
+                 'comment', 'Comment', 'cmt', 'Cmt',
+                 'search', 'Search', 'banner',
+                 'recent', 'Recent', 'author', 'Author',
+                 'latest', 'Latest', 'you-may', 'trending',
+                 'Trending', 'share', 'Share', 'social', 'Social',
+                 'pagination', 'Pagination', 'next', 'Next', 'nxt',
+                 'related', 'Related', 'home-cards', 'topicArea',
+                 'tabHide', 'rightSec', 'reststory', 'tags', 'Tags']
 
 
 class Extractor:
@@ -82,6 +96,11 @@ class Extractor:
         _ = [comment.extract() for comment in comments]
         _ = [tag.decompose() for tag in decomposable_tags]
         _ = [ad.decompose() for ad in ads]
+
+        for _class in EXTRA_CLASSES:
+            _ = [_content.decompose() for _content in
+                 self.soup.find_all(
+                     class_=re.compile('.*{}.*'.format(_class)))]
 
     def __extract_data_from_html(self):
         """Calls separate functions for extracting data

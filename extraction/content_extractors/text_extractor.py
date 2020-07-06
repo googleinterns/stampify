@@ -30,9 +30,8 @@ class TextExtractor(IContentExtractor):
                 return text_content
         elif isinstance(node, bs4.element.NavigableString) \
                 and not utils.empty_text(node) \
-                and len(node) > utils.TEXT_MIN_SCORE:
-            text_data = node.strip()
-            text_content = Text(text_data)
+                and len(node.strip()) > utils.TEXT_MIN_SCORE:
+            text_content = Text(node.strip())
             return text_content
 
         return None
