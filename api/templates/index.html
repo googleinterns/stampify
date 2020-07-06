@@ -6,29 +6,30 @@
     <meta name="description" content="Website to STAMP(Stories on AMP) converter">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         $( document ).ready(function(){
             {% if show_options==True -%}
-                $('#input-form').hide();
                 $('#result').show();
+                $('#preview_btn').show();
             {%- else -%}
                 $('#result').hide();
+                $('#preview_btn').hide();
                 $('#input-form').show();
             {%- endif %}
         });
     </script>
 </head>
 <body>
-    <header>
-        <div class="header-container">
+    <div class="p-1 container-fluid bg-info">
+    <div class="text-center header-container">
             <h1>STAMPIFY</h1>
             <p>Webpage to STAMP converter</p>
             <hr>
-        </div>
-    </header>
-    <div class="container">
-        <div class="details-container">
+    </div>
+		<div class="clearfix">
+        <div class="details-container left float-left">
             <form action="\submit" method="POST" id="input-form">
                 <label>Enter URL:</label><br>
                 <input type="url" id="website_url" name="website_url" placeholder="URL goes here" required><br>
@@ -36,12 +37,16 @@
                 <input type="number" id="max_pages" name="max_pages" value="5" min="1"><br>
                 <button type="submit">Convert</button>
             </form>
-            <div class="result" id="result">
-            <button id="download_btn" class="download_btn" >Download File</button>
-            <button id="preview_btn" class="preview_btn" onclick="location.href='/generated_stamp'">Preview</button>
-            </div>
-        </div>
+            <br>
 
+        </div>
+            <div class="float-right">
+                <button id="preview_btn" class="preview_btn btn-success" onclick="location.href='/generated_stamp'">Click to view STAMP</button>
+                <div class="result" id="result">
+                    <code><pre>{{stamp_html}}</pre></code>
+                </div>
+            </div>
     </div>
+</div>
 </body>
 </html>

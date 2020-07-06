@@ -1,10 +1,18 @@
-body {
-    background-color: #17e9e0;
-}
-
 @font-face {
     font-family: montserrat;
     src: url("../fonts/Montserrat-Regular.ttf")
+}
+
+@mixin clearfix() {
+  &::after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+}
+
+.element {
+  @include clearfix;
 }
 
 .header-container>h1 {
@@ -21,17 +29,12 @@ body {
 }
 
 .details-container{
-    top: 50%;
-    left: 50%;
-    padding: 6px;
-    min-width: 350px;
+    padding: 2px;
+    width: 350px;
     overflow: hidden;
     position: absolute;
-    border: 2px solid #fff;
     background-color: #e3fdfd;
     border-radius: 3px;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
 }
 
 form>label {
@@ -41,7 +44,7 @@ form>label {
 }
 
 form>input {
-    width:96%;
+    width:100%;
     border: 0px;
     padding: 2%;
     background-color: #cbf1f5;
@@ -54,8 +57,33 @@ form>button {
     font-family: montserrat;
 }
 
+.left {
+  z-index: 1;
+  width: 25%;
+  margin-top: 3px;
+  border: 1px solid gray;
+}
+
 .result {
-    width: 100%;
-    margin-top: 1%;
-    align: center;
+  height: 75%;
+  width: 70%;
+  margin-top: 30px;
+  position: absolute;
+  z-index: 1;
+  overflow: scroll;
+  float: right;
+  right: 1%;
+  border: 1px solid gray;
+}
+
+.result>code {
+  padding:0;
+}
+
+.preview_btn {
+  height: 30px;
+  width: 170px;
+  left: 29%;
+  z-index: 1;
+  position: absolute;
 }

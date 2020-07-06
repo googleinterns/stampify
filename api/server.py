@@ -46,7 +46,9 @@ def convert_to_stamp():
 def show_options():
     """Renders webpage to show available output options"""
 
-    return render_template('index.html', show_options=True)
+    return render_template('index.html',
+                           show_options=True,
+                           stamp_html=session['stamp'])
 
 
 @app.route('/generated_stamp')
@@ -54,7 +56,3 @@ def show_stamp():
     """Displays generated stamp"""
 
     return session['stamp']
-
-
-if __name__ == '__main__':
-    app.run()
