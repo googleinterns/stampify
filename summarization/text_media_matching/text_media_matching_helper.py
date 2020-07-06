@@ -114,7 +114,7 @@ class TextMediaMatchingHelper:
         distance_score \
             = 1.0 + abs(
                 self.media_contents[media_index].content_index
-                - self.text_contents[sentence_index].index
+                - self.text_contents[sentence_index].get_weighted_index()
             )
 
         return sentence_similarity_score / distance_score

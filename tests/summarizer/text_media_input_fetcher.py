@@ -10,6 +10,8 @@ with open('tests/summarizer/text_media_input.json', 'r') as json_input_file:
 sentence_1 = SentenceWithAttributes(
     "Sundar Pichai is the current CEO of Alphabet",
     0,
+    0,
+    0,
     None,
     test_input_dict["sentence_1_embedding"]
 )
@@ -17,6 +19,8 @@ sentence_1 = SentenceWithAttributes(
 # Sentence about Larry Page
 sentence_2 = SentenceWithAttributes(
     "Larry Page was one of the original founders",
+    0,
+    0,
     0,
     None,
     test_input_dict["sentence_2_embedding"]

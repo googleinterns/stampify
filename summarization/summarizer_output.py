@@ -59,7 +59,9 @@ class StampPage:
     def __init__(
             self,
             media_index,
-            sentence_index,
+            para_index,
+            sentence_in_para_index,
+            sentence_in_para_weight,
             is_embedded_content,
             overlay_title,
             overlay_text,
@@ -68,7 +70,9 @@ class StampPage:
             stamp_position,
             stamp_descriptor_embedding):
         self.media_index = media_index
-        self.sentence_index = sentence_index
+        self.para_index = para_index
+        self.sentence_in_para_index = sentence_in_para_index
+        self.sentence_in_para_weight = sentence_in_para_weight
         self.is_embedded_content = is_embedded_content
         self.overlay_title = overlay_title
         self.overlay_text = overlay_text
@@ -82,3 +86,7 @@ class StampPage:
         if hasattr(self, '__dict__'):
             return self.__dict__
         return {}
+
+    def get_weighted_text_index(self):
+        return self.para_index \
+            + self.sentence_in_para_index * self.sentence_in_para_weight
