@@ -175,6 +175,7 @@
         .fade{
             background: rgba(0, 0, 0, 0.6);
         }
+
         .just-text {
               margin: 5%;
               margin-top: 15%;
@@ -194,6 +195,59 @@
             text-shadow: 1px 1px 2px black;
         }
 
+        .title-page {
+            background-color: #fff;
+        }
+
+        .title-page-text {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              overflow: auto;
+        }
+        .title-page-text>p {
+            width: 96%;
+            padding: 2%;
+            font-size: 22px;
+            color: black;
+            font-family: roboto;
+            text-align: center;
+            border: 2px solid white;
+            box-shadow: 0px 0px 1px 1px black;
+            text-shadow: 1px 1px 1px gray;
+            background: rgba(255, 255, 255, 0.8)
+        }
+
+        .footer{
+            font-size: 14px;
+            color: black;
+            font-family: roboto;
+            text-align: center;
+            text-shadow: 1px 1px 1px white;
+        }
+
+        .end-page-text {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              overflow: auto;
+        }
+        .end-page-text>p {
+            width: 96%;
+            padding: 2%;
+            font-size: 22px;
+            color: black;
+            font-family: roboto;
+            text-align: center;
+            border: 2px solid white;
+            box-shadow: 0px 0px 1px 1px black;
+            text-shadow: 1px 1px 1px gray;
+            background: rgba(255, 255, 255, 0.8)
+        }
+
+
     </style>
 </head>
 <body>
@@ -202,8 +256,24 @@
         publisher="{{publisher_domain}}"
         publisher-logo-src="{{logo_url}}"
         poster-portrait-src="abc.jpg">
+        <amp-story-page id="page-1">
+            <amp-story-grid-layer template="fill" >
+                    <amp-img object-fit="contain" layout="fill" class="title-page"
+                         src="https://www.google.com/s2/favicons?sz=256&domain_url={{publisher_domain}}">
+                    </amp-img>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer layout="fill">
+                <div class="title-page-text">
+                {% if title %}
+                    <p>{{title}}</p>
+                    <br>
+                    <span class="footer">Story by <a href="http://{{publisher_domain}}">{{publisher_domain}}</a></span>
+                {% endif %}
+                </div>
+            </amp-story-grid-layer>
+        </amp-story-page>
         {% for page in pages %}
-            <amp-story-page id="page-{{ loop.index }}">
+            <amp-story-page id="page-{{ loop.index + 1 }}">
                 {% if page.media_index and contents[page.media_index].content_type.name == 'IMAGE'-%}
                 <amp-story-grid-layer template="fill" >
                     <amp-img class="bg-image"
@@ -388,6 +458,19 @@
                 {% endif %}
             </amp-story-page>
         {%- endfor %}
+        <amp-story-page id="page-{{ pages | length + 2}}">
+            <amp-story-grid-layer template="fill" >
+                    <amp-img object-fit="contain" layout="fill" class="title-page"
+                         src="https://www.google.com/s2/favicons?sz=256&domain_url={{publisher_domain}}">
+                    </amp-img>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer layout="fill">
+                <div class="end-page-text">
+                    <p >View article <a href="{{ canonical_url}}">here</a></p>
+                    <span class="footer">Stamp created by <a href="">Stampify</a></span>
+                </div>
+            </amp-story-grid-layer>
+        </amp-story-page>
     </amp-story>
 </body>
 </html>
