@@ -3,7 +3,7 @@
 import logging
 import os
 
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask, render_template, request
 
 from error import Error
 from stampifier import Stampifier
@@ -19,40 +19,32 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 @app.route('/')
 def home():
     """Renders the home page for Stampify"""
+    # Add a default stampified page here. For now using placeholder story.
+    url = 'https://www.scoopwhoop.com/news/' \
+          'pandemic-importance-of-human-connection-in-socially-distant-world'
+    max_pages = 5
 
-    return render_template('index.html', show_options=False)
+    if 'website_url' in request.args:
+        url = request.args.get('website_url')
+    if 'max_pages' in request.args:
+        max_pages = request.args.get('max_pages')
+
+    stampified_url = '/stampified_url?url=%s&max_pages=%s' % (url, max_pages)
+
+    return render_template('index.html', show_options=False,
+                           url=url, max_pages=max_pages,
+                           stampified_url=stampified_url)
 
 
-@app.route('/submit', methods=['POST'])
-def convert_to_stamp():
-    """Uses the data provided by user via API and
-    converts the webpage to STAMP and returns the
-    final response to user"""
-
-    url = request.form['website_url']
-    max_pages = request.form['max_pages']
+@app.route('/stampified_url', methods=['GET'])
+def stampify_url():
+    """The stampified version of the URL passed in args."""
+    url = request.args.get('url')
+    max_pages = request.args.get('max_pages')
 
     _stampifier = Stampifier(url, int(max_pages))
 
     try:
-        session['stamp'] = _stampifier.stampify().stamp_html
+        return _stampifier.stampify().stamp_html
     except Error as err:
-        LOGGER.debug(err.message)
-
-    return redirect(url_for('show_options'))
-
-
-@app.route('/result')
-def show_options():
-    """Renders webpage to show available output options"""
-
-    return render_template('index.html',
-                           show_options=True,
-                           stamp_html=session['stamp'])
-
-
-@app.route('/generated_stamp')
-def show_stamp():
-    """Displays generated stamp"""
-
-    return session['stamp']
+        return err.message

@@ -1,3 +1,12 @@
+body {
+    background-color: #ecf0f1; 
+}
+
+.container {
+    background-color: #bdc3c7;
+    padding: 5px;
+}
+
 @font-face {
     font-family: montserrat;
     src: url("../fonts/Montserrat-Regular.ttf")
@@ -29,11 +38,9 @@
 }
 
 .details-container{
-    padding: 2px;
+    padding: 6px;
     width: 350px;
-    overflow: hidden;
-    position: absolute;
-    background-color: #e3fdfd;
+    border: 2px solid #fff;
     border-radius: 3px;
 }
 
