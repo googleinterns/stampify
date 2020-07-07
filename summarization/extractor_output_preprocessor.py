@@ -302,8 +302,13 @@ class ExtractorOutputPreprocessor:
                         self.running_index_in_normal_text_content)
 
                 sentence_index_in_paragraph = 0
-                step_size_for_sentence_index_in_paragraph \
-                    = 1 / len(tokenized_and_cleaned_text_object)
+                # in case the index goes out of bounds None would
+                # have been returned and the loop will terminate
+                # on the next iteration - this is a safeguard
+                # agaisnst that scenario
+                if tokenized_and_cleaned_text_object is not None:
+                    step_size_for_sentence_index_in_paragraph \
+                        = 1 / len(tokenized_and_cleaned_text_object)
 
     def get_condensed_image_description(self, image_description):
         ''' Concatenates the various image descriptions into

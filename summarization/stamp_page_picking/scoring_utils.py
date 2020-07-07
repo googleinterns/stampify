@@ -92,9 +92,9 @@ class ScoringUtils:
         stamp_page = self.stamp_pages[stamp_page_index]
         if stamp_page.is_embedded_content:
             return 4
-        elif stamp_page.media_index != -1 and stamp_page.sentence_index != -1:
+        elif stamp_page.media_index != -1 and stamp_page.para_index != -1:
             return 3
         elif stamp_page.media_index != -1:
             return 2
-        elif stamp_page.sentence_index != -1:
+        elif stamp_page.para_index != -1:
             return 1
