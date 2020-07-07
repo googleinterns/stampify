@@ -6,14 +6,14 @@
 </head>
 <body>
     <h1>Not a valid image tag</h1>
-    <img class="img1" src="image_with_src_and_title.jpg" title="This is Image with src and title!" height="100" width="100"/>
-    <img class="img2" src="image_with_src_but_without_title.gif"/>
+    <img class="img1" src="http://www.google.com/image_with_src_and_title.jpg" title="This is Image with src and title!" height="100" width="100"/>
+    <img class="img2" src="http://www.google.com/image_with_src_but_without_title.gif"/>
     <img class="img3" title="This is Image without src!"/>
     <figure class="fig1">
-        <img class="img4" src="image_with_src_and_title_inside_figure.jpg" title="This is Image with src and title inside figure!"/>
+        <img class="img4" src="http://www.google.com/image_with_src_and_title_inside_figure.jpg" title="This is Image with src and title inside figure!"/>
     </figure>
     <figure class="fig2">
-        <img class="img5" src="image_with_src_but_without_title_inside_figure.jpg" height="100" width="100"/>
+        <img class="img5" src="http://www.google.com/image_with_src_but_without_title_inside_figure.jpg" height="100" width="100"/>
         <figcaption>This is figcaption.</figcaption>
     </figure>
     <figure class="fig3">
@@ -22,5 +22,7 @@
     <figure class="fig4">
         <video class="video1" src="video1.mp4">This is figure without img tag inside it</video>
     </figure>
+    <img class="img7" src="//www.google.com/image7.jpg" title="This url is valid after fix"/>
+    <img class="img8" src="//ht" title="Invalid even after fix">
 </body>
 </html>

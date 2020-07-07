@@ -34,6 +34,12 @@ class ImageExtractor(IContentExtractor):
         else:
             image_url = node['src']
 
+        is_invalid, image_url \
+            = utils.invalid_url(image_url)
+
+        if is_invalid:
+            return None
+
         image_title, image_caption = None, None
         if node.has_attr('title'):
             image_title = node['title']
