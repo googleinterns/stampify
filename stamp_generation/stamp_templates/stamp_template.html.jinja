@@ -15,9 +15,8 @@
     <link rel="canonical" href="{{ canonical_url }}" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
     <style amp-custom>
-        amp-story-page:before {
+        amp-story-page:not(.first_page):not(.last_page):before {
             content:url({{ logo_url }});
-            width:20px;height:20px;
             display:block;z-index:10;position:absolute;top:30px;left:15px;
             filter:drop-shadow(1px 1px 5px white);
         }
@@ -175,6 +174,7 @@
         .fade{
             background: rgba(0, 0, 0, 0.6);
         }
+
         .just-text {
               margin: 5%;
               margin-top: 15%;
@@ -194,6 +194,63 @@
             text-shadow: 1px 1px 2px black;
         }
 
+        .title-page {
+            background-color: #fff;
+        }
+
+        .title-page-text {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              overflow: auto;
+        }
+        .title-page-text>p {
+            width: 96%;
+            padding: 2%;
+            font-size: 22px;
+            color: black;
+            font-family: roboto;
+            text-align: center;
+            border: 2px solid black;
+            text-shadow: 1px 1px 1px gray;
+            background: rgba(255, 255, 255, 0.8)
+        }
+
+        .footer{
+            position: absolute;
+            width: 100%;
+            font-size: 14px;
+            color: black;
+            font-family: roboto;
+            align: center;
+            text-shadow: 0px 0px 2px white;
+            bottom: 20px;
+            display: flex;
+            flex-flow: wrap;
+            justify-content: center;
+        }
+
+        .end-page-text {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              overflow: auto;
+        }
+        .end-page-text>p {
+            width: 96%;
+            padding: 2%;
+            font-size: 22px;
+            color: black;
+            font-family: roboto;
+            text-align: center;
+            border: 2px solid black;
+            text-shadow: 1px 1px 1px gray;
+            background: rgba(255, 255, 255, 0.8)
+        }
+
+
     </style>
 </head>
 <body>
@@ -202,8 +259,24 @@
         publisher="{{publisher_domain}}"
         publisher-logo-src="{{logo_url}}"
         poster-portrait-src="abc.jpg">
+        <amp-story-page id="page-1" class="first_page">
+            <amp-story-grid-layer template="fill" >
+                    <amp-img object-fit="contain" layout="fill" class="title-page"
+                         src="https://logo.clearbit.com/{{publisher_domain}}?size=400">
+                    </amp-img>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer layout="fill">
+                <div class="title-page-text">
+                {% if title %}
+                    <p>{{title}}</p>
+                    <br>
+                    <span class="footer">Story by &nbsp<a href="http://{{publisher_domain}}">{{publisher_domain}}</a></span>
+                {% endif %}
+                </div>
+            </amp-story-grid-layer>
+        </amp-story-page>
         {% for page in pages %}
-            <amp-story-page id="page-{{ loop.index }}">
+            <amp-story-page id="page-{{ loop.index + 1 }}">
                 {% if page.media_index and contents[page.media_index].content_type.name == 'IMAGE'-%}
                 <amp-story-grid-layer template="fill" >
                     <amp-img class="bg-image"
@@ -388,6 +461,22 @@
                 {% endif %}
             </amp-story-page>
         {%- endfor %}
+        <amp-story-page id="page-{{ pages | length + 2}}" class="last_page">
+            <amp-story-grid-layer template="fill" >
+                    <amp-img object-fit="contain" layout="fill" class="title-page"
+                         src="https://logo.clearbit.com/{{publisher_domain}}?size=400">
+                    </amp-img>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer layout="fill">
+                <div class="end-page-text">
+                    <p >View article <a href="{{ canonical_url}}">here</a></p>
+                    <span class="footer">
+                        Stamp created by &nbsp<a href="">Stampify</a><br><br>
+                        <a href="https://clearbit.com">Logos provided by Clearbit</a>
+                    </span>
+                </div>
+            </amp-story-grid-layer>
+        </amp-story-page>
     </amp-story>
 </body>
 </html>
