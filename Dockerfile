@@ -22,8 +22,6 @@ RUN python -c "from sentence_transformers import SentenceTransformer; model = Se
 
 RUN python -c "import nltk; nltk.download(\"punkt\")"
 
-EXPOSE 5000
-
 RUN pip install gunicorn
 
 CMD gunicorn --bind :$PORT run_server:app
