@@ -1,56 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Stampify</title>
     <meta name="description" content="Website to STAMP(Stories on AMP) converter">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<script async src="https://cdn.ampproject.org/amp-story-player-v0.js"></script>
-	<link href="https://cdn.ampproject.org/amp-story-player-v0.css" rel="stylesheet" type="text/css"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script async src="https://cdn.ampproject.org/amp-story-player-v0.js"></script>
+    <link href="https://cdn.ampproject.org/amp-story-player-v0.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
     <script type="text/javascript" src="../assets/js/main.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container-fluid">
-        <div class="row header-container bg-info">
-			<div class="col-sm-12">
-                <h1>STAMPIFY</h1>
-                    <p>Webpage to STAMP converter</p><br>
-			</div>
+      <div class="row header-container bg-info">
+        <div class="col-sm-12">
+          <h1>STAMPIFY</h1>
+          <p>Webpage to STAMP converter</p><br>
         </div>
-		<div class="row main-container">
-		<div class="col-sm-3">
-            <div class="details-container">
-                <form id="input-form" method="get">
-                    <label>Enter URL:</label><br>
-                    <input type="url" id="website_url" name="website_url" placeholder="URL goes here" required value='{{url}}'><br>
-                    <label>Stamp Page Count:</label><br>
-                    <input type="number" id="max_pages" name="max_pages" min="1" value='{{max_pages}}' max='20' ><br>
-                    <button type="submit" id="convert-btn">Convert</button>
-                </form>
-             </div><br>
-            <div style="margin-left: 3px;">
-            <h4> Original Page:</h4><div class="original-url-box"><a href='{{url}}' id="original_url"> {{url}}</a></div>
-            </div>
-            </div>
-            <div class="col-sm-3">
-                <div id='stampify-time-taken'>Stampifying duration: <b>0</b> seconds</div><br>
-                <div id='stamp-loader-text'> </div>
-                <iframe id='stamp-iframe' width="294" height="522" src="{{stampified_url}}"> </iframe>
-            </div>
-            <div class="col-sm-6 result-container">
-                 <div>
-                     Shareable Link: <a href="{{stampified_url}}"> Stampified Page </a>
-                     <button id="copy-btn" class="btn-success" style="float: right; margin-right: 2%;">Copy</button>
-                 </div>
-                 <pre id='stamp-code' class="result">Your generated stamp html will appear here!</pre>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 text-center alert alert-success" role="alert"> <b> Liked a result? Didn't work? Make sure to leave <a href="https://forms.gle/zxNnqrYWrWTyz5ZM8"> feedback for a URL here! </a> </b>
         </div>
+      </div>
+      <div class="row main-container">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+          <div class="border-box">
+            <p> Stampify is a tool to automatically convert entertainment/news article web pages to <a href="https://amp.dev/about/stories/"> Stories on AMP (STAMP) </a> web pages.
+
+            <p> Use the box below to enter the URL you want to STAMPIFY and hit convert. If all goes well, the Stampified page should appear in the iframe.
+
+            <p> <a href="http://shortn/_LR9w69bscG"> List of Known Issues </a>
+
+            <p> <a href="https://github.com/googleinterns/stampify"> Github Repo </a>
+
+
+          </div>
+          <div class="border-box">
+            <form id="input-form" method="get">
+              <label>Enter URL:</label><br>
+              <input type="url" id="website_url" name="website_url" placeholder="URL goes here" required value='{{url}}'><br>
+              <label>Stamp Page Count:</label><br>
+              <input type="number" id="max_pages" name="max_pages" min="1" value='{{max_pages}}' max='20' ><br>
+              <button type="submit" id="convert-btn" class="btn btn-primary">Convert</button>
+            </form>
+          </div>
+
+          <div class="border-box">
+            <h4> Links </h4>
+            Original Page: <a href="{{url}}"> LINK </a> <br/>
+            Shareable STAMP: <a href="{{stampified_url}}"> LINK </a> <br/>
+          </div>
+
+        </div>
+        <div class="col-sm-3 text-center">
+          <div id='stamp-loader-text'> </div>
+          <iframe id='stamp-iframe' width="294" height="522" src="{{stampified_url}}"> </iframe>
+          <div id='stampify-time-taken'>Stampifying duration: <b>0</b> seconds</div><br>
+        </div>
+        <div class="col-sm-4 result-container">
+
+          <div>
+            <button type="button" id="copy-btn" class="btn btn-success" style="float: right; margin-right: 2%;">Copy</button>
+          </div>
+          <pre id='stamp-code' class="result">Your generated stamp html will appear here!</pre>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
