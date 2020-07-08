@@ -22,7 +22,8 @@ class TextMediaMatchingHelper:
     It accepts a list of objects of type ElementWithIndex
     '''
 
-    def __init__(self, text_contents, media_contents):
+    def __init__(self, text_contents, media_contents,
+                 distance_metric_type="absolute-difference"):
         '''
         Params:
             * text_contents : list of objects of type
@@ -38,6 +39,7 @@ class TextMediaMatchingHelper:
 
         self.text_contents = text_contents
         self.media_contents = media_contents
+        self.distance_metric_type = distance_metric_type
         self.set_size = len(media_contents)  # size of each set
 
         # description
@@ -58,8 +60,7 @@ class TextMediaMatchingHelper:
             self.sentence_preference_for_media,
             self.set_size)
 
-        matchings = stable_matcher.get_matching()
-        matchings.sort()
+        matchings = sorted(stable_matcher.get_matching())
 
         self.text_media_matchings = []
         for sentence_index, media_index in matchings:
@@ -110,14 +111,23 @@ class TextMediaMatchingHelper:
         sentence_similarity_score = (
             1.0 + self.similarity_matrix[sentence_index][media_index])
 
-        # 1.0 is added to prevent ZeroDivisionError if indices are same
-        distance_score \
-            = 1.0 + abs(
-                self.media_contents[media_index].content_index
-                - self.text_contents[sentence_index].get_weighted_index()
-            )
+        distance_score = self._get_distance_score_based_on_metric_type(
+            media_index, sentence_index)
 
         return sentence_similarity_score / distance_score
+
+    def _get_distance_score_based_on_metric_type(
+            self, media_index, sentence_index):
+        signed_difference = (
+            self.media_contents[media_index].content_index
+            - self.text_contents[sentence_index].get_weighted_index()
+        )
+
+        if self.distance_metric_type == "absolute-difference":
+            # 1.0 is added to prevent ZeroDivisionError if indices are same
+            return 1.0 + abs(signed_difference)
+
+        return signed_difference
 
     def _form_preference_matrix(self):
         ''' Builds and initializes the preference matrix for media+sentences'''

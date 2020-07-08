@@ -16,6 +16,8 @@ class Summarizer:
     the various functions for summarizing
     the contents of the webpage
     '''
+    SIGNED_DIFFERENCE = "signed-difference"
+
     def __init__(
             self,
             title_text_contents,
@@ -48,9 +50,6 @@ class Summarizer:
         ''' Summarizes the contents of the
         webpage and returns it as a StampPage object
         '''
-        # first do text media matching
-        self._perform_text_media_matching()
-
         if self.title_topic_is_plural:
             self._perform_title_first_matching()
         else:
@@ -185,7 +184,7 @@ class Summarizer:
     def _perform_text_media_matching(self):
         text_media_matcher = TextMediaMatcher(
             self.normal_text_contents,
-            self.media_contents
+            self.media_contents,
         )
         return text_media_matcher._get_matched_and_unmatched_contents()
 
@@ -195,7 +194,8 @@ class Summarizer:
         '''
         title_media_matcher = TextMediaMatcher(
             self.title_text_contents,
-            self.media_contents
+            self.media_contents,
+            self.SIGNED_DIFFERENCE
         )
         return title_media_matcher._get_matched_and_unmatched_contents()
 

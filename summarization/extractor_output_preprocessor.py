@@ -3,6 +3,8 @@ output of the extractor to ready it
 for the later stages of the summarizer
 '''
 
+import re
+
 from nltk.tokenize import sent_tokenize, word_tokenize
 from sentence_transformers import SentenceTransformer
 
@@ -70,6 +72,9 @@ class ExtractorOutputPreprocessor:
         #  first split content into different categories
         self._split_content()
 
+        # strip numbering from title text
+        self._strip_numbering_from_title_text()
+
         # summarize the webpage text
         self._summarize_text_content()
 
@@ -111,6 +116,20 @@ class ExtractorOutputPreprocessor:
 
             elif content.content_type != ContentType.UNKNOWN:
                 self.embedded_content_list.append(content)
+
+    def _strip_numbering_from_title_text(self):
+        for title_text in self.title_text_content_list:
+            title_text.text_string \
+                = self._strip_numbering_prefix_from_text(
+                    title_text.text_string)
+
+    def _strip_numbering_prefix_from_text(self, text):
+        numbered_prefix_list = re.findall('^[0-9]+[:,.,)]*', text)
+        if numbered_prefix_list == []:
+            return text.strip()  # strip spaces and tabs frome ends
+        numbered_prefix = numbered_prefix_list[0]
+
+        return text[len(numbered_prefix):].strip()
 
     def _set_sentence_objects_list_for_title_sentences(self):
         ''' sets the list of title sentences objects'''

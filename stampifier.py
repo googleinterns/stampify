@@ -109,9 +109,11 @@ class Stampifier:
             title_text_contents=self.title_text_contents,
             media_contents=self.media_contents,
             embedded_contents=self.embedded_contents,
-            max_pages=self.max_pages
+            max_pages=self.max_pages,
+            webpage_title=self._website.get_title()
         )
         self.is_stampifiable = classifier.is_page_stampifiable()
+        self.webpage_topic_is_plural = classifier.is_webpage_topic_plural()
 
     def _summarize(self):
         summarizer = Summarizer(
@@ -119,7 +121,8 @@ class Stampifier:
             self.normal_text_contents,
             self.media_contents,
             self.embedded_contents,
-            self.max_pages
+            self.max_pages,
+            self.webpage_topic_is_plural
         )
 
         self.stampified_pages = summarizer.get_summarized_content()

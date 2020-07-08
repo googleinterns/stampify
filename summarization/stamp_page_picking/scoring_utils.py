@@ -5,6 +5,8 @@ class ScoringUtils:
     SCORE_FOR_TEXT_ONLY_STAMP = 1.0
     SCORE_FOR_EMBEDDED_STAMP = 5.0
     SCORE_FOR_VISUAL_STAMP = 10.0
+    SCORE_FOR_VISUAL_STAMP_WITH_TEXT = 15.0
+    SCORE_FOR_VISUAL_STAMP_WITH_TITLE_AND_TEXT = 20.0
 
     def __init__(self, stamp_pages, stamp_page_covers, cover_size):
         self.stamp_pages = stamp_pages
@@ -55,7 +57,14 @@ class ScoringUtils:
         if stamp_page.is_embedded_content:
             return self.SCORE_FOR_EMBEDDED_STAMP
         elif stamp_page.media_index != -1:
-            return self.SCORE_FOR_VISUAL_STAMP
+            if stamp_page.overlay_title is not None \
+                    and stamp_page.overlay_text is not None:
+                return self.SCORE_FOR_VISUAL_STAMP_WITH_TITLE_AND_TEXT
+            elif stamp_page.overlay_text is not None \
+                    or stamp_page.overlay_title is not None:
+                return self.SCORE_FOR_VISUAL_STAMP_WITH_TEXT
+            else:
+                return self.SCORE_FOR_VISUAL_STAMP
         else:
             return self.SCORE_FOR_TEXT_ONLY_STAMP
 
