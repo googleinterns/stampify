@@ -67,15 +67,8 @@ class Stampifier:
         '''
         output_preprocessor \
             = ExtractorOutputPreprocessor(self._website.contents)
-        self.preprocessed_contents_dict \
-            = output_preprocessor.get_preprocessed_content_lists()
-        self.title_text_contents \
-            = self.preprocessed_contents_dict["titles"]
-        self.normal_text_contents \
-            = self.preprocessed_contents_dict["sentences"]
-        self.media_contents = self.preprocessed_contents_dict["media"]
-        self.embedded_contents \
-            = self.preprocessed_contents_dict["embedded_content"]
+        self.preprocessed_contents \
+            = output_preprocessor.get_preprocessed_content()
 
     def get_stampified_content(self):
         ''' returns the list of stamp pages'''
@@ -105,10 +98,7 @@ class Stampifier:
 
     def _classify(self):
         classifier = Classifier(
-            normal_text_contents=self.normal_text_contents,
-            title_text_contents=self.title_text_contents,
-            media_contents=self.media_contents,
-            embedded_contents=self.embedded_contents,
+            self.preprocessed_contents,
             max_pages=self.max_pages,
             webpage_title=self._website.get_title()
         )
@@ -117,10 +107,7 @@ class Stampifier:
 
     def _summarize(self):
         summarizer = Summarizer(
-            self.title_text_contents,
-            self.normal_text_contents,
-            self.media_contents,
-            self.embedded_contents,
+            self.preprocessed_contents,
             self.max_pages,
             self.webpage_topic_is_plural
         )

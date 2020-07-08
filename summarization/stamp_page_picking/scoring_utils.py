@@ -3,6 +3,7 @@
 
 class ScoringUtils:
     SCORE_FOR_TEXT_ONLY_STAMP = 1.0
+    SCORE_FOR_QUOTED_STAMP = 2.5
     SCORE_FOR_EMBEDDED_STAMP = 5.0
     SCORE_FOR_VISUAL_STAMP = 10.0
     SCORE_FOR_VISUAL_STAMP_WITH_TEXT = 15.0
@@ -54,7 +55,9 @@ class ScoringUtils:
 
     def _get_content_type_score(self, stamp_page_index):
         stamp_page = self.stamp_pages[stamp_page_index]
-        if stamp_page.is_embedded_content:
+        if stamp_page.is_quoted_content:
+            return self.SCORE_FOR_QUOTED_STAMP
+        elif stamp_page.is_embedded_content:
             return self.SCORE_FOR_EMBEDDED_STAMP
         elif stamp_page.media_index != -1:
             if stamp_page.overlay_title is not None \

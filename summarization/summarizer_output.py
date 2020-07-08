@@ -63,6 +63,7 @@ class StampPage:
             sentence_in_para_index,
             sentence_in_para_weight,
             is_embedded_content,
+            is_quoted_content,
             overlay_title,
             overlay_text,
             overlay_font_style,
@@ -74,6 +75,7 @@ class StampPage:
         self.sentence_in_para_index = sentence_in_para_index
         self.sentence_in_para_weight = sentence_in_para_weight
         self.is_embedded_content = is_embedded_content
+        self.is_quoted_content = is_quoted_content
         self.overlay_title = overlay_title
         self.overlay_text = overlay_text
         self.overlay_font_style = overlay_font_style

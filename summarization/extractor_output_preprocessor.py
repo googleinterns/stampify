@@ -9,6 +9,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from sentence_transformers import SentenceTransformer
 
 from data_models.contents import ContentType
+from data_models.preprocessed_contents import PreprocessedContents
 from summarization.text_summarization import TextSummarizer
 from summarization.web_entity_detection import ImageDescriptionRetriever
 
@@ -59,11 +60,12 @@ class ExtractorOutputPreprocessor:
         self.title_text_content_list = list()  # title text
         self.media_content_list = list()  # images/gifs
         self.embedded_content_list = list()  # insta/tweets/quotes
+        self.quoted_content_list = list()
         self.text_summarizer = TextSummarizer(priority="accuracy")
         self.sentence_embedding_model \
             = SentenceTransformer('bert-base-nli-stsb-mean-tokens')
 
-    def get_preprocessed_content_lists(self):
+    def get_preprocessed_content(self):
         ''' Pre-processes the content
         by splitting it into different content
         types and returns it as a dict
@@ -87,12 +89,16 @@ class ExtractorOutputPreprocessor:
         # set title text objects
         self._set_sentence_objects_list_for_title_sentences()
 
-        return {
-            "titles": self.title_text_objects_list,
-            "sentences": self.sentence_objects_list,
-            "media": self.media_content_list,
-            "embedded_content": self.embedded_content_list
-        }
+        # set quote content embeddings
+        self._fetch_and_set_quote_content_embeddings()
+
+        return PreprocessedContents(
+            title_text=self.title_text_objects_list,
+            normal_text=self.sentence_objects_list,
+            media=self.media_content_list,
+            embedded_content=self.embedded_content_list,
+            quoted_content=self.quoted_content_list
+        )
 
     def _split_content(self):
         ''' Splits the given content into 4 lists
@@ -114,7 +120,10 @@ class ExtractorOutputPreprocessor:
             elif content.content_type == ContentType.IMAGE:
                 self.media_content_list.append(content)
 
-            elif content.content_type != ContentType.UNKNOWN:
+            elif content.content_type == ContentType.QUOTE:
+                self.quoted_content_list.append(content)
+
+            elif content.content_type.is_embedded_content():
                 self.embedded_content_list.append(content)
 
     def _strip_numbering_from_title_text(self):
@@ -366,6 +375,15 @@ class ExtractorOutputPreprocessor:
                 self.media_content_list
             ])
 
+    def _fetch_and_set_quote_content_embeddings(self):
+        quote_embeddings = self.sentence_embedding_model.encode(
+            [quote.q_content for quote in self.quoted_content_list]
+        )
+
+        for quote, embedding in zip(
+                self.quoted_content_list, quote_embeddings):
+            quote.embedding = embedding
+
     def _add_media_description_and_attribute_embeddings(self):
         ''' fills the img_description_embedding/attribute
         field in the media objects
@@ -375,9 +393,9 @@ class ExtractorOutputPreprocessor:
         for media_content,\
             media_description_embedding,\
             media_attribute_embedding in zip(
-                    self.media_content_list,
-                    self.media_description_embeddings,
-                    self.media_attribute_embeddings):
+                self.media_content_list,
+                self.media_description_embeddings,
+                self.media_attribute_embeddings):
 
             media_content.img_description_embedding \
                 = media_description_embedding

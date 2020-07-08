@@ -10,3 +10,4 @@ class Quote(_Content):
         super(Quote, self).__init__(ContentType.QUOTE)
         self.q_content = q_content
         self.cite = cite
+        self.embedding = None

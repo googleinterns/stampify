@@ -58,7 +58,6 @@ class _Content:
 
 class ContentType(enum.Enum):
     """This class creates enumerated constants for Content Type"""
-
     UNKNOWN = 1
     TEXT = 2    # data_models/test
     IMAGE = 3   # data_models/image
@@ -68,3 +67,11 @@ class ContentType(enum.Enum):
     EMBEDDED_INSTAGRAM_POST = 7  # data_models/embedded_instagram_post
     EMBEDDED_PINTEREST_PIN = 8  # data_models/embedded_pinterest_pin
     EMBEDDED_YOUTUBE_VIDEO = 9  # data_models/embedded_youtube_video
+
+    def is_embedded_content(self):
+        return self.value in [
+            self.EMBEDDED_INSTAGRAM_POST.value,
+            self.EMBEDDED_PINTEREST_PIN.value,
+            self.EMBEDDED_TWEET.value,
+            self.EMBEDDED_YOUTUBE_VIDEO.value
+        ]
