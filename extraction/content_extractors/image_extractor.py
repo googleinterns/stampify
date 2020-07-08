@@ -7,6 +7,7 @@ from data_models.image import Image
 from extraction.content_extractors.interface_content_extractor import \
     IContentExtractor
 from extraction.utils import media_extraction_utils as utils
+from utils import url_utils
 
 
 class ImageExtractor(IContentExtractor):
@@ -33,6 +34,10 @@ class ImageExtractor(IContentExtractor):
             image_url = node['data-src']
         else:
             image_url = node['src']
+
+        image_url = url_utils.valid_url(image_url)
+        if not image_url:
+            return None
 
         image_title, image_caption = None, None
         if node.has_attr('title'):

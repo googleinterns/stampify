@@ -14,13 +14,14 @@ __EXTRACTOR = video_extractor.VideoExtractor()
 
 __soup = test_utils.soup('video.html')
 
-expected_output_1 = Video(['video1.mp4'], 100, 100)
+expected_output_1 = Video(['http://www.google.com/video1.mp4'], 100, 100)
 
-expected_output_2 = Video(['movie1.mp4', 'movie1.ogg'], 320, 240)
+expected_output_2 = Video(['http://www.google.com/movie1.mp4',
+                           'http://www.google.com/movie1.ogg'], 320, 240)
 
-expected_output_3 = Video(['movie1.mp4'], 320, 240)
+expected_output_3 = Video(['http://www.google.com/movie1.mp4'], 320, 240)
 
-expected_output_4 = Video(['embed_video1.mp4'], 0, 0)
+expected_output_4 = Video(['http://www.google.com/embed_video1.mp4'], 0, 0)
 
 acceptable_test_data = [(__soup.find('video', class_='video_node1'),
                          expected_output_1),

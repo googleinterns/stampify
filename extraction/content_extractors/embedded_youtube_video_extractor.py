@@ -1,12 +1,13 @@
 """This script checks whether DOM has embedded youtube
 video tag or not and creates and returns the EYouTubeVideo object"""
 
+from urllib.parse import urlparse
+
 import bs4
 
 from data_models.embedded_youtube_video import EYouTubeVideo
 from extraction.content_extractors.interface_content_extractor import \
     IContentExtractor
-from extraction.utils import media_extraction_utils as utils
 
 
 class EYouTubeVideoExtractor(IContentExtractor):
@@ -15,12 +16,11 @@ class EYouTubeVideoExtractor(IContentExtractor):
 
     def validate_and_extract(self, node: bs4.element):
         if node.name == 'iframe' and node.has_attr('src')\
-                and utils.has_domain(node['src'],
-                                     r'^https://www\.youtube\.com/embed'):
+                and node['src'].startswith('https://www.youtube.com/embed/'):
             return EYouTubeVideo(self.__get_youtube_video_id(node['src']))
 
         return None
 
     @staticmethod
     def __get_youtube_video_id(url):
-        return url.split('/')[4].split('?')[0]
+        return urlparse(url)[2].split('/')[2]

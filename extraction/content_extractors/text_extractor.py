@@ -24,7 +24,7 @@ class TextExtractor(IContentExtractor):
                     and not utils.empty_text(text_data) \
                     and utils.is_important_text(node):
                 text_type = node.name
-                is_bold = (node.find('strong') or node.find('bold')) \
+                is_bold = (node.find('strong') or node.find('b')) \
                     and len(node.contents) <= MAX_CHILD
                 text_content = Text(text_data, text_type, is_bold)
                 return text_content
