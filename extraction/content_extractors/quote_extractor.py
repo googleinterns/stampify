@@ -13,7 +13,8 @@ class QuoteExtractor(IContentExtractor):
     """This class inherits IContentExtractor for extracting quote"""
 
     def validate_and_extract(self, node: bs4.element):
-        if node.name == 'q' \
+        if isinstance(node, bs4.element.Tag) \
+                and node.name == 'q' \
                 and not utils.empty_text(node.text):
             cite = None
             if node.has_attr('cite'):

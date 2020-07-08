@@ -8,6 +8,7 @@ from extraction.content_extractors.interface_content_extractor import \
     IContentExtractor
 from extraction.utils import string_utils as utils
 
+TEXT_TAGS = ['p', 'span', 'code', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 MAX_CHILD = 3
 
 
@@ -20,19 +21,16 @@ class TextExtractor(IContentExtractor):
 
         if isinstance(node, bs4.element.Tag):
             text_data = node.get_text().strip()
-            if (node.name in utils.TEXT_TAGS) \
-                    and not utils.empty_text(text_data) \
-                    and utils.is_important_text(node):
+            if (node.name in TEXT_TAGS) \
+                    and not utils.empty_text(text_data):
                 text_type = node.name
                 is_bold = (node.find('strong') or node.find('b')) \
                     and len(node.contents) <= MAX_CHILD
                 text_content = Text(text_data, text_type, is_bold)
                 return text_content
         elif isinstance(node, bs4.element.NavigableString) \
-                and not utils.empty_text(node) \
-                and len(node) > utils.TEXT_MIN_SCORE:
-            text_data = node.strip()
-            text_content = Text(text_data)
+                and not utils.empty_text(node):
+            text_content = Text(node.strip())
             return text_content
 
         return None

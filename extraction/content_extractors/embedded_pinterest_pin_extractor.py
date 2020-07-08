@@ -13,7 +13,8 @@ class EPinterestPinExtractor(IContentExtractor):
      embedded pinterest pins"""
 
     def validate_and_extract(self, node: bs4.element):
-        if node.name == 'a' \
+        if isinstance(node, bs4.element.Tag) \
+                and node.name == 'a' \
                 and node.has_attr('data-pin-do') \
                 and node['data-pin-do'] == 'embedPin'\
                 and node.has_attr('href'):

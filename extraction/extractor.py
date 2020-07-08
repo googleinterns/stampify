@@ -29,9 +29,32 @@ CONTENT_EXTRACTORS \
        embedded_youtube_video_extractor.EYouTubeVideoExtractor(),
        embedded_instagram_post_extractor.EInstagramPostExtractor(),)
 
-pattern_for_ads = re.compile('(^ad-|^ads-)')
+pattern_for_ads = re.compile('(^ad-|^ads-|ads|ad|Ad|Ads'
+                             '|advertisement|Advertisement|'
+                             'advertising|Advertising)')
+
 extra_tags = ['script', 'noscript', 'style', 'header',
-              'footer', 'meta', 'link']
+              'footer', 'meta', 'link', 'nav', 'aside']
+
+KEYWORDS = ['header', 'Header', 'nav', 'Nav',
+            'menu', 'Menu', 'side', 'Side',
+            'footer', 'Footer', 'subscribe', 'Subscribe',
+            'breadcrumb', 'bread-crumb', 'Breadcrumb',
+            'comment', 'Comment', 'cmt', 'Cmt',
+            'search', 'Search', 'banner',
+            'recent', 'Recent', 'author', 'Author',
+            'latest', 'Latest', 'you-may', 'trending',
+            'Trending', 'share', 'Share', 'social', 'Social',
+            'pagination', 'Pagination', 'next', 'Next', 'nxt',
+            'related', 'Related', 'home-cards', 'topicArea',
+            'tabHide', 'rightSec', 'reststory', 'tags', 'Tags',
+            'alsoread', 'also-read', "news_letter_box",
+            "cookie", "report-story", "count", "recommended",
+            "Recommended", "connect", "Connect", "live", "Live",
+            "login", "Login", "sign-up", "signup", "Signup", "fb",
+            "notify", "notification", "Notification", "swiper",
+            "extra", "Extra", "more", "More", "newsletter",
+            "Newsletter", "notice", "Notice", "options", "Options"]
 
 
 class Extractor:
@@ -77,11 +100,19 @@ class Extractor:
         decomposable_tags = self.soup.find_all(extra_tags)
         comments = self.soup. \
             find_all(text=lambda text: isinstance(text, Comment))
-        ads = self.soup.find_all(re.compile('.*'), {'class': pattern_for_ads})
+        ads = self.soup.find_all(class_=pattern_for_ads)
 
         _ = [comment.extract() for comment in comments]
         _ = [tag.decompose() for tag in decomposable_tags]
         _ = [ad.decompose() for ad in ads]
+
+        for keyword in KEYWORDS:
+            _ = [_content.decompose() for _content in
+                 self.soup.find_all(
+                     class_=re.compile('.*{}.*'.format(keyword)))]
+            _ = [_content.decompose() for _content in
+                 self.soup.find_all(
+                     id=re.compile('.*{}.*'.format(keyword)))]
 
     def __extract_data_from_html(self):
         """Calls separate functions for extracting data

@@ -15,7 +15,8 @@ class EYouTubeVideoExtractor(IContentExtractor):
     embedded youtube video"""
 
     def validate_and_extract(self, node: bs4.element):
-        if node.name == 'iframe' and node.has_attr('src')\
+        if isinstance(node, bs4.element.Tag) \
+                and node.name == 'iframe' and node.has_attr('src')\
                 and node['src'].startswith('https://www.youtube.com/embed/'):
             return EYouTubeVideo(self.__get_youtube_video_id(node['src']))
 

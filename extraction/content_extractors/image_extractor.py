@@ -14,12 +14,14 @@ class ImageExtractor(IContentExtractor):
     """This class inherits IContentExtractor to extract Images"""
 
     def validate_and_extract(self, node: bs4.element):
-        if node.name == 'img' and node.has_attr('src'):
-            return self.__create_image(node)
-        if node.name == 'figure':
-            img_tag = node.find('img')
-            if img_tag and img_tag.has_attr('src'):
-                return self.__create_image(img_tag, node.find('figcaption'))
+        if isinstance(node, bs4.element.Tag):
+            if node.name == 'img' and node.has_attr('src'):
+                return self.__create_image(node)
+            if node.name == 'figure':
+                img_tag = node.find('img')
+                if img_tag and img_tag.has_attr('src'):
+                    return self.__create_image(img_tag,
+                                               node.find('figcaption'))
 
         return None
 
