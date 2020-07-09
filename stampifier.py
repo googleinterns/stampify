@@ -31,7 +31,7 @@ class Stampifier:
         """Starts the stampification process"""
 
         if not self._website.is_valid:
-            raise InvalidUrlError(self._website.url)
+            raise InvalidUrlError()
 
         return self.__convert_website_to_stamp()
 

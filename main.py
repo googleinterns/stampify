@@ -15,7 +15,7 @@ import argparse
 import logging
 import os
 
-from error import Error
+from error import StampifierError
 from stampifier import Stampifier
 
 LOGGER = logging.getLogger()
@@ -62,7 +62,7 @@ if __name__ == '__main__':
             f = open(STAMP_DIRECTORY + stamp_file, 'w')
             f.write(stampifier_output.stamp_html)
             f.close()
-    except Error as err:
+    except StampifierError as err:
         LOGGER.debug(err.message)
     except (IOError, OSError) as err:
         LOGGER.debug(err)

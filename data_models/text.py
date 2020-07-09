@@ -17,5 +17,7 @@ class Text(_Content):
         self.is_bold = is_bold
 
     def is_important_text(self):
+        """Checks the importance of text"""
+
         return self.type in self.TITLE_CONTENT_TYPES \
             or self.is_bold

@@ -14,7 +14,7 @@ class Website:
 
     def __init__(self, url):
         self.url = url_utils.valid_url(url)
-        self.is_valid = True if url else False
+        self.is_valid = bool(self.url)
         self.domain = urlparse(self.url)[1] if self.is_valid else None
         self.logo_url = '{}{}?size={}'.format(self.__LOGO_API,
                                               self.domain,
@@ -23,6 +23,7 @@ class Website:
         self.contents = None
 
     def set_contents(self, contents):
+        """Sets the value for contents"""
         self.contents = contents
 
     def convert_to_dict(self):
@@ -34,8 +35,8 @@ class Website:
 
         for key, value in self.__dict__.items():
             if key == 'contents':
-                """Using custom object to dict conversion method to convert
-                the Contents object to dictionary"""
+                # Using custom object to dict conversion method to convert
+                # the Contents object to dictionary
                 formatted_website[key] = value.convert_to_dict()
             else:
                 formatted_website[key] = value
@@ -43,6 +44,7 @@ class Website:
         return formatted_website
 
     def get_title(self):
+        """Returns the title of the provided webpage"""
 
         content_list = self.contents.content_list
         if not (content_list

@@ -6,6 +6,7 @@ import re
 
 import requests
 from bs4 import BeautifulSoup, Comment
+from requests.exceptions import InvalidSchema, MissingSchema
 
 from data_models import contents, text
 from error import (NoneTypeMarkupError, WebsiteConnectionError,
@@ -73,8 +74,8 @@ class Extractor:
         try:
             # To request Html from URL
             file = REQUEST_SESSION.get(self.url).text
-        except requests.exceptions.ConnectionError:
-            raise WebsiteConnectionError(self.url)
+        except (ConnectionError, InvalidSchema, MissingSchema):
+            raise WebsiteConnectionError()
 
         # Remove the comment to read local files for testing purpose
         # file = open('./test_html.html','r').read()

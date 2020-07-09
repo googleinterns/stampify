@@ -32,8 +32,8 @@ class Contents:
 
         for key, value in self.__dict__.items():
             if key == 'content_list':
-                """Updating list of _Content object with
-                 list of dictionary representation of _Content object"""
+                # Updating list of _Content object with
+                # list of dictionary representation of _Content object
                 formatted_contents[key] = formatted_contents_list
             else:
                 formatted_contents[key] = value

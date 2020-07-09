@@ -5,7 +5,7 @@ import os
 
 from flask import Flask, render_template, request
 
-from error import Error
+from error import StampifierError
 from stampifier import Stampifier
 
 app = Flask(__name__, static_folder='assets/')
@@ -49,5 +49,6 @@ def stampify_url():
 
     try:
         return _stampifier.stampify().stamp_html
-    except Error as err:
-        return err.message
+    except StampifierError as err:
+        return render_template('error_screen.html',
+                               message=err.message)

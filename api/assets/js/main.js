@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    if ($('#original_url').text() != " ") {
+    if ($('#original_url').attr('href') != "") {
         var stampifying_time_sec = 0;
         var stampify_duration_interval = setInterval(function() {
             stampifying_time_sec += 1;
@@ -9,7 +9,13 @@ $(document).ready(function() {
     }
 
     $('#stamp-iframe').on('load', function() {
-        $('#stamp-code')[0].innerHTML = he.encode($('#stamp-iframe')[0].contentWindow.document.all[0].outerHTML);
+        var stamp_html_code = $('#stamp-iframe')[0].contentWindow.document.all[0].outerHTML;
+
+        if($($(stamp_html_code)[3]).text() == "Error"){
+            $('#stamp-code')[0].innerHTML = 'No stamp generated!'
+        }else{
+            $('#stamp-code')[0].innerHTML = he.encode(stamp_html_code);
+        }
         clearInterval(stampify_duration_interval);
         $('#stampify-time-taken')[0].innerHTML = 'Stampified in <b>' + stampifying_time_sec + ' seconds</b>';
     });

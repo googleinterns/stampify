@@ -1,22 +1,22 @@
 """This script contains all errors"""
 
 
-class Error(Exception):
+class StampifierError(Exception):
     """Base class for exceptions"""
 
     def __init__(self, message):
-        super(Error, self).__init__(message)
+        super(StampifierError, self).__init__(message)
         self.message = message
 
 
-class InvalidUrlError(Error):
+class InvalidUrlError(StampifierError):
     """Raise exception when provided_url is invalid"""
 
-    def __init__(self, url):
-        super().__init__("Provided URL is Invalid! {}".format(url))
+    def __init__(self):
+        super().__init__("Provided URL is Invalid!")
 
 
-class NoneTypeMarkupError(Error):
+class NoneTypeMarkupError(StampifierError):
     """Raise when markup is NoneType"""
 
     def __init__(self):
@@ -24,7 +24,7 @@ class NoneTypeMarkupError(Error):
                          'Found NoneType!')
 
 
-class WebsiteNotStampifiableError(Error):
+class WebsiteNotStampifiableError(StampifierError):
     """Raise when the provided website cannot be stampified"""
 
     def __init__(self, message, failure_source):
@@ -32,8 +32,8 @@ class WebsiteNotStampifiableError(Error):
                          .format(message, failure_source))
 
 
-class WebsiteConnectionError(Error):
+class WebsiteConnectionError(StampifierError):
     """Raise when connection to website is not possible"""
 
-    def __init__(self, url):
-        super().__init__('Cannot connect to URL! {}'.format(url))
+    def __init__(self):
+        super().__init__('Cannot connect to URL!')
