@@ -166,6 +166,20 @@ class Summarizer:
         unmatched_content \
             = contents_dict_from_text_media_matching["unused_contents"]
 
+        # we should filter out plain media which has already been used in some
+        # stamp page and should not directly add it to unmatched contents
+        if contents_dict_from_text_media_matching["unused_content_type"] \
+                == "media":
+            already_used_media_indices = [
+                title_media_pair[1].content_index
+                for title_media_pair in matched_title_media
+            ]
+
+            unmatched_content = [
+                content for content in unmatched_content
+                if content.content_index not in already_used_media_indices
+            ]
+
         for sentence_media_pair in matched_text_media:
             sentence, media = sentence_media_pair
             sentence_media_pair_has_existing_stamp = False
@@ -177,8 +191,8 @@ class Summarizer:
 
                     sentence_media_pair_has_existing_stamp = True
 
-                if not sentence_media_pair_has_existing_stamp:
-                    unmatched_content.append(sentence_media_pair)
+            if not sentence_media_pair_has_existing_stamp:
+                unmatched_content.append(sentence_media_pair)
 
         self._assemble_and_add_stamp_pages_to_list(unmatched_content)
 

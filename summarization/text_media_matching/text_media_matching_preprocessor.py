@@ -21,6 +21,8 @@ class TextMediaMatchingPreprocessor:
         self.media_list = media_list
         self.media_count = len(media_list)
 
+        self.unused_content_type = None
+
         # collect embeddings for sentences/media
         self.sentence_embeddings = [
             sentence.embedding for sentence in self.sentence_list
@@ -47,10 +49,12 @@ class TextMediaMatchingPreprocessor:
         # fully allot them to unused content
         elif self.sentence_count == 0:
             self.content_unused_for_matching = self.media_list
+            self.unused_content_type = "media"
             self.media_list = list()
 
         else:
             self.content_unused_for_matching = self.sentence_list
+            self.unused_content_type = "text"
             self.sentence_list = list()
 
         return {
@@ -58,7 +62,8 @@ class TextMediaMatchingPreprocessor:
             "sentences": self.sentence_list,
             "media": self.media_list,
             # this list can be used separately
-            "content_unused_for_matching": self.content_unused_for_matching
+            "content_unused_for_matching": self.content_unused_for_matching,
+            "unused_content_type": self.unused_content_type
         }
 
     def _form_similarity_matrix(self):
@@ -120,9 +125,11 @@ class TextMediaMatchingPreprocessor:
 
         if self.media_count > self.sentence_count:
             # we need to eliminate some media
+            self.unused_content_type = "media"
             self.media_list = self._get_pruned_list(
                 self.media_description_list_indices, self.media_list)
         else:
             # we need to eliminate some sentences
+            self.unused_content_type = "text"
             self.sentence_list = self._get_pruned_list(
                 self.sentence_list_indices, self.sentence_list)

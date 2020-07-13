@@ -18,9 +18,11 @@ class TextMediaMatcher:
         if len(self.text_contents) == 0 or len(self.media_contents) == 0:
             return {
                 "matched_contents": [],
-                "unused_contents": self.text_contents
-                if len(self.text_contents) != 0 else self.media_contents
-            }
+                "unused_contents": self.text_contents if len(
+                    self.text_contents) != 0 else self.media_contents,
+                "unused_content_type": "text" if len(
+                    self.text_contents) != 0 else "media"}
+
         preprocessor = TextMediaMatchingPreprocessor(
             self.text_contents,
             self.media_contents
@@ -31,6 +33,7 @@ class TextMediaMatcher:
         media_for_matching = preprocessed_contents_dict["media"]
         unused_contents \
             = preprocessed_contents_dict["content_unused_for_matching"]
+        unused_content_type = preprocessed_contents_dict["unused_content_type"]
 
         matcher = TextMediaMatchingHelper(
             text_for_matching, media_for_matching, self.distance_metric_type)
@@ -38,5 +41,6 @@ class TextMediaMatcher:
 
         return {
             "matched_contents": matched_contents,
-            "unused_contents": unused_contents
+            "unused_contents": unused_contents,
+            "unused_content_type": unused_content_type
         }
