@@ -9,6 +9,7 @@ $(document).ready(function() {
     }
 
     $('#stamp-iframe').on('load', function() {
+        $('.loader').remove();
         var stamp_html_code = $('#stamp-iframe')[0].contentWindow.document.all[0].outerHTML;
 
         if($($(stamp_html_code)[3]).text() == "Error"){
