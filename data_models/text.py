@@ -6,7 +6,7 @@ from data_models.contents import ContentType, _Content
 class Text(_Content):
     """This class creates Text object"""
     TITLE_CONTENT_TYPES = [
-        "h1", "h2", "h3", "h4", "h5", "h6"
+        "h1", "h2", "h3", "h4", "h5", "h6", "title"
     ]
 
     def __init__(self, text_str, text_type='', is_bold=False):

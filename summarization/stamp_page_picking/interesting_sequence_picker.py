@@ -62,7 +62,7 @@ class InterestingSequencePicker:
         self._set_seed_stamp_page()
 
     def get_interesting_sequence_and_unused_pages(self):
-        for self.iteration_count in range(self.max_pages_allowed):
+        for i in range(self.max_pages_allowed):
             # get the index of the next best stamp page
             stamp_page_index = self._get_next_best_stamp_page_index()
 
@@ -124,9 +124,6 @@ class InterestingSequencePicker:
         ''' This is the stamp page from which we'll
         construct our sequence
         '''
-        self.stamp_page_sequence.append(
-            self.stamp_pages[0]
-        )
         self.last_picked_stamp_page_index = self.stamp_pages[0]
         self.scoring_util.pick_stamp_page_cover_at_index(0)
         self.stamp_page_indices.pop(0)
