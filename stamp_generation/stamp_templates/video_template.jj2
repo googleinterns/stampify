@@ -1,0 +1,19 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="fill" >
+                <div class="bg-gradient">
+                </div>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer template="fill" class="drop-shadow media">
+                <amp-video controls object-fit="contain"
+                    width={{contents[page.media_index].width}}
+                    height={{contents[page.media_index].height}}
+                    layout="responsive">
+                    {% for url in contents[page.media_index].video_urls -%}
+                    <source src= "{{ url }}"/>
+                    {%- endfor %}
+                    <div fallback>
+                    <p>This browser does not support the video element.</p>
+                    </div>
+                </amp-video>
+            </amp-story-grid-layer>
+{% endblock %}

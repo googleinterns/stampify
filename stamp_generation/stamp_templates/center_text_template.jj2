@@ -1,0 +1,20 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="fill" >
+                <div class="bg-blue-green">
+                </div>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer template="fill">
+                <div class="just-text">
+                    {% if not page.overlay_title and page.overlay_text %}
+                    <p>
+                    {{ page.overlay_text}}
+                    </p>
+                    {% endif %}
+                    {% if not page.overlay_text and page.overlay_title %}
+                    <p>
+                    {{ page.overlay_title}}
+                    </p>
+                    {% endif %}
+                </div>
+            </amp-story-grid-layer>
+{% endblock %}

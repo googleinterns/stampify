@@ -1,0 +1,26 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="fill" >
+                <div class="bg-white-blue">
+                </div>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer template="fill">
+                <div class="drop-shadow adds-margin scroll">
+                    <amp-twitter
+                         layout="fill"
+                         data-tweetid="{{ contents[page.media_index].tweet_id }}"
+                         data-cards="hidden"
+                         data-conversation="none">
+                    </amp-twitter>
+                </div>
+            </amp-story-grid-layer>
+            <amp-story-page-attachment layout="nodisplay" data-cta-text="View more">
+                <p class="tweet-font">See the tweet below: </p>
+                <amp-twitter
+                     layout="responsive"
+                     class="drop-shadow twitter-attachment"
+                     data-tweetid="{{ contents[page.media_index].tweet_id }}"
+                     height="1"
+                     width="1">
+                </amp-twitter>
+            </amp-story-page-attachment>
+{% endblock %}

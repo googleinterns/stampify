@@ -1,0 +1,16 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="fill" >
+                <amp-img object-fit="contain" layout="fill" class="title-page"
+                    src="https://logo.clearbit.com/{{publisher_domain}}?size=400">
+                </amp-img>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer layout="fill">
+                <div class="title-page-text">
+                    {% if title %}
+                    <p>{{title}}</p>
+                    <br>
+                    <span class="footer">Story by &nbsp<a href="http://{{publisher_domain}}">{{publisher_domain}}</a></span>
+                    {% endif %}
+                </div>
+            </amp-story-grid-layer>
+{% endblock %}

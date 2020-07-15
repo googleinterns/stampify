@@ -1,0 +1,13 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="fill" >
+               <div class="bg-off-white">
+               </div>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer>
+               <amp-youtube class="drop-shadow adds-margin"
+                   layout = "fill"
+                   data-videoid="{{ contents[page.media_index].yt_video_id }}"
+                   interactive>
+               </amp-youtube>
+            </amp-story-grid-layer>
+{% endblock %}

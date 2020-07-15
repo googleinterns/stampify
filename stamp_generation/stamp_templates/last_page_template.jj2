@@ -1,0 +1,16 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="fill" >
+                <amp-img object-fit="contain" layout="fill" class="title-page"
+                    src="https://logo.clearbit.com/{{publisher_domain}}?size=400">
+                </amp-img>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer layout="fill">
+                <div class="end-page-text">
+                    <p >View article <a href="{{ canonical_url}}">here</a></p>
+                    <span class="footer">
+                        Stamp created by &nbsp<a href="">Stampify</a><br><br>
+                        <a href="https://clearbit.com">Logos provided by Clearbit</a>
+                    </span>
+               </div>
+            </amp-story-grid-layer>
+{% endblock %}

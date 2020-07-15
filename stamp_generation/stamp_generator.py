@@ -5,13 +5,13 @@ received from summarizer"""
 import logging
 import os
 
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 
 LOGGER = logging.getLogger()
 
 ABSOLUTE_PATH = os.path.abspath(os.path.dirname(__file__))
-RELATIVE_PATH = '/stamp_templates/stamp_template.html.jinja'
-STAMP_TEMPLATE_PATH = ABSOLUTE_PATH + RELATIVE_PATH
+RELATIVE_PATH = '/stamp_templates'
+STAMP_TEMPLATE_DIRECTORY = ABSOLUTE_PATH + RELATIVE_PATH
 
 
 class StampGenerator:
@@ -27,7 +27,9 @@ class StampGenerator:
          renders the output received from summarizer on the template
          and returns rendered template"""
 
-        template = Template(open(STAMP_TEMPLATE_PATH).read())
+        loader = FileSystemLoader(STAMP_TEMPLATE_DIRECTORY)
+        jinja_env = Environment(loader=loader)
+        template = jinja_env.get_template('stamp_base_template.jj2')
 
         return template.render(
             publisher_domain=self._website.domain,

@@ -1,0 +1,23 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="fill" >
+                 <amp-img class="bg-image"
+                 src="{{contents[page.media_index].img_url}}">
+                 </amp-img>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer template="fill" class="bg-solid" >
+            </amp-story-grid-layer>
+            <amp-story-grid-layer template="fill" class="drop-shadow media">
+                  <div class="fixed-container">
+                        <amp-img object-fit="contain" layout="fill"
+                            {% if contents[page.media_index].img_title %}
+                            alt="{{contents[page.media_index].img_title}}"
+                            {% elif contents[page.media_index].img_caption %}
+                            alt="{{contents[page.media_index].img_caption}}"
+                            {% endif %}
+                            src="{{contents[page.media_index].img_url}}"
+                            width="{{contents[page.media_index].img_width}}"
+                            height="{{contents[page.media_index].img_height}}">
+                        </amp-img>
+                  </div>
+            </amp-story-grid-layer>
+{% endblock %}

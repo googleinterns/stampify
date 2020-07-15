@@ -1,0 +1,236 @@
+{% block peceinterfaces %}
+        amp-story-page:not(.first_page):not(.last_page):before {
+            content:url({{ logo_url }});
+            display:block;z-index:10;position:absolute;top:30px;left:15px;
+            filter:drop-shadow(1px 1px 5px white);
+        }
+
+        @font-face {
+            font-family: 'Roboto', sans-serif;
+            src: url("./fonts/Roboto-Regular.ttf")
+         }
+        .page-title {
+            position: absolute;
+            width: 100%;
+            color: #fff;
+            top: 6%;
+            padding: 5%;
+            overflow:hidden;
+            text-shadow: 1px 1px 1px black;
+            text-align: justify;
+            text-align-last: center;
+            font-family: roboto;
+        }
+        .page-overlay-text {
+            position: absolute;
+            width: 100%;
+            color: #fff;
+            top: 50%;
+            padding: 5%;
+            overflow:hidden;
+            text-shadow: 1px 1px 1px black;
+            text-align: justify;
+            text-align-last: center;
+            font-family: roboto;
+        }
+        .media {
+            margin: 1px;
+        }
+        .embedded-media {
+            margin: 1px;
+            top: 12%;
+            bottom: 15%;
+        }
+
+        .quote {
+            margin-top: 45%;
+            font-size: 22px;
+            color: #000;
+        }
+
+        .quote>q {
+            text-shadow: 1px 1px 1px white;
+        }
+
+        .citation {
+            width: 100%;
+            text-align: right;
+            font-size: 14px;
+            color: #fdfcfb;
+        }
+
+        .bg-image {
+           filter: blur(8px);
+          -webkit-filter: blur(8px);
+
+          height: 100%;
+
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        .fixed-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+        .bg-solid {
+          background-color: #000;
+          opacity: 0.1;
+        }
+        .bg-gradient {
+          background-image: linear-gradient(45deg, #fdfcfb, #e2d1c3, #fdfcfb);
+          width: 100%;
+          height: 100%;
+
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+
+        .bg-blue-green {
+           background-color: #769fcd;
+        }
+
+        .adds-margin {
+          margin-top: 16%;
+          margin-bottom: 3%;
+          position: absolute;
+          margin-left: 2px;
+          margin-right: 2px;
+        }
+
+        .tweet-font {
+            color: #38A1F3;
+            font-size: 18px;
+            margin: 10px;
+        }
+
+        .twitter-attachment {
+            position: relative;
+            padding: 5px;
+            align: center;
+        }
+
+        .bg-white-blue {
+          background-image: linear-gradient(45deg, #fff 10%, #38A1F3 20%, #fff 10%);
+          width: 100%;
+          height: 100%;
+        }
+
+        .bg-off-white {
+          background-color: #f1f1f1;
+          width: 100%;
+          height: 100%;
+        }
+
+        .scroll {
+            overflow-y: scroll;
+        }
+        .scroll::-webkit-scrollbar {
+            -webkit-appearance: none;
+        }
+
+        .scroll::-webkit-scrollbar:vertical {
+            width: 6px;
+        }
+
+        .scroll::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            border: 1px solid white;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .drop-shadow {
+            box-shadow: 2px 2px 5px 2px #aaaaaa;
+        }
+
+        .fixed-block {
+             margin: 2%;
+             width: 96%;
+        }
+
+        .attachment-text {
+            margin: 2%;
+            font-size: 16px;
+        }
+
+        .fade{
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .just-text {
+              margin: 5%;
+              margin-top: 15%;
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              overflow: auto;
+        }
+        .just-text>p {
+            width: 96%;
+            font-size: 20px;
+            color: #fff;
+            font-family: roboto;
+            text-align: justify;
+            text-align-last: center;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .title-page {
+            background-color: #fff;
+        }
+
+        .title-page-text {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              overflow: auto;
+        }
+        .title-page-text>p {
+            width: 96%;
+            padding: 2%;
+            font-size: 22px;
+            color: black;
+            font-family: roboto;
+            text-align: center;
+            border: 2px solid black;
+            text-shadow: 1px 1px 1px gray;
+            background: rgba(255, 255, 255, 0.8)
+        }
+
+        .footer{
+            position: absolute;
+            width: 100%;
+            font-size: 14px;
+            color: black;
+            font-family: roboto;
+            align: center;
+            text-shadow: 0px 0px 2px white;
+            bottom: 20px;
+            display: flex;
+            flex-flow: wrap;
+            justify-content: center;
+        }
+
+        .end-page-text {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              overflow: auto;
+        }
+        .end-page-text>p {
+            width: 96%;
+            padding: 2%;
+            font-size: 22px;
+            color: black;
+            font-family: roboto;
+            text-align: center;
+            border: 2px solid black;
+            text-shadow: 1px 1px 1px gray;
+            background: rgba(255, 255, 255, 0.8)
+        }
+{% endblock %}

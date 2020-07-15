@@ -1,0 +1,15 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="fill" >
+                <div class="bg-off-white">
+                </div>
+            </amp-story-grid-layer>
+            <amp-story-grid-layer template="fill">
+                <div class="drop-shadow adds-margin scroll">
+                     <amp-instagram
+                         layout="fill"
+                         data-shortcode="{{ contents[page.media_index].insta_shortcode }}"
+                         data-captioned>
+                     </amp-instagram>
+                </div>
+            </amp-story-grid-layer>
+{% endblock %}

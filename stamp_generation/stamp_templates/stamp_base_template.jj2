@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html amp lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+    <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
+    <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>
+    <script custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js" async></script>
+    <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
+    <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
+    <script async custom-element="amp-pinterest" src="https://cdn.ampproject.org/v0/amp-pinterest-0.1.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>{{title}}</title>
+    <link rel="canonical" href="{{ canonical_url }}" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+    <style amp-custom>
+        {% include "stamp_css.jj2" %}
+    </style>
+</head>
+<body>
+    <amp-story
+        standalone title="{{title}}"
+        publisher="{{publisher_domain}}"
+        publisher-logo-src="{{logo_url}}"
+        poster-portrait-src="abc.jpg">
+        <amp-story-page id="page-1" class="first_page">
+            {%- include "first_page_template.jj2" %}
+        </amp-story-page>
+        {% for page in pages %}
+        <amp-story-page id="page-{{ loop.index + 1 }}">
+            {% if page.media_index != -1 %}
+                {% if contents[page.media_index].content_type.name == 'IMAGE'-%}
+                    {%- include "image_template.jj2" -%}
+                {%- endif %}
+                {% if contents[page.media_index].content_type.name == 'VIDEO'-%}
+                    {%- include "video_template.jj2" -%}
+                {%- endif %}
+                {% if contents[page.media_index].content_type.name == 'QUOTE'-%}
+                    {%- include "quote_template.jj2" -%}
+                {%- endif -%}
+                {% if contents[page.media_index].content_type.name == 'EMBEDDED_TWEET'-%}
+                    {%- include "embedded_tweet_template.jj2" -%}
+                {%- endif -%}
+                {% if contents[page.media_index].content_type.name == 'EMBEDDED_YOUTUBE_VIDEO'-%}
+                    {%- include "embedded_youtube_video_template.jj2" -%}
+                {%- endif -%}
+                {% if contents[page.media_index].content_type.name == 'EMBEDDED_INSTAGRAM_POST'-%}
+                    {%- include "embedded_instagram_post_template.jj2" -%}
+                {%- endif -%}
+                {% if contents[page.media_index].content_type.name == 'EMBEDDED_PINTEREST_PIN'-%}
+                    {%- include "embedded_pinterest_pin_template.jj2" -%}
+                {%- endif -%}
+                {% if not page.is_embedded_content %}
+                    {%- include "overlay_text_template.jj2" -%}
+                {%- endif %}
+            {% endif %}
+            {%- if not page.is_embedded_content
+                and page.media_index == -1
+                and (page.overlay_title or page.overlay_text) %}
+                {%- include "center_text_template.jj2" -%}
+            {% endif %}
+        </amp-story-page>
+        {%- endfor %}
+        <amp-story-page id="page-{{ pages | length + 2}}" class="last_page">
+            {%- include "last_page_template.jj2" -%}
+        </amp-story-page>
+    </amp-story>
+</body>
+</html>

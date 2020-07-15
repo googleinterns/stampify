@@ -1,0 +1,32 @@
+{% block peceinterfaces %}
+            <amp-story-grid-layer template="vertical">
+               {% if page.overlay_title %}
+               <div class="page-title">
+                   <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
+                       <span class="fade">
+                           {{ page.overlay_title}}
+                       </span>
+                   </amp-fit-text>
+               </div>
+               {% endif %}
+               {% if page.overlay_text %}
+               <div class="page-overlay-text">
+                   <amp-fit-text width="200" height="150" layout="responsive" min-font-size="18" max-font-size="20">
+                       <span class="fade">
+                       {{ page.overlay_text}}
+                       </span>
+                   </amp-fit-text>
+               </div>
+               {%- endif %}
+            </amp-story-grid-layer>
+            {% if page.overlay_text and (page.overlay_text|length)>340 %}
+            {# Note: 340 is the maximum character limit that does not lead to overflow with used container size and font-size range and font-style. #}
+            <amp-story-page-attachment layout="nodisplay" data-title="Read Full Text Here!" data-cta-text="Read more">
+                <div class="fixed-block bg-off-white ">
+                    <p class="attachment-text">
+                        {{ page.overlay_text}}
+                    </p>
+                </div>
+            </amp-story-page-attachment>
+            {%- endif %}
+{% endblock %}
