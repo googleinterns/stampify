@@ -13,15 +13,15 @@ def mocked_requests_post(*args, **kwargs):
     entity = ""
     status_code = 200
     if json_data["requests"][0]["image"]["source"]["imageUri"] \
-            == "https://tinyurl.com/y7how2rj":
+            == "http://tinyurl.com/y7how2rj":
         label = "sundar pichai"
         entity = "sundar pichai Alphabet"
     elif json_data["requests"][0]["image"]["source"]["imageUri"] \
-            == "https://tinyurl.com/y9bvoehm":
+            == "http://tinyurl.com/y9bvoehm":
         label = "larry page"
         entity = "larry page google"
     elif json_data["requests"][0]["image"]["source"]["imageUri"] \
-            == "https://tinyurl.com/y9t35t3z":
+            == "http://tinyurl.com/y9t35t3z":
         label = "sergey brin"
         entity = "sergey brin google"
     else:

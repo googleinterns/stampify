@@ -18,6 +18,7 @@ import os
 import requests
 
 from summarization.bad_request_error import BadRequestError
+from utils.url_utils import convert_scheme_to_http
 
 
 class ImageDescriptionRetriever:
@@ -137,7 +138,7 @@ class ImageDescriptionRetriever:
         return {
             "image": {
                 "source": {
-                    "imageUri": url
+                    "imageUri": convert_scheme_to_http(url)
                 }
             },
             "features": [
