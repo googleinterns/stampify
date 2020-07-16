@@ -358,15 +358,15 @@ class ExtractorOutputPreprocessor:
 
     def _fetch_media_embeddings(self):
         image_describer = ImageDescriptionRetriever()
-
+        self.image_descriptions \
+            = image_describer.get_description_for_images(
+                [media.img_url for media in self.media_content_list]
+            )
         # fetch all image descriptions+embeddings together - reduces latency
         self.media_description_embeddings \
             = self.sentence_embedding_model.encode([
                 self.get_condensed_image_description(image_description)
-                for image_description in
-                image_describer.get_description_for_images(
-                    [media.img_url for media in self.media_content_list]
-                )
+                for image_description in self.image_descriptions
             ])
 
         self.media_attribute_embeddings \
@@ -392,13 +392,21 @@ class ExtractorOutputPreprocessor:
 
         for media_content,\
             media_description_embedding,\
-            media_attribute_embedding in zip(
+            media_attribute_embedding,\
+            image_description in zip(
                 self.media_content_list,
                 self.media_description_embeddings,
-                self.media_attribute_embeddings):
+                self.media_attribute_embeddings,
+                self.image_descriptions):
 
             media_content.img_description_embedding \
                 = media_description_embedding
 
             media_content.img_attribute_embedding \
                 = media_attribute_embedding
+
+            media_content.has_text_on_image \
+                = image_description["has_caption"]
+
+            media_content.image_colors \
+                = image_description["image_colors"]

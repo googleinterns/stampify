@@ -16,6 +16,7 @@ import json
 import os
 
 import requests
+from nltk.tokenize import word_tokenize
 
 from summarization.bad_request_error import BadRequestError
 from utils.url_utils import convert_scheme_to_http
@@ -32,6 +33,8 @@ class ImageDescriptionRetriever:
         = "https://vision.googleapis.com/v1/images:annotate?key="
 
     BATCH_SIZE = 5  # number of images per api request
+
+    WORD_COUNT_TO_QUALIFY_AS_CAPTION = 15
 
     def __init__(self, max_entities=3):
         self.api_key \
@@ -116,14 +119,18 @@ class ImageDescriptionRetriever:
             image_descriptions.append(
                 {
                     "label": self._get_best_guess_label(
-                        response["responses"][i]
-                    ),
+                        response["responses"][i]),
+
                     "entities": self._get_top_entities(
                         response["responses"][i],
-                        self.max_entities
-                    )
-                }
-            )
+                        self.max_entities),
+
+                    "has_caption": self._get_text_annotation_is_below_limit(
+                        response["responses"][i]
+                    ),
+
+                    "image_colors": self._get_top_colors_from_image(
+                        response["responses"][i])})
         return request_number, image_descriptions
 
     def _format_single_request(self, url: str) -> dict:
@@ -145,6 +152,14 @@ class ImageDescriptionRetriever:
                 {
                     "maxResults": self.max_entities,
                     "type": "WEB_DETECTION"
+                },
+                {
+                    "type": "TEXT_DETECTION"
+                },
+                {
+                    # only take top 3 colors
+                    "maxResults": 3,
+                    "type": "IMAGE_PROPERTIES"
                 }
             ],
             "imageContext": {
@@ -176,3 +191,36 @@ class ImageDescriptionRetriever:
         return [web_entity_collection[i]["description"]
                 for i in range(number_of_entities)
                 if "description" in web_entity_collection[i]]
+
+    def _get_rgb_tuple_from_color_dict(self, color_dict):
+        return (
+            color_dict["color"]["red"],
+            color_dict["color"]["green"],
+            color_dict["color"]["blue"]
+        )
+
+    def _get_top_colors_from_image(self, image_response):
+        if "imagePropertiesAnnotation" not in image_response:
+            return [(-1, -1, -1)]  # return no image color found
+        image_colors = list()
+
+        for color_dict in image_response[
+                "imagePropertiesAnnotation"]["dominantColors"]["colors"]:
+            image_colors.append(
+                self._get_rgb_tuple_from_color_dict(color_dict)
+            )
+
+        return image_colors
+
+    def _get_word_count_from_text(self, text):
+        # remove newline chars from text
+        text = ' '.join(text.split('\n'))
+        return len(word_tokenize(text))
+
+    def _get_text_annotation_is_below_limit(self, image_response):
+        if "textAnnotation" not in image_response:
+            return False
+
+        return self._get_word_count_from_text(
+            image_response["textAnnotation"][0]["description"]
+        ) >= self.WORD_COUNT_TO_QUALIFY_AS_CAPTION

@@ -11,23 +11,34 @@ def mocked_requests_post(*args, **kwargs):
     json_data = json.loads(kwargs["data"])
     label = ""
     entity = ""
+    has_caption = False
     status_code = 200
+    color_num = None
     if json_data["requests"][0]["image"]["source"]["imageUri"] \
             == "http://tinyurl.com/y7how2rj":
         label = "sundar pichai"
         entity = "sundar pichai Alphabet"
+        has_caption = True
+        color_num = 0
+
     elif json_data["requests"][0]["image"]["source"]["imageUri"] \
             == "http://tinyurl.com/y9bvoehm":
         label = "larry page"
         entity = "larry page google"
+        color_num = 1
+
     elif json_data["requests"][0]["image"]["source"]["imageUri"] \
             == "http://tinyurl.com/y9t35t3z":
         label = "sergey brin"
         entity = "sergey brin google"
+        color_num = 2
+    elif json_data["requests"][0]["image"]["source"]["imageUri"] \
+            == "img_url_with_no_image_color_annotation":
+        color_num = None
     else:
         status_code = 400
 
-    response = json.dumps({
+    response_dict = {
         "responses": [
             {
                 "webDetection": {
@@ -42,10 +53,51 @@ def mocked_requests_post(*args, **kwargs):
                             "languageCode": "en"
                         }
                     ]
+                },
+                "imagePropertiesAnnotation": {
+                    "dominantColors": {
+                        "colors": [
+                            {
+                                "color": {
+                                    "red": color_num,
+                                    "green": color_num,
+                                    "blue": color_num
+                                }
+                            },
+                            {
+                                "color": {
+                                    "red": color_num,
+                                    "green": color_num,
+                                    "blue": color_num
+                                }
+                            },
+                            {
+                                "color": {
+                                    "red": color_num,
+                                    "green": color_num,
+                                    "blue": color_num
+                                }
+                            }
+                        ]
+                    }
                 }
             }
         ]
-    })
+    }
+
+    if has_caption:
+        response_dict["responses"][0]["textAnnotation"] = [
+            {
+                "description":
+                    '''this is a sentence that will be detected as a caption
+                     and it has to have at least fifteen words or tokens'''
+            }
+        ]
+
+    if color_num is None:
+        response_dict["responses"][0].pop("imagePropertiesAnnotation")
+
+    response = json.dumps(response_dict)
     return Mock(status_code=status_code, content=response)
 
 
@@ -72,6 +124,12 @@ def test_request_format(mocked_post):
     assert "type" in formatted_request["features"][0]
     assert formatted_request["features"][0]["type"] == "WEB_DETECTION"
 
+    assert "type" in formatted_request["features"][1]
+    assert formatted_request["features"][1]["type"] == "TEXT_DETECTION"
+
+    assert "type" in formatted_request["features"][2]
+    assert formatted_request["features"][2]["type"] == "IMAGE_PROPERTIES"
+
     assert "imageContext" in formatted_request
     assert isinstance(formatted_request["imageContext"], dict)
     assert "webDetectionParams" in formatted_request["imageContext"]
@@ -95,16 +153,22 @@ def test_web_entity_detection(mocked_post):
         ["https://tinyurl.com/y7how2rj"])[0]
     assert "sundar pichai" in reponse_for_image_url_1["label"]
     assert "sundar pichai Alphabet" in reponse_for_image_url_1["entities"]
+    assert reponse_for_image_url_1["has_caption"]
+    assert reponse_for_image_url_1["image_colors"] == [(0, 0, 0)] * 3
 
     reponse_for_image_url_2 = image_describer.get_description_for_images(
         ["https://tinyurl.com/y9bvoehm"])[0]
     assert "larry page" in reponse_for_image_url_2["label"]
     assert "larry page google" in reponse_for_image_url_2["entities"]
+    assert not reponse_for_image_url_2["has_caption"]
+    assert reponse_for_image_url_2["image_colors"] == [(1, 1, 1)] * 3
 
     reponse_for_image_url_3 = image_describer.get_description_for_images(
         ["https://tinyurl.com/y9t35t3z"])[0]
     assert "sergey brin" in reponse_for_image_url_3["label"]
     assert "sergey brin google" in reponse_for_image_url_3["entities"]
+    assert not reponse_for_image_url_3["has_caption"]
+    assert reponse_for_image_url_3["image_colors"] == [(2, 2, 2)] * 3
 
 
 @ patch(
@@ -193,3 +257,16 @@ def test_request_number(mocked_post):
     )
 
     assert actual_request_number == returned_request_number
+
+
+@ patch(
+    "summarization.web_entity_detection.requests.post",
+    side_effect=mocked_requests_post)
+def test_default_response_with_no_colors(mocked_post):
+    image_describer = ImageDescriptionRetriever(1)
+
+    image_response = image_describer.get_description_for_images(
+        ["img_url_with_no_image_color_annotation"]
+    )[0]
+
+    assert image_response["image_colors"] == [(-1, -1, -1)]

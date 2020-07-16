@@ -34,6 +34,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install isort==4.3.21 pylint flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        python -m nltk.downloader punkt
     - name: Import ordering with isort
       run: |
         isort
