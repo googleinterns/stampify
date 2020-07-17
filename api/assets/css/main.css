@@ -45,7 +45,7 @@ form>label {
     font-family: montserrat;
 }
 
-form>input {
+form>input:not(#animations) {
     width:100%;
     border: 0px;
     padding: 2%;
@@ -106,3 +106,4 @@ form>button {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg);
 }
+

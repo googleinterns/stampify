@@ -17,9 +17,10 @@ STAMP_TEMPLATE_DIRECTORY = ABSOLUTE_PATH + RELATIVE_PATH
 class StampGenerator:
     """This helps in creation of stamp_pages"""
 
-    def __init__(self, _website, stamp_pages):
+    def __init__(self, _website, stamp_pages, enable_animations):
         self._website = _website
         self.stamp_pages = stamp_pages
+        self.enable_animations = enable_animations
         self.stamp_html = self.generate_stamp()
 
     def generate_stamp(self):
@@ -37,4 +38,5 @@ class StampGenerator:
             canonical_url=self._website.url,
             contents=self._website.contents.content_list,
             pages=self.stamp_pages.stamp_pages,
-            title=self._website.get_title())
+            title=self._website.get_title(),
+            enable_animations=self.enable_animations)

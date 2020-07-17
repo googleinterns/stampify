@@ -20,12 +20,13 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 class Stampifier:
     """Creates class for stampification"""
 
-    def __init__(self, url, max_pages):
+    def __init__(self, url, max_pages, enable_animations):
         self.url = url
         self.max_pages = max_pages
         self._website = Website(self.url)
         self.is_stampifiable = False
         self.stampified_pages = None
+        self.enable_animations = enable_animations
 
     def stampify(self):
         """Starts the stampification process"""
@@ -52,8 +53,9 @@ class Stampifier:
 
         generated_stamp \
             = StampGenerator(self._website,
-                             _classifier_and_summarizer_response["stamp_pages"]
-                             ).stamp_html
+                             _classifier_and_summarizer_response[
+                                 "stamp_pages"],
+                             self.enable_animations).stamp_html
 
         LOGGER.debug(generated_stamp)
 
