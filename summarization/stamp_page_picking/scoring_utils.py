@@ -2,12 +2,6 @@
 
 
 class ScoringUtils:
-    SCORE_FOR_TEXT_ONLY_STAMP = 1.0
-    SCORE_FOR_QUOTED_STAMP = 2.5
-    SCORE_FOR_EMBEDDED_STAMP = 5.0
-    SCORE_FOR_VISUAL_STAMP = 10.0
-    SCORE_FOR_VISUAL_STAMP_WITH_TEXT = 15.0
-    SCORE_FOR_VISUAL_STAMP_WITH_TITLE_AND_TEXT = 20.0
 
     def __init__(self, stamp_pages, stamp_page_covers, cover_size):
         self.stamp_pages = stamp_pages
@@ -54,22 +48,8 @@ class ScoringUtils:
         )
 
     def _get_content_type_score(self, stamp_page_index):
-        stamp_page = self.stamp_pages[stamp_page_index]
-        if stamp_page.is_quoted_content:
-            return self.SCORE_FOR_QUOTED_STAMP
-        elif stamp_page.is_embedded_content:
-            return self.SCORE_FOR_EMBEDDED_STAMP
-        elif stamp_page.media_index != -1:
-            if stamp_page.overlay_title is not None \
-                    and stamp_page.overlay_text is not None:
-                return self.SCORE_FOR_VISUAL_STAMP_WITH_TITLE_AND_TEXT
-            elif stamp_page.overlay_text is not None \
-                    or stamp_page.overlay_title is not None:
-                return self.SCORE_FOR_VISUAL_STAMP_WITH_TEXT
-            else:
-                return self.SCORE_FOR_VISUAL_STAMP
-        else:
-            return self.SCORE_FOR_TEXT_ONLY_STAMP
+        return self.stamp_pages[
+            stamp_page_index].stamp_type.get_stamp_type_score()
 
     def pick_stamp_page_cover_at_index(self, index):
         # update the picked_cover
@@ -80,8 +60,8 @@ class ScoringUtils:
     def _get_content_change_score(self, from_index, to_index):
         # higher change in content type is better
         return (1 if
-                self._get_stamp_page_type(from_index)
-                != self._get_stamp_page_type(to_index) else 0
+                self._get_stamp_page_value_from_type(from_index)
+                != self._get_stamp_page_value_from_type(to_index) else 0
                 )
 
     def _get_unpicked_weights_to_cost_ratio_score(self, index):
@@ -99,14 +79,7 @@ class ScoringUtils:
 
         return weighted_score
 
-    def _get_stamp_page_type(self, stamp_page_index):
+    def _get_stamp_page_value_from_type(self, stamp_page_index):
         # assign a number to each stamp page type
         stamp_page = self.stamp_pages[stamp_page_index]
-        if stamp_page.is_embedded_content:
-            return 4
-        elif stamp_page.media_index != -1 and stamp_page.para_index != -1:
-            return 3
-        elif stamp_page.media_index != -1:
-            return 2
-        elif stamp_page.para_index != -1:
-            return 1
+        return stamp_page.stamp_type.value

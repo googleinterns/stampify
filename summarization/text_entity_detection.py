@@ -9,7 +9,7 @@ import os
 
 import requests
 
-from summarization.bad_request_error import BadRequestError
+from error import BadRequestError
 
 
 class TextEntityRetriever:

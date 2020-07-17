@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from summarization.bad_request_error import BadRequestError
+from error import BadRequestError
 from summarization.text_entity_detection import TextEntityRetriever
 
 
@@ -36,6 +36,7 @@ def mocked_requests_post(*args, **kwargs):
             }
         ]
     })
+
     return Mock(status_code=status_code, content=response)
 
 
@@ -109,4 +110,4 @@ def test_text_entity_retriever_bad_request_throws_error(mocked_post):
         text_entity_retriever = TextEntityRetriever()
         text_entity_retriever.get_entities_from_text("")
         assert error.message \
-            == "The API call was unsuccessful with status code: 400"
+            == "The API call was unsuccessful with response code: 400"

@@ -1,6 +1,6 @@
 import pytest
 
-from summarization.incorrect_input import IncorrectInputError
+from error import IncorrectInputError
 from summarization.text_media_matching.text_media_matching_helper import \
     TextMediaMatchingHelper
 from tests.summarizer.text_media_input_fetcher import fetch_text_media_input

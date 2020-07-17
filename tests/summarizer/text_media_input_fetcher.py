@@ -1,7 +1,7 @@
 import json
 
 from data_models.image import Image
-from summarization.extractor_output_preprocessor import SentenceWithAttributes
+from summarization.sentence_with_attributes import SentenceWithAttributes
 
 with open('tests/summarizer/text_media_input.json', 'r') as json_input_file:
     test_input_dict = json.load(json_input_file)

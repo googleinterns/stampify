@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from summarization.bad_request_error import BadRequestError
+from error import BadRequestError
 from summarization.web_entity_detection import ImageDescriptionRetriever
 
 
@@ -37,6 +37,7 @@ def mocked_requests_post(*args, **kwargs):
         color_num = None
     else:
         status_code = 400
+        response = {"error": "some error occured"}
 
     response_dict = {
         "responses": [
@@ -98,6 +99,7 @@ def mocked_requests_post(*args, **kwargs):
         response_dict["responses"][0].pop("imagePropertiesAnnotation")
 
     response = json.dumps(response_dict)
+
     return Mock(status_code=status_code, content=response)
 
 
@@ -179,7 +181,7 @@ def test_bad_request(mocked_post):
     with pytest.raises(BadRequestError) as error:
         image_describer.get_description_for_images(["bad_url"])
         assert error.message \
-            == "The API call was unsuccessful with status code: 400"
+            == "The API call was unsuccessful with response code: 400"
 
 
 def test_url_batch_splitting_for_multiple_of_batch_size():

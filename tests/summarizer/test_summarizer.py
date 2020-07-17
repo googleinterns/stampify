@@ -1,7 +1,7 @@
 ''' Test for summarizer.py '''
 from data_models.image import Image
 from data_models.preprocessed_contents import PreprocessedContents
-from summarization.summarizer_main import Summarizer
+from summarization.summarizer import Summarizer
 
 
 def test_image_with_caption_is_pruned():

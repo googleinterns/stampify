@@ -2,6 +2,8 @@
 for the output(s) of the summarizer and provides
 methods to access the data as required'''
 
+import enum
+
 
 class StampPages:
     '''Object structure to store the Stamp Pages'''
@@ -62,8 +64,6 @@ class StampPage:
             para_index,
             sentence_in_para_index,
             sentence_in_para_weight,
-            is_embedded_content,
-            is_quoted_content,
             overlay_title,
             overlay_text,
             overlay_font_style,
@@ -74,14 +74,13 @@ class StampPage:
         self.para_index = para_index
         self.sentence_in_para_index = sentence_in_para_index
         self.sentence_in_para_weight = sentence_in_para_weight
-        self.is_embedded_content = is_embedded_content
-        self.is_quoted_content = is_quoted_content
         self.overlay_title = overlay_title
         self.overlay_text = overlay_text
         self.overlay_font_style = overlay_font_style
         self.overlay_font_size = overlay_font_size
         self.stamp_position = stamp_position
         self.stamp_descriptor_embedding = stamp_descriptor_embedding
+        self.stamp_type = None
 
     def get_formatted_dict(self):
         ''' Returns the object as a formatted dict'''
@@ -92,3 +91,52 @@ class StampPage:
     def get_weighted_text_index(self):
         return self.para_index \
             + self.sentence_in_para_index * self.sentence_in_para_weight
+
+    def _get_stamp_page_type(self, embedded_indices, quoted_indices):
+        if self.media_index in embedded_indices:
+            return StampPageType.EMBEDDED
+
+        if self.media_index in quoted_indices:
+            return StampPageType.QUOTED
+
+        if self.media_index != -1:
+            if self.overlay_title and self.overlay_text:
+                return StampPageType.MEDIA_WITH_TEXT_AND_TITLE
+            elif self.overlay_title or self.overlay_text:
+                return StampPageType.MEDIA_WITH_TEXT
+            else:
+                return StampPageType.MEDIA_ONLY
+        else:
+            return StampPageType.TEXT_ONLY
+
+    def update_stamp_page_type(self, embedded_indices, quoted_indices):
+        self.stamp_type = self._get_stamp_page_type(
+            embedded_indices, quoted_indices
+        )
+
+
+class StampPageType(enum.Enum):
+    ''' enum class to represent
+    the different possible stamp
+    page types
+    '''
+    TEXT_ONLY = 0
+    MEDIA_ONLY = 1
+    MEDIA_WITH_TEXT = 2  # text could be overlay or title
+    MEDIA_WITH_TEXT_AND_TITLE = 3
+    EMBEDDED = 4
+    QUOTED = 5
+
+    def get_stamp_type_score(self):
+        if self == self.TEXT_ONLY:
+            return 1.0
+        if self == self.QUOTED:
+            return 2.5
+        if self == self.EMBEDDED:
+            return 5.0
+        if self == self.MEDIA_ONLY:
+            return 7.5
+        if self == self.MEDIA_WITH_TEXT:
+            return 10.0
+        if self == self.MEDIA_WITH_TEXT_AND_TITLE:
+            return 20.0

@@ -12,7 +12,7 @@ This script contains the following classes:
 from numpy import maximum as matrix_maximum
 from sklearn.metrics.pairwise import cosine_similarity
 
-from summarization.incorrect_input import IncorrectInputError
+from error import IncorrectInputError
 from summarization.text_media_matching.stable_matcher import StableMatcher
 
 

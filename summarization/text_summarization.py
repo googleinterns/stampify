@@ -7,7 +7,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from summarizer import Summarizer
 from summarizer.coreference_handler import CoreferenceHandler
 
-from summarization.incorrect_input import IncorrectInputError
+from error import IncorrectInputError
 from summarization.text_entity_detection import TextEntityRetriever
 
 

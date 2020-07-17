@@ -2,7 +2,7 @@
 
 import logging
 
-from classification.classifier_main import Classifier
+from classification.classifier import Classifier
 from data_models.stampifier_output import StampifierOutput
 from data_models.website import Website
 from error import InvalidUrlError, WebsiteNotStampifiableError
@@ -10,7 +10,7 @@ from extraction.extractor import Extractor
 from stamp_generation.stamp_generator import StampGenerator
 from summarization.extractor_output_preprocessor import \
     ExtractorOutputPreprocessor
-from summarization.summarizer_main import Summarizer
+from summarization.summarizer import Summarizer
 
 LOGGER = logging.getLogger()
 LOG_FILENAME = 'website.log'

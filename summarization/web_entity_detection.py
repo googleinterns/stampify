@@ -18,7 +18,7 @@ import os
 import requests
 from nltk.tokenize import word_tokenize
 
-from summarization.bad_request_error import BadRequestError
+from error import BadRequestError
 from utils.url_utils import convert_scheme_to_http
 
 
@@ -110,7 +110,6 @@ class ImageDescriptionRetriever:
         response = requests.post(self.api_url, data=json_data_for_post_request)
 
         if response.status_code != 200:
-            print(response.content)
             raise BadRequestError(response.status_code)
 
         response = json.loads(response.content)

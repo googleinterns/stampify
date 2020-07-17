@@ -4,9 +4,9 @@ for the Summarizer module
 import json
 
 from data_models.contents import ContentType
-from summarization.extractor_output_preprocessor import SentenceWithAttributes
+from data_models.summarizer_output import StampPage, StampPages
+from summarization.sentence_with_attributes import SentenceWithAttributes
 from summarization.stamp_page_picking.stamp_page_picker import StampPagePicker
-from summarization.summarizer_output import StampPage, StampPages
 from summarization.text_media_matching.text_media_matcher import \
     TextMediaMatcher
 
@@ -78,6 +78,10 @@ class Summarizer:
         # fetch embeddings for embedded content types
         self._fetch_and_set_stamp_descriptors_dict_for_embedded_content()
 
+        # collect the required indices - will be used
+        # for determining the content type
+        self._collect_embedded_and_quoted_indices()
+
         # now add the embedded content for stamp pages
         # if embedded contents are empty no stamp pages
         # will be initialized
@@ -95,6 +99,12 @@ class Summarizer:
         # now that the stamp pages have been assembled we
         # can add titles to them
         self._perform_title_media_matching()
+
+        # set the content types for all the stamp pages
+        # this cannot be done during stamp page creation
+        # since we may add overlay_title/overlay_text
+        # after instantiation
+        self._set_stamp_page_types()
 
         # now we cap the stamp pages themselves
         self._cap_stamp_pages()
@@ -318,8 +328,6 @@ class Summarizer:
         para_index = -1
         sentence_in_para_index = -1
         sentence_in_para_weight = 0
-        is_embedded_content = False
-        is_quoted_content = False
         overlay_title = None
         overlay_text = None
         overlay_font_style = None
@@ -338,13 +346,11 @@ class Summarizer:
                 overlay_font_style = text.font_style
 
         if quote:
-            is_quoted_content = True
             # generator renders quotes considering
             # it as media
             media_index = quote.content_index
 
         if embedded:
-            is_embedded_content = True
             media_index = embedded.content_index
 
         if media:
@@ -360,8 +366,6 @@ class Summarizer:
             para_index,
             sentence_in_para_index,
             sentence_in_para_weight,
-            is_embedded_content,
-            is_quoted_content,
             overlay_title,
             overlay_text,
             overlay_font_style,
@@ -401,3 +405,18 @@ class Summarizer:
             media for media in self.contents.media
             if not media.has_text_on_image
         ]
+
+    def _collect_embedded_and_quoted_indices(self):
+        self.embedded_indices = set([
+            content.content_index for content in self.contents.embedded_content
+        ])
+
+        self.quoted_indices = set([
+            content.content_index for content in self.contents.quoted_content
+        ])
+
+    def _set_stamp_page_types(self):
+        for stamp_page in self.stamp_pages_list:
+            stamp_page.update_stamp_page_type(
+                self.embedded_indices, self.quoted_indices
+            )

@@ -1,6 +1,6 @@
 ''' Interface for budgeted max cover'''
 
-from summarization.incorrect_input import IncorrectInputError
+from error import IncorrectInputError
 from summarization.stamp_page_picking.budgeted_max_cover_solver import \
     BudgetedMaxCoverSolver
 from summarization.stamp_page_picking.interesting_sequence_picker import \
