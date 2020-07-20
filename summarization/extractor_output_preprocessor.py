@@ -268,8 +268,9 @@ class ExtractorOutputPreprocessor:
         # to assign different indices for sentences in paragraph
         sentence_index_in_paragraph = 0
         # step size -based on number of sentences in para
-        step_size_for_sentence_index_in_paragraph \
-            = 1 / len(tokenized_and_cleaned_text_object)
+        if tokenized_and_cleaned_text_object:
+            step_size_for_sentence_index_in_paragraph \
+                = 1 / len(tokenized_and_cleaned_text_object)
 
         while self.running_index_in_summarized_text \
                 < self.count_of_summary_sentences and \

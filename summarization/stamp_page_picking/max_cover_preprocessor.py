@@ -81,6 +81,14 @@ class BudgetedMaxCoverPreprocessor:
             return 1 if cell_value >= self.threshold else 0
         set_cover = np.vectorize(pyfunc=set_val)
 
+        if len(self.summary_sentence_embeddings) == 0:
+            # if there is no text to find the cover over
+            # we can just assume the cover for each stamp page
+            # is 1 (to denote it covers the whole webpage for each stamp)
+            return [
+                [1] for i in range(len(self.stamp_page_descriptor_embeddings))
+            ]
+
         self.list_of_covers = set_cover(
             cosine_similarity(
                 self.stamp_page_descriptor_embeddings,

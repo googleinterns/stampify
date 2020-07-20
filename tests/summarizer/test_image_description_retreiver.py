@@ -15,20 +15,20 @@ def mocked_requests_post(*args, **kwargs):
     status_code = 200
     color_num = None
     if json_data["requests"][0]["image"]["source"]["imageUri"] \
-            == "http://tinyurl.com/y7how2rj":
+            == "https://tinyurl.com/y7how2rj":
         label = "sundar pichai"
         entity = "sundar pichai Alphabet"
         has_caption = True
         color_num = 0
 
     elif json_data["requests"][0]["image"]["source"]["imageUri"] \
-            == "http://tinyurl.com/y9bvoehm":
+            == "https://tinyurl.com/y9bvoehm":
         label = "larry page"
         entity = "larry page google"
         color_num = 1
 
     elif json_data["requests"][0]["image"]["source"]["imageUri"] \
-            == "http://tinyurl.com/y9t35t3z":
+            == "https://tinyurl.com/y9t35t3z":
         label = "sergey brin"
         entity = "sergey brin google"
         color_num = 2

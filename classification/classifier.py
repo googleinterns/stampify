@@ -2,6 +2,8 @@
 
 from nltk.tokenize import word_tokenize
 
+from error.stampifier_error import WebsiteNotStampifiableError
+
 
 class Classifier:
     '''Class to determine if a webpage is stampable
@@ -40,10 +42,10 @@ class Classifier:
             + self.contents.get_embedded_content_count() \
             + self.contents.get_quoted_content_count() >= self.min_pages
 
-    def is_page_stampifiable(self):
-        ''' returns the is_stampifiable flag'''
-        self.classify()
-        return self.is_stampifiable
+        if not self.is_stampifiable:
+            raise WebsiteNotStampifiableError(
+                message="Website cannot be stampified!",
+                failure_source="Classifier")
 
     def is_webpage_topic_plural(self):
         '''

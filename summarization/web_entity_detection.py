@@ -19,7 +19,6 @@ import requests
 from nltk.tokenize import word_tokenize
 
 from error.stampifier_error import BadRequestError
-from utils.url_utils import convert_scheme_to_http
 
 
 class ImageDescriptionRetriever:
@@ -144,7 +143,7 @@ class ImageDescriptionRetriever:
         return {
             "image": {
                 "source": {
-                    "imageUri": convert_scheme_to_http(url)
+                    "imageUri": url
                 }
             },
             "features": [
