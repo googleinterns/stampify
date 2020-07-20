@@ -1,4 +1,5 @@
 {% block peceinterfaces %}
+            {% if contents[page.media_index].image_colors == [(-1, -1, -1)] %}
             <amp-story-grid-layer template="fill" >
                  <amp-img class="bg-image"
                  src="{{contents[page.media_index].img_url}}">
@@ -6,6 +7,18 @@
             </amp-story-grid-layer>
             <amp-story-grid-layer template="fill" class="bg-solid" >
             </amp-story-grid-layer>
+            {% else %}
+            <amp-story-grid-layer template="fill" >
+                 {% set colors = contents[page.media_index].image_colors %}
+                 <div style="background-image: linear-gradient(45deg,
+                                   {%- for color in colors -%}
+                                   rgba({{color[0]}}, {{color[1]}}, {{color[2]}},1)
+                                   {%- if loop.index < (colors|length) -%}, {% endif %}
+                                   {%- endfor -%});
+                                   width: 100%; height: 100%;">
+                 </div>
+            </amp-story-grid-layer>
+            {% endif %}
             <amp-story-grid-layer template="fill" class="drop-shadow media">
                   <div class="fixed-container">
                         <amp-img object-fit="contain" layout="fill"

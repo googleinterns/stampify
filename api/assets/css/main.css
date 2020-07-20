@@ -35,6 +35,7 @@
 .border-box {
     padding: 15px;
     margin: 15px;
+    margin-top: 0px;
     border: 2px solid gray;
     border-radius: 3px;
 }
@@ -59,17 +60,25 @@ form>button {
     font-family: montserrat;
 }
 
+.result-container {
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 0;
+}
+
 .result {
-  width: 98%;
+  width: 100%;
   height: 530px;
   max-height: 530px;
   z-index: 1;
   overflow: auto;
-  border: 1px solid gray;
+  border: None;
+  margin: 0;
 }
 
 .result>pre {
-  padding:0;
+  padding: 0;
+  margin: 0;
 }
 
 .original-url-box{
@@ -106,4 +115,3 @@ form>button {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg);
 }
-

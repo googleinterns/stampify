@@ -6,7 +6,7 @@
                    animate-in="fly-in-top"
                    animate-in-duration="1s"
                    {% endif %}>
-                   <amp-fit-text width="200" height="120" min-font-size="18" max-font-size="22" layout="responsive">
+                   <amp-fit-text width="200" height="100" min-font-size="16" max-font-size="20" layout="responsive">
                        <span class="fade">
                            {{ page.overlay_title}}
                        </span>
@@ -19,7 +19,7 @@
                    animate-in="fly-in-bottom"
                    animate-in-duration="1s"
                    {% endif %}>
-                   <amp-fit-text width="200" height="150" layout="responsive" min-font-size="18" max-font-size="20">
+                   <amp-fit-text width="200" height="80" layout="responsive" min-font-size="16" max-font-size="18">
                        <span class="fade">
                        {{ page.overlay_text}}
                        </span>
@@ -27,8 +27,8 @@
                </div>
                {%- endif %}
             </amp-story-grid-layer>
-            {% if page.overlay_text and (page.overlay_text|length)>340 %}
-            {# Note: 340 is the maximum character limit that does not lead to overflow with used container size and font-size range and font-style. #}
+            {% if page.overlay_text and (page.overlay_text|length)>=220 %}
+            {# Note: 220 is the maximum character limit that does not lead to overflow with used container size and font-size range and font-style. #}
             <amp-story-page-attachment layout="nodisplay" data-title="Read Full Text Here!" data-cta-text="Read more">
                 <div class="fixed-block bg-off-white ">
                     <p class="attachment-text">

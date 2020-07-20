@@ -51,7 +51,7 @@
                 {% if contents[page.media_index].content_type.name == 'EMBEDDED_PINTEREST_PIN'-%}
                     {%- include "embedded_pinterest_pin_template.jj2" -%}
                 {%- endif -%}
-                {% if not page.is_embedded_content %}
+                {% if not (page.is_embedded_content or contents[page.media_index].content_type.name == 'QUOTE') %}
                     {%- include "overlay_text_template.jj2" -%}
                 {%- endif %}
             {% endif %}

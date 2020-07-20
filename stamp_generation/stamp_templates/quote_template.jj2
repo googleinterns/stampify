@@ -8,7 +8,9 @@
                      <q cite="{{ contents[page.media_index].cite }}">
                      {{ contents[page.media_index].q_content }}
                      </q>
+                     {% if contents[page.media_index].cite %}
                      <p class="citation">- {{ contents[page.media_index].cite }}</p>
-                <div>
+                     {% endif %}
+                </div>
             </amp-story-grid-layer>
 {% endblock %}
