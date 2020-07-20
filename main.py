@@ -18,12 +18,9 @@ import os
 from error import StampifierError
 from stampifier import Stampifier
 
-LOGGER = logging.getLogger()
-LOG_FILENAME = 'website.log'
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
-
 STAMP_DIRECTORY = 'output/'
 HTML_EXTENSION = '.html'
+LOGGER = logging.getLogger(__name__)
 
 
 def get_user_input():

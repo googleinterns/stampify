@@ -1,6 +1,5 @@
 """Script to start the server for Stampify"""
 
-import logging
 import os
 from urllib.parse import urlunparse
 
@@ -11,10 +10,6 @@ from stampifier import Stampifier
 
 app = Flask(__name__, static_folder='assets/')
 app.secret_key = os.environ['FLASK_APP_SECRET_KEY']
-
-LOGGER = logging.getLogger()
-LOG_FILENAME = 'website.log'
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 DEFAULT_STORY = 'https://preview.amp.dev/documentation/' \
                 'examples/introduction/stories_in_amp/'

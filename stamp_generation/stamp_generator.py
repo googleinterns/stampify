@@ -2,12 +2,9 @@
 to generate the final stamp from the stamp_pages list
 received from summarizer"""
 
-import logging
 import os
 
 from jinja2 import Environment, FileSystemLoader
-
-LOGGER = logging.getLogger()
 
 ABSOLUTE_PATH = os.path.abspath(os.path.dirname(__file__))
 RELATIVE_PATH = '/stamp_templates'

@@ -12,9 +12,7 @@ from summarization.extractor_output_preprocessor import \
     ExtractorOutputPreprocessor
 from summarization.summarizer import Summarizer
 
-LOGGER = logging.getLogger()
-LOG_FILENAME = 'website.log'
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
 
 
 class Stampifier:
@@ -30,6 +28,11 @@ class Stampifier:
 
     def stampify(self):
         """Starts the stampification process"""
+
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
+        logging.basicConfig(filename='website.log',
+                            level=logging.DEBUG)
 
         if not self._website.is_valid:
             raise InvalidUrlError()

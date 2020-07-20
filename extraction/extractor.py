@@ -1,7 +1,6 @@
 """This script is used to scrape data from URL, extract data from the DOM
     and store the extracted data."""
 
-import logging
 import re
 
 import requests
@@ -18,7 +17,6 @@ from extraction.content_extractors import (embedded_instagram_post_extractor,
                                            image_extractor, quote_extractor,
                                            text_extractor, video_extractor)
 
-LOGGER = logging.getLogger()
 REQUEST_SESSION = requests.Session()
 CONTENT_EXTRACTORS \
     = (video_extractor.VideoExtractor(),
