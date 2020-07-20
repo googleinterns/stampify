@@ -17,7 +17,9 @@ class Summarizer:
     the contents of the webpage
     '''
     SIGNED_DIFFERENCE = "signed-difference"
-    CAPPING_METHOD = "interesting-sequence-picker"
+    INTERESTING_SEQUENCE_PICKER = "interesting-sequence-picker"
+    BUDGETED_MAX_COVER = "budgeted-max-cover"
+    MAX_PAGES_ALLOWED_FOR_BUDGETED_MAX_COVER = 20
 
     def __init__(
             self,
@@ -41,6 +43,8 @@ class Summarizer:
         # is about one broad topic or multiple small topics
         self.title_topic_is_plural = title_topic_is_plural
 
+        self.capping_method = None
+
     def _strip_title_and_make_stamp(self):
         ''' This method strips the first item
         which is the webpage title and makes a
@@ -48,24 +52,33 @@ class Summarizer:
         as the seed stamp for the interesting
         sequence
         '''
-        if self.CAPPING_METHOD == "interesting-sequence-picker":
-            # we only need the seed title if we use
-            # interesting sequence picker
-            # we put it as the first member of the list
-            self._assemble_and_add_stamp_pages_to_list(
-                [self.contents.title_text[0]]
-            )
+        # pop the title page and add it to stamp pages
+        self._assemble_and_add_stamp_pages_to_list(
+            [self.contents.title_text[0]]
+        )
         # pop the title accordingly so it won't
         # be used for title media matching
         self.contents.title_text.pop(0)
+
+    def _set_capping_method(self):
+        ''' Chooses an appropriate capping method
+        based on the number of stamp pages present
+        '''
+        self.capping_method = self.INTERESTING_SEQUENCE_PICKER
+        if len(self.stamp_pages_list) \
+                <= self.MAX_PAGES_ALLOWED_FOR_BUDGETED_MAX_COVER:
+            self.capping_method = self.BUDGETED_MAX_COVER
+            self.stamp_pages_list.pop(0)  # we don't need title stamp
 
     def get_summarized_content(self):
         ''' Summarizes the contents of the
         webpage and returns it as a StampPage object
         '''
 
-        # strip title text
+        # strip title text - may be necessary for interesting
+        # sequence picker
         self._strip_title_and_make_stamp()
+
         # filter images with text as they shouldn't be
         # used for text-media matching
         self._create_stamps_and_filter_images_with_text()
@@ -106,6 +119,8 @@ class Summarizer:
         # after instantiation
         self._set_stamp_page_types()
 
+        self._set_capping_method()
+
         # now we cap the stamp pages themselves
         self._cap_stamp_pages()
 
@@ -124,7 +139,7 @@ class Summarizer:
             self.stamp_pages_list,
             self.contents.normal_text,
             self.max_pages_allowed,
-            capping_method="interesting-sequence-picker"
+            capping_method=self.capping_method
         )
         processed_pages_dict \
             = stamp_page_picker.get_capped_and_unused_stamp_pages()
