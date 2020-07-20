@@ -7,7 +7,7 @@
                 <div class="drop-shadow adds-margin scroll">
                      <amp-instagram
                          layout="fill"
-                         data-shortcode="{{ contents[page.media_index].insta_shortcode }}"
+                         data-shortcode="{{ content.insta_shortcode }}"
                          data-captioned>
                      </amp-instagram>
                 </div>

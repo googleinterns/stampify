@@ -5,7 +5,7 @@ from urllib.parse import urlunparse
 
 from flask import Flask, render_template, request
 
-from error import StampifierError
+from error.stampifier_error import StampifierError
 from stampifier import Stampifier
 
 app = Flask(__name__, static_folder='assets/')
@@ -31,8 +31,8 @@ def home():
 
     scheme, netloc, params, fragments = '', '', '', ''
     path = '/stampified_url'
-    query = 'url={}&max_pages={}&animations={}'.format(
-                                     url, max_pages, enable_animations)
+    query = 'url={}&max_pages={}&animations={}'\
+        .format(url, max_pages, enable_animations)
 
     stampified_url = urlunparse((scheme, netloc, path,
                                  params, query, fragments)) \

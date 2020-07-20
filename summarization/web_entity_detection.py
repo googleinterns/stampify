@@ -18,7 +18,7 @@ import os
 import requests
 from nltk.tokenize import word_tokenize
 
-from error import BadRequestError
+from error.stampifier_error import BadRequestError
 from utils.url_utils import convert_scheme_to_http
 
 

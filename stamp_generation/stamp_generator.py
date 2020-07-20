@@ -33,7 +33,7 @@ class StampGenerator:
             publisher_domain=self._website.domain,
             logo_url=self._website.logo_url,
             canonical_url=self._website.url,
-            contents=self._website.contents.content_list,
+            contents=self._website.contents,
             pages=self.stamp_pages.stamp_pages,
             title=self._website.get_title(),
             enable_animations=self.enable_animations)

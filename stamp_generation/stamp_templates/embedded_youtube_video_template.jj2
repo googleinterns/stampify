@@ -6,7 +6,7 @@
             <amp-story-grid-layer>
                <amp-youtube class="drop-shadow adds-margin"
                    layout = "fill"
-                   data-videoid="{{ contents[page.media_index].yt_video_id }}"
+                   data-videoid="{{ content.yt_video_id }}"
                    interactive>
                </amp-youtube>
             </amp-story-grid-layer>

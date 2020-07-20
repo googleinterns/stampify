@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from error import BadRequestError
+from error.stampifier_error import BadRequestError
 from summarization.web_entity_detection import ImageDescriptionRetriever
 
 

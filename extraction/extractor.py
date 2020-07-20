@@ -8,8 +8,9 @@ from bs4 import BeautifulSoup, Comment
 from requests.exceptions import InvalidSchema, MissingSchema
 
 from data_models import contents, text
-from error import (NoneTypeMarkupError, WebsiteConnectionError,
-                   WebsiteNotStampifiableError)
+from error.stampifier_error import (NoneTypeMarkupError,
+                                    WebsiteConnectionError,
+                                    WebsiteNotStampifiableError)
 from extraction.content_extractors import (embedded_instagram_post_extractor,
                                            embedded_pinterest_pin_extractor,
                                            embedded_tweet_extractor,

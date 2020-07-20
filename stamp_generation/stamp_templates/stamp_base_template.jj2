@@ -29,35 +29,36 @@
         </amp-story-page>
         {% for page in pages %}
         <amp-story-page id="page-{{ loop.index + 1 }}">
-            {% if page.media_index != -1 %}
-                {% if contents[page.media_index].content_type.name == 'IMAGE'-%}
+            {% set media_index = page.get_media_index() %}
+            {% if media_index != -1 %}
+                {% set content = contents.get_content(media_index) %}
+                {% set content_type = content.get_content_type() %}
+                {% if content_type == 'IMAGE'-%}
                     {%- include "image_template.jj2" -%}
                 {%- endif %}
-                {% if contents[page.media_index].content_type.name == 'VIDEO'-%}
+                {% if content_type == 'VIDEO'-%}
                     {%- include "video_template.jj2" -%}
                 {%- endif %}
-                {% if contents[page.media_index].content_type.name == 'QUOTE'-%}
+                {% if content_type == 'QUOTE'-%}
                     {%- include "quote_template.jj2" -%}
                 {%- endif -%}
-                {% if contents[page.media_index].content_type.name == 'EMBEDDED_TWEET'-%}
+                {% if content_type == 'EMBEDDED_TWEET'-%}
                     {%- include "embedded_tweet_template.jj2" -%}
                 {%- endif -%}
-                {% if contents[page.media_index].content_type.name == 'EMBEDDED_YOUTUBE_VIDEO'-%}
+                {% if content_type == 'EMBEDDED_YOUTUBE_VIDEO'-%}
                     {%- include "embedded_youtube_video_template.jj2" -%}
                 {%- endif -%}
-                {% if contents[page.media_index].content_type.name == 'EMBEDDED_INSTAGRAM_POST'-%}
+                {% if content_type == 'EMBEDDED_INSTAGRAM_POST'-%}
                     {%- include "embedded_instagram_post_template.jj2" -%}
                 {%- endif -%}
-                {% if contents[page.media_index].content_type.name == 'EMBEDDED_PINTEREST_PIN'-%}
+                {% if content_type == 'EMBEDDED_PINTEREST_PIN'-%}
                     {%- include "embedded_pinterest_pin_template.jj2" -%}
                 {%- endif -%}
-                {% if not (page.is_embedded_content or contents[page.media_index].content_type.name == 'QUOTE') %}
+                {% if page.has_overlay() %}
                     {%- include "overlay_text_template.jj2" -%}
                 {%- endif %}
             {% endif %}
-            {%- if not page.is_embedded_content
-                and page.media_index == -1
-                and (page.overlay_title or page.overlay_text) %}
+            {%- if page.get_stamp_type() == 'TEXT_ONLY' %}
                 {%- include "center_text_template.jj2" -%}
             {% endif %}
         </amp-story-page>

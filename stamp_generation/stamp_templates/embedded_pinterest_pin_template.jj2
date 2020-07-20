@@ -8,7 +8,7 @@
                    layput="fill"
                    class="drop-shadow adds-margin scroll"
                    data-do="embedPin"
-                   data-url="{{ contents[page.media_index].pin_url }}"
+                   data-url="{{ content.pin_url }}"
                    interactive>
                </amp-pinterest>
             </amp-story-grid-layer>

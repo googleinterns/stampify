@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from error import BadRequestError
+from error.stampifier_error import BadRequestError
 from summarization.text_entity_detection import TextEntityRetriever
 
 

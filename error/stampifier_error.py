@@ -35,7 +35,7 @@ class WebsiteNotStampifiableError(StampifierError):
 class WebsiteConnectionError(StampifierError):
     """Raise when connection to website is not possible"""
 
-    def __init__(self, url):
+    def __init__(self):
         super().__init__('Cannot connect to URL!')
 
 

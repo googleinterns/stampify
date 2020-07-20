@@ -1,15 +1,15 @@
 {% block peceinterfaces %}
-            {% if contents[page.media_index].image_colors == [(-1, -1, -1)] %}
+            {% if content.image_colors == [(-1, -1, -1)] %}
             <amp-story-grid-layer template="fill" >
                  <amp-img class="bg-image"
-                 src="{{contents[page.media_index].img_url}}">
+                 src="{{content.img_url}}">
                  </amp-img>
             </amp-story-grid-layer>
             <amp-story-grid-layer template="fill" class="bg-solid" >
             </amp-story-grid-layer>
             {% else %}
             <amp-story-grid-layer template="fill" >
-                 {% set colors = contents[page.media_index].image_colors %}
+                 {% set colors = content.image_colors %}
                  <div style="background-image: linear-gradient(45deg,
                                    {%- for color in colors -%}
                                    rgba({{color[0]}}, {{color[1]}}, {{color[2]}},1)
@@ -22,14 +22,14 @@
             <amp-story-grid-layer template="fill" class="drop-shadow media">
                   <div class="fixed-container">
                         <amp-img object-fit="contain" layout="fill"
-                            {% if contents[page.media_index].img_title %}
-                            alt="{{contents[page.media_index].img_title}}"
-                            {% elif contents[page.media_index].img_caption %}
-                            alt="{{contents[page.media_index].img_caption}}"
+                            {% if content.img_title %}
+                            alt="{{content.img_title}}"
+                            {% elif content.img_caption %}
+                            alt="{{content.img_caption}}"
                             {% endif %}
-                            src="{{contents[page.media_index].img_url}}"
-                            width="{{contents[page.media_index].img_width}}"
-                            height="{{contents[page.media_index].img_height}}">
+                            src="{{content.img_url}}"
+                            width="{{content.img_width}}"
+                            height="{{content.img_height}}">
                         </amp-img>
                   </div>
             </amp-story-grid-layer>

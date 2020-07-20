@@ -9,7 +9,7 @@ import os
 
 import requests
 
-from error import BadRequestError
+from error.stampifier_error import BadRequestError
 
 
 class TextEntityRetriever:

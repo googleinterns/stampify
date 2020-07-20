@@ -114,6 +114,31 @@ class StampPage:
             embedded_indices, quoted_indices
         )
 
+    def has_overlay(self):
+        """Returns true if page has overlay title or text"""
+
+        return self.stamp_type.is_text_overlay_present()
+
+    def get_stamp_type(self):
+        """Returns the type of stamp"""
+
+        return self.stamp_type.name
+
+    def get_media_index(self):
+        """Returns the media index"""
+
+        return self.media_index
+
+    def get_overlay_title(self):
+        """Returns overlay title"""
+
+        return self.overlay_title
+
+    def get_overlay_text(self):
+        """Returns overlay text"""
+
+        return self.overlay_text
+
 
 class StampPageType(enum.Enum):
     ''' enum class to represent
@@ -140,3 +165,10 @@ class StampPageType(enum.Enum):
             return 10.0
         if self == self.MEDIA_WITH_TEXT_AND_TITLE:
             return 20.0
+
+    def is_text_overlay_present(self):
+        """Returns whether stamp type has overlay text or not"""
+
+        return self == self.TEXT_ONLY \
+            or self == self.MEDIA_WITH_TEXT \
+            or self == self.MEDIA_WITH_TEXT_AND_TITLE

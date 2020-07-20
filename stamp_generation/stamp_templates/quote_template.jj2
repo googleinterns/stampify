@@ -5,11 +5,11 @@
             </amp-story-grid-layer>
             <amp-story-grid-layer>
                 <div class="quote">
-                     <q cite="{{ contents[page.media_index].cite }}">
-                     {{ contents[page.media_index].q_content }}
+                     <q cite="{{ content.cite }}">
+                     {{ content.q_content }}
                      </q>
-                     {% if contents[page.media_index].cite %}
-                     <p class="citation">- {{ contents[page.media_index].cite }}</p>
+                     {% if content.cite %}
+                     <p class="citation">- {{ content.cite }}</p>
                      {% endif %}
                 </div>
             </amp-story-grid-layer>

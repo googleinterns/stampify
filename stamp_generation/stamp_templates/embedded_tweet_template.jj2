@@ -7,7 +7,7 @@
                 <div class="drop-shadow adds-margin scroll">
                     <amp-twitter
                          layout="fill"
-                         data-tweetid="{{ contents[page.media_index].tweet_id }}"
+                         data-tweetid="{{ content.tweet_id }}"
                          data-cards="hidden"
                          data-conversation="none">
                     </amp-twitter>
@@ -18,7 +18,7 @@
                 <amp-twitter
                      layout="responsive"
                      class="drop-shadow twitter-attachment"
-                     data-tweetid="{{ contents[page.media_index].tweet_id }}"
+                     data-tweetid="{{ content.tweet_id }}"
                      height="1"
                      width="1">
                 </amp-twitter>

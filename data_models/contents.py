@@ -17,6 +17,14 @@ class Contents:
         self.content_counter += 1
         self.content_list.append(_content)
 
+    def get_content(self, index):
+        """Return content at given index"""
+
+        if not self.content_list:
+            return None
+
+        return self.content_list[index]
+
     def convert_to_dict(self):
         """This is custom method to convert the Contents
         object to dictionary"""
@@ -53,7 +61,7 @@ class _Content:
 
     def get_content_type(self):
         """Returns the content type of the content"""
-        return self.content_type
+        return self.content_type.name
 
 
 class ContentType(enum.Enum):
@@ -69,6 +77,8 @@ class ContentType(enum.Enum):
     EMBEDDED_YOUTUBE_VIDEO = 9  # data_models/embedded_youtube_video
 
     def is_embedded_content(self):
+        """Return true if content is embedded content"""
+
         return self.value in [
             self.EMBEDDED_INSTAGRAM_POST.value,
             self.EMBEDDED_PINTEREST_PIN.value,

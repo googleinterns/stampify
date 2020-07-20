@@ -15,7 +15,7 @@ import argparse
 import logging
 import os
 
-from error import StampifierError
+from error.stampifier_error import StampifierError
 from stampifier import Stampifier
 
 STAMP_DIRECTORY = 'output/'

@@ -1,6 +1,8 @@
 {% block peceinterfaces %}
             <amp-story-grid-layer template="vertical">
-               {% if page.overlay_title %}
+               {% set overlay_title = page.get_overlay_title() %}
+               {% set overlay_text = page.get_overlay_text() %}
+               {% if overlay_title %}
                <div class="page-title"
                    {% if enable_animations == "on" %}
                    animate-in="fly-in-top"
@@ -8,12 +10,12 @@
                    {% endif %}>
                    <amp-fit-text width="200" height="100" min-font-size="16" max-font-size="20" layout="responsive">
                        <span class="fade">
-                           {{ page.overlay_title}}
+                           {{overlay_title}}
                        </span>
                    </amp-fit-text>
                </div>
                {% endif %}
-               {% if page.overlay_text %}
+               {% if overlay_text %}
                <div class="page-overlay-text"
                    {% if enable_animations == "on" %}
                    animate-in="fly-in-bottom"
@@ -21,18 +23,18 @@
                    {% endif %}>
                    <amp-fit-text width="200" height="80" layout="responsive" min-font-size="16" max-font-size="18">
                        <span class="fade">
-                       {{ page.overlay_text}}
+                       {{ overlay_text}}
                        </span>
                    </amp-fit-text>
                </div>
                {%- endif %}
             </amp-story-grid-layer>
-            {% if page.overlay_text and (page.overlay_text|length)>=220 %}
+            {% if overlay_text and (overlay_text|length)>=220 %}
             {# Note: 220 is the maximum character limit that does not lead to overflow with used container size and font-size range and font-style. #}
             <amp-story-page-attachment layout="nodisplay" data-title="Read Full Text Here!" data-cta-text="Read more">
                 <div class="fixed-block bg-off-white ">
                     <p class="attachment-text">
-                        {{ page.overlay_text}}
+                        {{ overlay_text}}
                     </p>
                 </div>
             </amp-story-page-attachment>

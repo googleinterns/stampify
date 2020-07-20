@@ -5,7 +5,7 @@ import logging
 from classification.classifier import Classifier
 from data_models.stampifier_output import StampifierOutput
 from data_models.website import Website
-from error import InvalidUrlError, WebsiteNotStampifiableError
+from error.stampifier_error import InvalidUrlError, WebsiteNotStampifiableError
 from extraction.extractor import Extractor
 from stamp_generation.stamp_generator import StampGenerator
 from summarization.extractor_output_preprocessor import \

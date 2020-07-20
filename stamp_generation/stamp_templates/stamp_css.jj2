@@ -211,9 +211,7 @@
             align: center;
             text-shadow: 0px 0px 2px white;
             bottom: 20px;
-            display: flex;
-            flex-flow: wrap;
-            justify-content: center;
+            text-align: center;
         }
 
         .end-page-text {

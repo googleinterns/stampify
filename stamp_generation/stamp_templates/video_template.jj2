@@ -5,10 +5,10 @@
             </amp-story-grid-layer>
             <amp-story-grid-layer template="fill" class="drop-shadow media">
                 <amp-video controls object-fit="contain"
-                    width={{contents[page.media_index].width}}
-                    height={{contents[page.media_index].height}}
+                    width={{content.width}}
+                    height={{content.height}}
                     layout="responsive">
-                    {% for url in contents[page.media_index].video_urls -%}
+                    {% for url in content.video_urls -%}
                     <source src= "{{ url }}"/>
                     {%- endfor %}
                     <div fallback>
