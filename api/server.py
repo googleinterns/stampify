@@ -1,6 +1,5 @@
 """Script to start the server for Stampify"""
 
-import os
 from urllib.parse import urlunparse
 
 from flask import Flask, render_template, request
@@ -9,7 +8,6 @@ from error.stampifier_error import StampifierError
 from stampifier import Stampifier
 
 app = Flask(__name__, static_folder='assets/')
-app.secret_key = os.environ['FLASK_APP_SECRET_KEY']
 
 DEFAULT_STORY = 'https://preview.amp.dev/documentation/' \
                 'examples/introduction/stories_in_amp/'

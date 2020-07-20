@@ -1,4 +1,5 @@
-'''Initiate Flask app'''
+"""Initiate Flask app"""
+
 from api.server import app
 
 if __name__ == '__main__':
