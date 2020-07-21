@@ -47,7 +47,7 @@ class BudgetedMaxCoverSolver:
         on the maximum budget such that number of
         covers picked <= max_size_allowed
         '''
-        lower_bound_for_budget = 1
+        lower_bound_for_budget = 0.0
         upper_bound_for_budget = self._sum_of_costs_for_covers(
             list(range(len(self.list_of_covers))))
 
@@ -56,7 +56,7 @@ class BudgetedMaxCoverSolver:
 
         while lower_bound_for_budget <= upper_bound_for_budget:
             current_budget_fixed = (
-                lower_bound_for_budget+upper_bound_for_budget)//2
+                lower_bound_for_budget+upper_bound_for_budget)/2
 
             approximate_maximum_cover_for_given_budget \
                 = self._approximate_maximum_cover_helper(current_budget_fixed)
