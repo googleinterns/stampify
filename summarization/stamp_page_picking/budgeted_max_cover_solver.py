@@ -12,6 +12,8 @@ The solver accepts a list of elements of type Cover
 
 from itertools import combinations
 
+from data_models.summarizer_output import StampPageType
+
 
 class BudgetedMaxCoverSolver:
     '''
@@ -51,6 +53,10 @@ class BudgetedMaxCoverSolver:
         upper_bound_for_budget = self._sum_of_costs_for_covers(
             list(range(len(self.list_of_covers))))
 
+        # smallest change is 1/(score for the stamp page with maximum score)
+        delta = 1 / StampPageType.get_stamp_type_score(
+                StampPageType.MEDIA_WITH_TEXT_AND_TITLE)
+
         best_cover = []
         best_cost = 0
 
@@ -66,9 +72,9 @@ class BudgetedMaxCoverSolver:
                 best_cover = approximate_maximum_cover_for_given_budget
                 best_cost = current_budget_fixed
 
-                lower_bound_for_budget = current_budget_fixed + 1
+                lower_bound_for_budget = current_budget_fixed + delta
             else:
-                upper_bound_for_budget = current_budget_fixed - 1
+                upper_bound_for_budget = current_budget_fixed - delta
 
         return {
             "best_cover": [self.list_of_covers[i].id for i in best_cover],
