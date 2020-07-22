@@ -4,7 +4,7 @@
                {% set overlay_text = page.get_overlay_text() %}
                {% if overlay_title %}
                <div class="page-title"
-                   {% if enable_animations == "on" %}
+                   {% if enable_animations %}
                    animate-in="fly-in-top"
                    animate-in-duration="1s"
                    {% endif %}>
@@ -17,7 +17,7 @@
                {% endif %}
                {% if overlay_text %}
                <div class="page-overlay-text"
-                   {% if enable_animations == "on" %}
+                   {% if enable_animations %}
                    animate-in="fly-in-bottom"
                    animate-in-duration="1s"
                    {% endif %}>

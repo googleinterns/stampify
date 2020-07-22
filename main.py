@@ -31,22 +31,20 @@ def get_user_input():
                         help='An URL of the webpage to stampify.')
     parser.add_argument('page_count', type=int, nargs='?', default=8,
                         help='Maximum number of stamp pages to generate.')
-    parser.add_argument('-enable_animations', default="False",
-                        help='Set on if you want animations')
+    parser.add_argument('-enable_animations', dest='enable_animations',
+                        action='store_const', const=True, default=False,
+                        help='To enable animations')
 
     args = parser.parse_args()
-    url = args.url[0]
-    max_pages = args.page_count
-    enable_animations = args.enable_animations
 
-    return url, max_pages, enable_animations
+    return args.url[0], args.page_count, args.enable_animations
 
 
 if __name__ == '__main__':
 
-    _url, maximum_pages, enable_animations = get_user_input()
+    _url, maximum_pages, _enable_animations = get_user_input()
 
-    _stampifier = Stampifier(_url, maximum_pages, enable_animations)
+    _stampifier = Stampifier(_url, maximum_pages, _enable_animations)
 
     try:
         stampifier_output = _stampifier.stampify()
